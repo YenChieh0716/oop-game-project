@@ -213,21 +213,7 @@ namespace game_framework {
 		return isAnimation;
 	}
 
-	void CMovingBitmap::onMove()
-	{
-		const int STEP_SIZE = 5;
-		int x = Left(); 
-		int y = Top();
-		if (isMovingLeft)
-			x -= STEP_SIZE;
-		if (isMovingRight)
-			x += STEP_SIZE;
-		if (isMovingUp)
-			y -= STEP_SIZE;
-		if (isMovingDown)
-			y += STEP_SIZE;
-		SetTopLeft(x, y);
-	}
+	
 	/////////////////////////////////////////////////////////////////////////////
 	// CTextDraw: The class provide the ability to draw the text.
 	// 這個 class 提供文字的呈現

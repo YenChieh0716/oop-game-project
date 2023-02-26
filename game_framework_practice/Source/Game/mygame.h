@@ -108,6 +108,11 @@ namespace game_framework {
 		bool validate_phase_4();
 		bool validate_phase_5();
 		bool validate_phase_6();
+		bool isMovingLeft = false;
+		bool isMovingRight = false;
+		bool isMovingUp = false;
+		bool isMovingDown = false;
+		void onCharacterMove();
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

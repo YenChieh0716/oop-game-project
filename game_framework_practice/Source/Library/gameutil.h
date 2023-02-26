@@ -102,11 +102,6 @@ namespace game_framework {
 		int   GetMovingBitmapFrame();
 		string GetImageFilename();
 		COLORREF GetFilterColor();
-		bool isMovingLeft = false;
-		bool isMovingRight = false;
-		bool isMovingUp = false;
-		bool isMovingDown = false;
-		void onMove();
 	protected:
 		int selector = 0;
 		int delayCount = 10;

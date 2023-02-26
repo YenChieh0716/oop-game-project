@@ -24,10 +24,23 @@ CGameStateRun::~CGameStateRun()
 void CGameStateRun::OnBeginState()
 {
 }
-
+void CGameStateRun::onCharacterMove() {
+		const int STEP_SIZE = 5;
+		int x = character.Left();
+		int y = character.Top();
+		if (isMovingLeft)
+			x -= STEP_SIZE;
+		if (isMovingRight)
+			x += STEP_SIZE;
+		if (isMovingUp)
+			y -= STEP_SIZE;
+		if (isMovingDown)
+			y += STEP_SIZE;
+		character.SetTopLeft(x, y);
+}
 void CGameStateRun::OnMove()							// 移動遊戲元素
-{	
-	character.onMove();
+{
+	onCharacterMove();
 	//檢查重疊character,chest_and_key
 	int characterX1 = character.Left() - 5;
 	int characterY1 = character.Top() - 5;
@@ -42,35 +55,38 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		chest_and_key.SelectShowBitmap(1);
 		chest_and_key.ShowBitmap();
 	}
-	//檢查重疊character,door
-	int first_doorX1 = door[0].Left() - 5;
-	int first_doorY1 = door[0].Top() - 5;
-	int first_doorX2 = first_doorX1 + door[0].Width() - 5;
-	int first_doorY2 = first_doorY1 + door[0].Height() - 5;
+	//檢查重疊character,door，後來發現前面的步驟更改到門
+	if (phase == 5) {
+		int first_doorX1 = door[0].Left() - 5;
+		int first_doorY1 = door[0].Top() - 5;
+		int first_doorX2 = first_doorX1 + door[0].Width() - 5;
+		int first_doorY2 = first_doorY1 + door[0].Height() - 5;
 
-	int second_doorX1 = door[1].Left() - 5;
-	int second_doorY1 = door[1].Top() - 5;
-	int second_doorX2 = second_doorX1 + door[1].Width() - 5;
-	int second_doorY2 = second_doorY1 + door[1].Height() - 5;
+		int second_doorX1 = door[1].Left() - 5;
+		int second_doorY1 = door[1].Top() - 5;
+		int second_doorX2 = second_doorX1 + door[1].Width() - 5;
+		int second_doorY2 = second_doorY1 + door[1].Height() - 5;
 
-	int third_doorX1 = door[2].Left() - 5;
-	int third_doorY1 = door[2].Top() - 5;
-	int third_doorX2 = third_doorX1 + door[2].Width() - 5;
-	int third_doorY2 = third_doorY1 + door[2].Height() - 5;
-	//up, down, left, right(door 0~2)
-	if ((characterY2 >= first_doorY1) && (first_doorY2 >= characterY1) && (characterX2 >= first_doorX1) && (characterX1 <= first_doorX2)) {
-		door[0].SelectShowBitmap(1);
-		door[0].ShowBitmap();
-	}
-	if ((characterY2 >= second_doorY1) && (second_doorY2 >= characterY1) && (characterX2 >= second_doorX1) && (characterX1 <= second_doorX2)) {
-		door[1].SelectShowBitmap(1);
-		door[1].ShowBitmap();
+		int third_doorX1 = door[2].Left() - 5;
+		int third_doorY1 = door[2].Top() - 5;
+		int third_doorX2 = third_doorX1 + door[2].Width() - 5;
+		int third_doorY2 = third_doorY1 + door[2].Height() - 5;
+		//up, down, left, right(door 0~2)
+		if ((characterY2 >= first_doorY1) && (first_doorY2 >= characterY1) && (characterX2 >= first_doorX1) && (characterX1 <= first_doorX2)) {
+			door[0].SelectShowBitmap(1);
+			door[0].ShowBitmap();
+		}
+		if ((characterY2 >= second_doorY1) && (second_doorY2 >= characterY1) && (characterX2 >= second_doorX1) && (characterX1 <= second_doorX2)) {
+			door[1].SelectShowBitmap(1);
+			door[1].ShowBitmap();
+		}
+
+		if ((characterY2 >= third_doorY1) && (third_doorY2 >= characterY1) && (characterX2 >= third_doorX1) && (characterX1 <= third_doorX2)) {
+			door[2].SelectShowBitmap(1);
+			door[2].ShowBitmap();
+		}
 	}
 	
-	if ((characterY2 >= third_doorY1) && (third_doorY2 >= characterY1) && (characterX2 >= third_doorX1) && (characterX1 <= third_doorX2)) {
-		door[2].SelectShowBitmap(1);
-		door[2].ShowBitmap();
-	}
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -169,29 +185,37 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			}
 		}
 	}else if (nChar == VK_UP) {
-		character.isMovingUp = true;
+		//character.isMovingUp = true;
+		isMovingUp = true;
 	}else if (nChar == VK_DOWN) {
-		character.isMovingDown = true;
+		//character.isMovingDown = true;
+		isMovingDown = true;
 	}else if (nChar == VK_LEFT) {
-		character.isMovingLeft = true;
+		isMovingLeft = true;
+		//character.isMovingLeft = true;
 	}else if (nChar == VK_RIGHT) {
-		character.isMovingRight = true;
+		isMovingRight = true;
+		//character.isMovingRight = true;
 	}
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if (nChar == VK_UP) {
-		character.isMovingUp = false;
+		isMovingUp = false;
+		//character.isMovingUp = false;
 	}
 	else if (nChar == VK_DOWN) {
-		character.isMovingDown = false;
+		isMovingDown = false;
+		//character.isMovingDown = false;
 	}
 	else if (nChar == VK_LEFT) {
-		character.isMovingLeft = false;
+		isMovingLeft = false;
+		//character.isMovingLeft = false;
 	}
 	else if (nChar == VK_RIGHT) {
-		character.isMovingRight = false;
+		isMovingRight = false;
+		//character.isMovingRight = false;
 	}
 }
 
