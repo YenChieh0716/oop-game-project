@@ -68,6 +68,25 @@ namespace game_framework {
 		void load_background();
 		void draw_text();
 		CMovingBitmap background;
+		CMovingBitmap background_stars;
+		CMovingBitmap background_title;
+		CMovingBitmap background_musicButton_play;
+		CMovingBitmap background_musicButton_unplay;
+		CMovingBitmap startButton_play;
+		CMovingBitmap startButton_unplay;
+		CMovingBitmap fence_right_bottom;
+		CMovingBitmap fence_left_bottom;
+		CMovingBitmap Mailbox;
+		CMovingBitmap Mailbox_logo;
+		CMovingBitmap Mailbox_flag;
+		CMovingBitmap cloud;
+		CMovingBitmap cloud_1;
+		CMovingBitmap sleep_1;
+		CMovingBitmap sleep_2;
+		CMovingBitmap sleep_3;
+		bool isMoving = true;
+		void onCloudsMove();
+		void onSleepMove(CMovingBitmap &sleep, int ori_x, int ori_y);
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
