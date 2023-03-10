@@ -42,11 +42,18 @@ void CGameStateInit::OnBeginState()
 
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	GotoGameState(GAME_STATE_RUN);		// ¤Á´«¦ÜGAME_STATE_RUN
+	//GotoGameState(GAME_STATE_RUN);		// ¤Á´«¦ÜGAME_STATE_RUN
+	CAudio::Instance()->Play(AUDIO_START_BGM);
 }
 
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
+	if (point.x > 640+25 && point.x <= 640+startButton_play.Width()-25) {
+		if (point.y > 460 + 15 && point.y <= 460 + startButton_play.Height()-20) {
+			GotoGameState(GAME_STATE_RUN);
+		}
+	}
+	//ShowInitProgress(66, "Initialize...");
 }
 
 void CGameStateInit::OnShow()
@@ -60,39 +67,46 @@ void CGameStateInit::OnShow()
 	background_title.ShowBitmap();
 	background_musicButton_play.ShowBitmap(0.7);
 	fence_right_bottom.ShowBitmap();
+	startButton_play_1.ShowBitmap();
 	startButton_play.ShowBitmap();
 	fence_left_bottom.ShowBitmap();
 	Mailbox.ShowBitmap();
 	Mailbox_logo.ShowBitmap();
 	Mailbox_flag.ShowBitmap();
 	draw_text();
-	
 }
 
 void CGameStateInit::load_background() {
-	background.LoadBitmapByString({ "resources/mainMenu/background.bmp" }, RGB(255, 255, 255));
+	//background.LoadBitmapByString({ "resources/mainMenu/background.bmp" }, RGB(255, 255, 255));
+	background.LoadBitmapByString({ "resources/mainMenu/background.bmp" }, RGB(0, 0, 0));
 	background_stars.LoadBitmap("resources/mainMenu/backgroundStars.bmp");
-	background_title.LoadBitmapByString({ "resources/mainMenu/title.bmp" }, RGB(255, 255, 255));
-	background_musicButton_play.LoadBitmapByString({ "resources/mainMenu/music_button_1.bmp" }, RGB(255, 255, 255));
+	//background_title.LoadBitmapByString({ "resources/mainMenu/title.bmp" }, RGB(255, 255, 255));
+	background_title.LoadBitmapByString({ "resources/mainMenu/title.bmp" }, RGB(1,1,1));
+	background_musicButton_play.LoadBitmapByString({ "resources/mainMenu/music_button_1.bmp" }, RGB(1,1,1));
 	background_musicButton_unplay.LoadBitmapByString({ "resources/mainMenu/music_button_5.bmp" }, RGB(255, 255, 255));
-	startButton_play.LoadBitmapByString({ "resources/mainMenu/start_1.bmp" }, RGB(255, 255, 255));
-	startButton_unplay.LoadBitmapByString({ "resources/mainMenu/start_2.bmp" }, RGB(255, 255, 255));
-	fence_right_bottom.LoadBitmap("resources/mainMenu/fence_2.bmp", RGB(255, 255, 255));
-	fence_left_bottom.LoadBitmap("resources/mainMenu/fence.bmp", RGB(255, 255, 255));
-	Mailbox.LoadBitmap("resources/mainMenu/mailbox.bmp", RGB(255, 255, 255));
-	Mailbox_logo.LoadBitmap("resources/mainMenu/mailbox_logo.bmp", RGB(255, 255, 255));
-	Mailbox_flag.LoadBitmap("resources/mainMenu/flag.bmp", RGB(255, 255, 255));
-	cloud.LoadBitmap("resources/mainMenu/clouds_1.bmp", RGB(255, 255, 255));
-	cloud_1.LoadBitmap("resources/mainMenu/clouds_2.bmp", RGB(255, 255, 255));
+	startButton_play.LoadBitmapByString({ "resources/mainMenu/start_1.bmp" }, RGB(1, 1, 1));
+	startButton_play_1.LoadBitmapByString({ "resources/mainMenu/start_2.bmp" }, RGB(1, 1, 1));
+	fence_right_bottom.LoadBitmap("resources/mainMenu/fence_2.bmp", RGB(1, 1, 1));
+	fence_left_bottom.LoadBitmap("resources/mainMenu/fence.bmp", RGB(1, 1, 1));
+	Mailbox.LoadBitmap("resources/mainMenu/mailbox.bmp", RGB(1, 1, 1));
+	Mailbox_logo.LoadBitmap("resources/mainMenu/mailbox_logo.bmp", RGB(1, 1, 1));
+	Mailbox_flag.LoadBitmap("resources/mainMenu/flag.bmp", RGB(1, 1, 1));
+	//cloud.LoadBitmap("resources/mainMenu/clouds_1.bmp", RGB(255, 255, 255));
+	//cloud_1.LoadBitmap("resources/mainMenu/clouds_2.bmp", RGB(255, 255, 255));
+	cloud.LoadBitmap("resources/mainMenu/clouds_1.bmp", RGB(1,1,1)); //1,1,1
+	cloud_1.LoadBitmap("resources/mainMenu/clouds_2.bmp", RGB(0,0,0));
 	sleep_1.LoadBitmap("resources/mainMenu/sleep_1.bmp", RGB(255, 255, 255));
 	sleep_2.LoadBitmap("resources/mainMenu/sleep_2.bmp", RGB(255, 255, 255));
 	sleep_3.LoadBitmap("resources/mainMenu/sleep_3.bmp", RGB(255, 255, 255));
+	CAudio::Instance()->Load(AUDIO_START_BGM, "resources/music/music_ingame01.mp3");
 
+	//CAudio::Instance()->Load(AUDIO_START_BGM, "resources/music/music_ingame01.mp3");
 	background.SetTopLeft(0, 200);
 	background_stars.SetTopLeft(0, -600);
 	background_title.SetTopLeft(20, 20);
 	background_musicButton_play.SetTopLeft(680, 10);
 	startButton_play.SetTopLeft(640, 460);
+	startButton_play_1.SetTopLeft(646, 460);
 	fence_right_bottom.SetTopLeft(545, 485);
 	fence_left_bottom.SetTopLeft(-40,515);
 	Mailbox.SetTopLeft(50, 455);
