@@ -38,6 +38,31 @@ void CGameStateRun::onCharacterMove() {
 			y += STEP_SIZE;
 		character.SetTopLeft(x, y);
 }
+void  CGameStateRun::onCloudsMove() {
+	const int STEP_SIZE = 3;
+	int x = cloud.Left();
+	int x1 = cloud_1.Left();
+	int y = cloud.Top();
+	int y1 = cloud_1.Top();
+		x -= STEP_SIZE;
+		x1 -= STEP_SIZE;
+		if (x <= -300) {
+			cloud.SetTopLeft(830, y);
+		}
+		else {
+			cloud.SetTopLeft(x, y);
+		}
+		if (x1 <= -300) {
+			cloud_1.SetTopLeft(830, y1);
+		}
+		else {
+			cloud_1.SetTopLeft(x1, y1);
+		}
+	cloud.ShowBitmap();
+	cloud_1.ShowBitmap();
+	stage.ShowBitmap();
+	stage_num.ShowBitmap();
+}
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
 	onCharacterMove();
@@ -91,7 +116,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
-	background.LoadBitmapByString({ 
+	/*background.LoadBitmapByString({ 
 		"resources/phase11_background.bmp", 
 		"resources/phase12_background.bmp", 
 		"resources/phase21_background.bmp", 
@@ -104,11 +129,63 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"resources/phase52_background.bmp",
 		"resources/phase61_background.bmp",
 		"resources/phase62_background.bmp",
-	});
-	background.SetTopLeft(0, 0);
+	});*/
+	background_stars.LoadBitmap("resources/runState/backgroundStars.bmp");
+	background_stars.SetTopLeft(0, -605);
+	background.LoadBitmapByString({ "resources/runState/bg2.bmp" }, RGB(1, 1, 1));
+	background.SetTopLeft(0, 100);
+	//bg4.LoadBitmapByString({ "resources/runState/bg4.bmp" }, RGB(1, 1, 1));
+	//bg4.SetTopLeft(0, 100);
 
-	character.LoadBitmapByString({ "resources/giraffe.bmp" }, RGB(255, 255, 255));
-	character.SetTopLeft(150, 265);
+	character.LoadBitmapByString({ "resources/runState/flower_1.bmp", "resources/runState/flower_2.bmp", "resources/runState/flower_3.bmp" }, RGB(1, 1, 1));
+	//character.LoadBitmapByString({  "resources/runState/flower_1.bmp" }, RGB(1, 1, 1));
+	character.SetTopLeft(185, 403);
+	//character.SetAnimation(300, false);
+	
+	
+	
+	cloud.LoadBitmap("resources/runState/clouds_1.bmp", RGB(1, 1, 1)); //1,1,1
+	cloud_1.LoadBitmap("resources/runState/clouds_2.bmp", RGB(0, 0, 0));
+	cloud.SetTopLeft(700, 20);
+	cloud_1.SetTopLeft(1000, 130);
+
+	clock.LoadBitmap("resources/runState/clock.bmp", RGB(1, 1, 1)); //1,1,1
+	clock_shelf.LoadBitmap("resources/runState/clockShelf_1.bmp", RGB(1, 1, 1));
+	clock.SetTopLeft(380, 305);
+	clock_shelf.SetTopLeft(375, 350);
+
+	clock_1.LoadBitmap("resources/runState/clock.bmp", RGB(1, 1, 1)); //1,1,1
+	clock_1_shelf.LoadBitmap("resources/runState/clockShelf_1.bmp", RGB(1, 1, 1));
+	clock_1.SetTopLeft(500, 193);
+	clock_1_shelf.SetTopLeft(495, 238);
+
+	clock_2.LoadBitmap("resources/runState/clock.bmp", RGB(1, 1, 1)); //1,1,1
+	clock_2_shelf.LoadBitmap("resources/runState/clockShelf_1.bmp", RGB(1, 1, 1));
+	clock_2.SetTopLeft(620, 193);
+	clock_2_shelf.SetTopLeft(615, 238);
+
+	stage.LoadBitmap("resources/runState/stage.bmp", RGB(1, 1, 1));
+	stage_num.LoadBitmap("resources/runState/stage_num.bmp", RGB(1, 1, 1));
+	stage.SetTopLeft(310, 20);
+	stage_num.SetTopLeft(490, 20);
+
+	level.LoadBitmap("resources/runState/Levels.bmp", RGB(1, 1, 1));
+	level_1.LoadBitmap("resources/runState/Levels_2.bmp", RGB(1, 1, 1));
+	level.SetTopLeft(10, 10);
+	level_1.SetTopLeft(10, 12);
+
+	start.LoadBitmap("resources/runState/start_1.bmp", RGB(1, 1, 1));
+	start_1.LoadBitmap("resources/runState/start_2.bmp", RGB(1, 1, 1));
+	start.SetTopLeft(697, 12);
+	start_1.SetTopLeft(702, 12);
+
+	direction_1.LoadBitmap("resources/runState/direction_1_1.bmp", RGB(1, 1, 1));
+	direction_2.LoadBitmap("resources/runState/direction_2.bmp", RGB(1, 1, 1));
+	direction_1.SetTopLeft(180, 173);
+	direction_2.SetTopLeft(358, 415);
+
+	exit.LoadBitmap("resources/runState/door_1.bmp", RGB(0,0,0));
+	exit.SetTopLeft(713,193);
 
 	chest_and_key.LoadBitmapByString({ "resources/chest.bmp", "resources/chest_ignore.bmp" }, RGB(255, 255, 255));
 	chest_and_key.SetTopLeft(150, 430);
@@ -120,12 +197,13 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	ball.SetTopLeft(150, 430);
 	ball.SetAnimation(1000, true);
 	ball.ToggleAnimation();
-
+	/*
 	for (int i = 0; i < 3; i++) {
 		door[i].LoadBitmapByString({ "resources/door_close.bmp", "resources/door_open.bmp" }, RGB(255, 255, 255));
 		door[i].SetTopLeft(462 - 100 * i, 265);
 		door[i].SelectShowBitmap(0);
 	}
+	*/
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -241,7 +319,26 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 
 void CGameStateRun::OnShow()
 {
+	background_stars.ShowBitmap();
+	onCloudsMove();
 	show_image_by_phase();
+	level_1.ShowBitmap(0.7);
+	level.ShowBitmap(0.7);
+	start_1.ShowBitmap(0.7);
+	start.ShowBitmap(0.7);
+	//character.ShowBitmap(0.5);
+	
+	clock.ShowBitmap(0.3);
+	clock_shelf.ShowBitmap();
+	clock_1.ShowBitmap(0.3);
+	clock_1_shelf.ShowBitmap();
+	clock_2.ShowBitmap(0.3);
+	clock_2_shelf.ShowBitmap();
+	direction_1.ShowBitmap();
+	direction_2.ShowBitmap();
+	exit.ShowBitmap(1.0);
+	character.ShowBitmap(0.7);
+	character.SetAnimation(300, false);
 	show_text_by_phase();
 }
 
@@ -249,7 +346,7 @@ void CGameStateRun::show_image_by_phase() {
 	if (phase <= 6) {
 		background.SelectShowBitmap((phase - 1) * 2 + (sub_phase - 1));
 		background.ShowBitmap();
-		character.ShowBitmap();
+		//bg4.ShowBitmap(1.2);
 		if (phase == 3 && sub_phase == 1) {
 			chest_and_key.ShowBitmap();
 		}
@@ -268,7 +365,7 @@ void CGameStateRun::show_image_by_phase() {
 }
 
 void CGameStateRun::show_text_by_phase() {
-	CDC *pDC = CDDraw::GetBackCDC();
+	/*CDC *pDC = CDDraw::GetBackCDC();
 	CFont* fp;
 
 	CTextDraw::ChangeFontLog(pDC, fp, 21, "微軟正黑體", RGB(0, 0, 0), 800);
@@ -302,7 +399,7 @@ void CGameStateRun::show_text_by_phase() {
 		CTextDraw::Print(pDC, 268, 128, "完成！");
 	}
 
-	CDDraw::ReleaseBackCDC();
+	CDDraw::ReleaseBackCDC();*/
 }
 
 bool CGameStateRun::validate_phase_1() {

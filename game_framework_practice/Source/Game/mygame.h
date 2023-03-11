@@ -116,7 +116,28 @@ namespace game_framework {
 		int phase = 1;
 		int sub_phase = 1;
 		CMovingBitmap background;
+		CMovingBitmap background_stars;
+		CMovingBitmap bg4;
 		CMovingBitmap character;
+		CMovingBitmap cloud;
+		CMovingBitmap cloud_1;
+		CMovingBitmap stage;
+		CMovingBitmap stage_num;
+		CMovingBitmap level;
+		CMovingBitmap level_1;
+		CMovingBitmap start;
+		CMovingBitmap start_1;
+		CMovingBitmap clock	;
+		CMovingBitmap clock_shelf;
+		CMovingBitmap clock_1;
+		CMovingBitmap clock_1_shelf;
+		CMovingBitmap clock_2;
+		CMovingBitmap clock_2_shelf;
+		CMovingBitmap direction_1;
+		CMovingBitmap direction_2;
+		CMovingBitmap exit;
+		
+
 		CMovingBitmap chest_and_key;
 		CMovingBitmap bee;
 		CMovingBitmap ball;
@@ -134,6 +155,7 @@ namespace game_framework {
 		bool isMovingUp = false;
 		bool isMovingDown = false;
 		void onCharacterMove();
+		void onCloudsMove();
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
