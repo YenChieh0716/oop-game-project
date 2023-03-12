@@ -28,6 +28,51 @@ void CGameStateRun::onCharacterMove() {
 		const int STEP_SIZE = 5;
 		int x = character.Left();
 		int y = character.Top();
+		
+		//bool dir;絕對值相減
+		if (x <= 70) {
+			isMovingLeft = false;
+			isMovingRight = true;
+		}
+		else if(x>=680) {
+			isMovingLeft = true;
+			isMovingRight = false;
+		}
+		if (dir1) {
+			if (!dir1_f) {
+				dir1_f = true;
+				isMovingUp = false;
+				isMovingDown = false;
+				isMovingLeft = false;
+				isMovingRight = true;
+			}
+			if (x <= 70) {
+				isMovingLeft = false;
+				isMovingRight = true;
+			}
+			else if (x >= 680) {
+				isMovingLeft = true;
+				isMovingRight = false;
+			}
+		}
+		if (dir2) {
+			if (!dir2_f) {
+				dir2_f = true;
+				isMovingUp = true;
+				isMovingDown = false;
+				isMovingRight = false;
+				isMovingLeft = false;
+			}
+			if (y <= 100) {
+				isMovingUp = false;
+				isMovingDown = true;
+			}
+			else if (y >= 465) {
+				isMovingUp = true;
+				isMovingDown = false;
+			}
+		}
+		
 		if (isMovingLeft)
 			x -= STEP_SIZE;
 		if (isMovingRight)
@@ -60,13 +105,62 @@ void  CGameStateRun::onCloudsMove() {
 		}
 	cloud.ShowBitmap();
 	cloud_1.ShowBitmap();
-	stage.ShowBitmap();
-	stage_num.ShowBitmap();
 }
+
+bool CGameStateRun::bitmapOverlap(CMovingBitmap a, CMovingBitmap b,int offsetX,int offsetY) {
+	int X1 = a.Left() - offsetX;
+	int Y1 = a.Top() + offsetY;
+	int X2 = X1 + a.Width() - offsetX;
+	int Y2 = Y1 + a.Height() + offsetY;
+	int X1_b = b.Left();
+	int Y1_b = b.Top() - 5;
+	int X2_b = X1_b + b.Width();
+	int Y2_b = Y1_b + b.Height() - 5;
+	if ((Y2 >= Y1_b) && (Y2_b >= Y1) && (X2 >= X1_b) && (X1 <= X2_b)) {	
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
-	onCharacterMove();
+	if (!dir1) {
+		dir1 = bitmapOverlap(character, direction_1, 55,80);
+	}
+	if (!dir2) {
+		dir2 = bitmapOverlap(character, direction_2, 55,80);
+	}
+	if (!pass) {
+		pass = bitmapOverlap(character, exit, 30,70); // 抵達出口
+		if (pass)
+			isCharacterMove = false;
+	}
+	if (!clock1)
+		clock1 = bitmapOverlap(character, clock, 55, 80);
+	if (!clock2)
+		clock2 = bitmapOverlap(character, clock_1, 55, 80);
+	if (!clock3)
+		clock3 = bitmapOverlap(character, clock_2, 55, 80);
+	if (isCharacterMove)
+		onCharacterMove();
+	/*
+	if (dir1) {
+		isMovingRight = true;
+		isMovingDown = false;
+		isMovingUp = false;
+		isMovingLeft = false;
+	}
+	if (dir2) {
+		isMovingRight = false;
+		isMovingDown = false;
+		isMovingUp = true;
+		isMovingLeft = false;
+	}*/
+		
 	//檢查重疊character,chest_and_key
+	/*
 	int characterX1 = character.Left() - 5;
 	int characterY1 = character.Top() - 5;
 	int characterX2 = characterX1 + character.Width() - 5;
@@ -111,6 +205,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			door[2].ShowBitmap();
 		}
 	}
+	*/
 	
 }
 
@@ -132,8 +227,10 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	});*/
 	background_stars.LoadBitmap("resources/runState/backgroundStars.bmp");
 	background_stars.SetTopLeft(0, -605);
-	background.LoadBitmapByString({ "resources/runState/bg2.bmp" }, RGB(1, 1, 1));
+	background.LoadBitmapByString({ "resources/runState/bg2_1.bmp" }, RGB(1, 1, 1));
 	background.SetTopLeft(0, 100);
+	//background_filter.LoadBitmap("resources/runState/bg2_2.bmp", RGB(254, 254, 254));
+	//background_filter.SetTopLeft(100, 100);
 	//bg4.LoadBitmapByString({ "resources/runState/bg4.bmp" }, RGB(1, 1, 1));
 	//bg4.SetTopLeft(0, 100);
 
@@ -141,8 +238,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//character.LoadBitmapByString({  "resources/runState/flower_1.bmp" }, RGB(1, 1, 1));
 	character.SetTopLeft(185, 403);
 	//character.SetAnimation(300, false);
-	
-	
 	
 	cloud.LoadBitmap("resources/runState/clouds_1.bmp", RGB(1, 1, 1)); //1,1,1
 	cloud_1.LoadBitmap("resources/runState/clouds_2.bmp", RGB(0, 0, 0));
@@ -178,14 +273,25 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	start_1.LoadBitmap("resources/runState/start_2.bmp", RGB(1, 1, 1));
 	start.SetTopLeft(697, 12);
 	start_1.SetTopLeft(702, 12);
+	restart_1.LoadBitmap("resources/runState/restart_1.bmp", RGB(1, 1, 1));
+	restart_2.LoadBitmap("resources/runState/restart_2.bmp", RGB(1, 1, 1));
+	restart_1.SetTopLeft(697, 12);
+	restart_2.SetTopLeft(700, 19);
 
 	direction_1.LoadBitmap("resources/runState/direction_1_1.bmp", RGB(1, 1, 1));
 	direction_2.LoadBitmap("resources/runState/direction_2.bmp", RGB(1, 1, 1));
 	direction_1.SetTopLeft(180, 173);
 	direction_2.SetTopLeft(358, 415);
 
-	exit.LoadBitmap("resources/runState/door_1.bmp", RGB(0,0,0));
+	exit.LoadBitmap("resources/runState/door_1.bmp", RGB(0, 0, 0));
 	exit.SetTopLeft(713,193);
+
+	clock_get.LoadBitmap("resources/runState/clock_1.bmp", RGB(1, 1, 1));
+	clock_1_get.LoadBitmap("resources/runState/clock_1.bmp", RGB(1, 1, 1));
+	clock_2_get.LoadBitmap("resources/runState/clock_1.bmp", RGB(1, 1, 1));
+	clock_get.SetTopLeft(310, 20);
+	clock_1_get.SetTopLeft(370, 20);
+	clock_2_get.SetTopLeft(430, 20);
 
 	chest_and_key.LoadBitmapByString({ "resources/chest.bmp", "resources/chest_ignore.bmp" }, RGB(255, 255, 255));
 	chest_and_key.SetTopLeft(150, 430);
@@ -197,13 +303,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	ball.SetTopLeft(150, 430);
 	ball.SetAnimation(1000, true);
 	ball.ToggleAnimation();
-	/*
-	for (int i = 0; i < 3; i++) {
-		door[i].LoadBitmapByString({ "resources/door_close.bmp", "resources/door_open.bmp" }, RGB(255, 255, 255));
-		door[i].SetTopLeft(462 - 100 * i, 265);
-		door[i].SelectShowBitmap(0);
-	}
-	*/
+	
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -262,7 +362,9 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 				GotoGameState(GAME_STATE_OVER);
 			}
 		}
-	}else if (nChar == VK_UP) {
+	}
+	//先把鍵盤移動註解
+	/*else if (nChar == VK_UP) {
 		//character.isMovingUp = true;
 		isMovingUp = true;
 	}else if (nChar == VK_DOWN) {
@@ -274,12 +376,12 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}else if (nChar == VK_RIGHT) {
 		isMovingRight = true;
 		//character.isMovingRight = true;
-	}
+	}*/
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar == VK_UP) {
+	/*if (nChar == VK_UP) {
 		isMovingUp = false;
 		//character.isMovingUp = false;
 	}
@@ -294,19 +396,64 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	else if (nChar == VK_RIGHT) {
 		isMovingRight = false;
 		//character.isMovingRight = false;
-	}
+	}*/
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
+	if (point.x > 697 + 25 && point.x <= 697 + start.Width() - 25) {
+		if (point.y > 12 + 15 && point.y <= 12 + start.Height() - 20) {
+			if (!isStart) {
+				isCharacterMove = true;
+				isStart = true;
+			}
+			else if (isStart) { //在該關重新開始(bool 回到初始值)
+				isRestart = true;
+				isCharacterMove = false;
+				isStart = false;
+				character.SetTopLeft(185,403);
+				dir1 = false;
+				dir2 = false;
+				isMovingLeft = false;
+				isMovingRight = true;
+				isMovingUp = false;
+				isMovingDown = false;
+				isDirectionMove = false;
+				//bool isRestart = false;
+				dir1_f = false; //用於設定初始方向
+				dir2_f = false;
+				clock1 = false;
+				clock2 = false;
+				clock3 = false;
+			}
+		}
+	}
+	//設定點擊dir1就可讓dir1跟著滑鼠位置移動
+	if(!isStart){
+		if (point.x > direction_1.Left() + 25 && point.x <= direction_1.Left() + direction_1.Width() - 25) {
+			if (point.y > direction_1.Top() + 15 && point.y <= direction_1.Top() + direction_1.Height() - 20) {
+				isDirectionMove = true;
+			}
+		}
+		if (isDirectionMove) {
+			direction_1.SetTopLeft(point.x - 25, point.y - 15);
+		}
+	}
 }
 
 void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 {
+	if (isDirectionMove && !isStart) {
+		isDirectionMove = false;
+		direction_1.SetTopLeft(point.x - 25, point.y - 15);
+	}
 }
 
 void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 {
+	if (isDirectionMove) {
+		direction_1.SetTopLeft(point.x - 25, point.y - 15);
+	}
 }
 
 void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -319,33 +466,93 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 
 void CGameStateRun::OnShow()
 {
-	background_stars.ShowBitmap();
-	onCloudsMove();
-	show_image_by_phase();
-	level_1.ShowBitmap(0.7);
-	level.ShowBitmap(0.7);
-	start_1.ShowBitmap(0.7);
-	start.ShowBitmap(0.7);
-	//character.ShowBitmap(0.5);
+	if (!pass) {
+		if (!isStart) { //重啟或剛開始
+			if (isRestart) {
+				isRestart = false;
+				clock.SetTopLeft(380, 305);
+				clock_1.SetTopLeft(500, 193);
+				clock_2.SetTopLeft(620, 193);
+			}
+			background_stars.ShowBitmap();
+			onCloudsMove();
+			stage.ShowBitmap();
+			stage_num.ShowBitmap();
+			show_image_by_phase();
+			level_1.ShowBitmap(0.7);
+			level.ShowBitmap(0.7);
+			start_1.ShowBitmap(0.7);
+			start.ShowBitmap(0.7);
+			//character.ShowBitmap(0.5);
+
+			
+			clock.ShowBitmap(0.3);
+			clock_shelf.ShowBitmap();
+			clock_1.ShowBitmap(0.3);
+			clock_1_shelf.ShowBitmap();
+			clock_2.ShowBitmap(0.3);
+			clock_2_shelf.ShowBitmap();
+			direction_1.ShowBitmap();
+			direction_2.ShowBitmap();
+			exit.ShowBitmap();
+			character.ShowBitmap(0.7);
+			character.SetAnimation(300, false);
+			show_text_by_phase();
+		}
+		else if (isStart) {
+			background_stars.ShowBitmap();
+			onCloudsMove();
+			show_image_by_phase();
+			level_1.ShowBitmap(0.7);
+			level.ShowBitmap(0.7);
+			restart_2.ShowBitmap(0.7);
+			restart_1.ShowBitmap(0.7);
+			clock_get.ShowBitmap(0.7);
+			clock_1_get.ShowBitmap(0.7);
+			clock_2_get.ShowBitmap(0.7);
+			//character.ShowBitmap(0.5);
+			if (clock1) {
+				clock.SetTopLeft(320, 20);
+			}
+			else {
+				clock_shelf.ShowBitmap();
+			}
+			if (clock2) {
+				clock_1.SetTopLeft(380, 20);
+			}
+			else {
+				clock_1_shelf.ShowBitmap();
+			}
+			if (clock3) {
+				clock_2.SetTopLeft(440, 20);
+			}
+			else {
+				clock_2_shelf.ShowBitmap();
+			}
+			clock.ShowBitmap(0.3);
+			clock_1.ShowBitmap(0.3);
+			clock_2.ShowBitmap(0.3);
+
+			direction_1.ShowBitmap();
+			direction_2.ShowBitmap();
+			exit.ShowBitmap();
+			character.ShowBitmap(0.7);
+			character.SetAnimation(300, false);
+			show_text_by_phase();
+		}
+	}
+	//顯示過關畫面(未完成)
+	if (pass) { 
+
+	}
 	
-	clock.ShowBitmap(0.3);
-	clock_shelf.ShowBitmap();
-	clock_1.ShowBitmap(0.3);
-	clock_1_shelf.ShowBitmap();
-	clock_2.ShowBitmap(0.3);
-	clock_2_shelf.ShowBitmap();
-	direction_1.ShowBitmap();
-	direction_2.ShowBitmap();
-	exit.ShowBitmap(1.0);
-	character.ShowBitmap(0.7);
-	character.SetAnimation(300, false);
-	show_text_by_phase();
 }
 
 void CGameStateRun::show_image_by_phase() {
 	if (phase <= 6) {
 		background.SelectShowBitmap((phase - 1) * 2 + (sub_phase - 1));
 		background.ShowBitmap();
+		//background_filter.ShowBitmap();
 		//bg4.ShowBitmap(1.2);
 		if (phase == 3 && sub_phase == 1) {
 			chest_and_key.ShowBitmap();

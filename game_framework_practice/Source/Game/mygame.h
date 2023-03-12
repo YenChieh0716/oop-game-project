@@ -116,6 +116,7 @@ namespace game_framework {
 		int phase = 1;
 		int sub_phase = 1;
 		CMovingBitmap background;
+		CMovingBitmap background_filter;
 		CMovingBitmap background_stars;
 		CMovingBitmap bg4;
 		CMovingBitmap character;
@@ -127,16 +128,20 @@ namespace game_framework {
 		CMovingBitmap level_1;
 		CMovingBitmap start;
 		CMovingBitmap start_1;
+		CMovingBitmap restart_1;
+		CMovingBitmap restart_2;
 		CMovingBitmap clock	;
 		CMovingBitmap clock_shelf;
+		CMovingBitmap clock_get;
 		CMovingBitmap clock_1;
 		CMovingBitmap clock_1_shelf;
+		CMovingBitmap clock_1_get;
 		CMovingBitmap clock_2;
 		CMovingBitmap clock_2_shelf;
+		CMovingBitmap clock_2_get;
 		CMovingBitmap direction_1;
 		CMovingBitmap direction_2;
 		CMovingBitmap exit;
-		
 
 		CMovingBitmap chest_and_key;
 		CMovingBitmap bee;
@@ -150,12 +155,26 @@ namespace game_framework {
 		bool validate_phase_4();
 		bool validate_phase_5();
 		bool validate_phase_6();
+		//因腳色沒有碰到方向只會左右移動
 		bool isMovingLeft = false;
-		bool isMovingRight = false;
+		bool isMovingRight = true;
 		bool isMovingUp = false;
 		bool isMovingDown = false;
+		bool isCharacterMove = false;
+		bool isDirectionMove = false;
+		bool isStart = false;
+		bool isRestart = false;
+		bool dir1 = false;
+		bool dir2 = false;
+		bool dir1_f = false; //用於設定初始方向
+		bool dir2_f = false;
+		bool pass = false;
+		bool clock1 = false;
+		bool clock2 = false;
+		bool clock3 = false;
 		void onCharacterMove();
 		void onCloudsMove();
+		bool bitmapOverlap(CMovingBitmap a, CMovingBitmap b,int offsetX ,int offsetY);
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
