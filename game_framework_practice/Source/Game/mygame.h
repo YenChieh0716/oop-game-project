@@ -157,6 +157,8 @@ namespace game_framework {
 		CMovingBitmap ball;
 		CMovingBitmap door[3];
 		void show_image_by_phase();
+		void show_image_unpass();
+		void show_image_pass();
 		void show_text_by_phase();
 		bool validate_phase_1();
 		bool validate_phase_2();

@@ -474,120 +474,123 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 {
 }
 
-void CGameStateRun::OnShow()
-{
-
-	if (!pass) {
-		if (!isStart) { //重啟或剛開始
-			if (isRestart) {
-				isRestart = false;
-				clock.SetTopLeft(380, 305);
-				clock_1.SetTopLeft(500, 193);
-				clock_2.SetTopLeft(620, 193);
-			}
-			background_stars.ShowBitmap();
-			onCloudsMove();
-			stage.ShowBitmap();
-			stage_num.ShowBitmap();
-			show_image_by_phase();
-			level_1.ShowBitmap(0.7);
-			level.ShowBitmap(0.7);
-			start_1.ShowBitmap(0.7);
-			start.ShowBitmap(0.7);
-			//character.ShowBitmap(0.5);
-
-			
-			clock.ShowBitmap(0.3);
-			clock_shelf.ShowBitmap();
-			clock_1.ShowBitmap(0.3);
-			clock_1_shelf.ShowBitmap();
-			clock_2.ShowBitmap(0.3);
-			clock_2_shelf.ShowBitmap();
-			direction_1.ShowBitmap();
-			direction_2.ShowBitmap();
-			exit.ShowBitmap();
-			character.ShowBitmap(0.7);
-			character.SetAnimation(300, false);
-			show_text_by_phase();
+void CGameStateRun::show_image_unpass() {
+	if (!isStart) { //重啟或剛開始
+		if (isRestart) {
+			isRestart = false;
+			clock.SetTopLeft(380, 305);
+			clock_1.SetTopLeft(500, 193);
+			clock_2.SetTopLeft(620, 193);
 		}
-		else if (isStart) {
-			background_stars.ShowBitmap();
-			onCloudsMove();
-			show_image_by_phase();
-			level_1.ShowBitmap(0.7);
-			level.ShowBitmap(0.7);
-			restart_2.ShowBitmap(0.7);
-			restart_1.ShowBitmap(0.7);
-			clock_get.ShowBitmap(0.7);
-			clock_1_get.ShowBitmap(0.7);
-			clock_2_get.ShowBitmap(0.7);
-			//character.ShowBitmap(0.5);
-			if (clock1) {
-				clock.SetTopLeft(320, 20);
-			}
-			else {
-				clock_shelf.ShowBitmap();
-			}
-			if (clock2) {
-				clock_1.SetTopLeft(380, 20);
-			}
-			else {
-				clock_1_shelf.ShowBitmap();
-			}
-			if (clock3) {
-				clock_2.SetTopLeft(440, 20);
-			}
-			else {
-				clock_2_shelf.ShowBitmap();
-			}
-			clock.ShowBitmap(0.3);
-			clock_1.ShowBitmap(0.3);
-			clock_2.ShowBitmap(0.3);
-
-			direction_1.ShowBitmap();
-			direction_2.ShowBitmap();
-			exit.ShowBitmap();
-			character.ShowBitmap(0.7);
-			character.SetAnimation(300, false);
-			show_text_by_phase();
-		}
-	}
-	//顯示過關畫面(未完成)
-	else if (pass) { 
+		background_stars.ShowBitmap();
+		onCloudsMove();
+		stage.ShowBitmap();
+		stage_num.ShowBitmap();
 		show_image_by_phase();
-		clock_get.ShowBitmap(0.57);
-		clock_1_get.ShowBitmap(0.57);
-		clock_2_get.ShowBitmap(0.57);
+		level_1.ShowBitmap(0.7);
+		level.ShowBitmap(0.7);
+		start_1.ShowBitmap(0.7);
+		start.ShowBitmap(0.7);
+
+		clock.ShowBitmap(0.3);
+		clock_shelf.ShowBitmap();
+		clock_1.ShowBitmap(0.3);
+		clock_1_shelf.ShowBitmap();
+		clock_2.ShowBitmap(0.3);
+		clock_2_shelf.ShowBitmap();
+		direction_1.ShowBitmap();
+		direction_2.ShowBitmap();
+		exit.ShowBitmap();
+		character.ShowBitmap(0.7);
+		character.SetAnimation(300, false);
+		show_text_by_phase();
+	}
+	else if (isStart) {
+		background_stars.ShowBitmap();
+		onCloudsMove();
+		show_image_by_phase();
+		level_1.ShowBitmap(0.7);
+		level.ShowBitmap(0.7);
+		restart_2.ShowBitmap(0.7);
+		restart_1.ShowBitmap(0.7);
+		clock_get.ShowBitmap(0.7);
+		clock_1_get.ShowBitmap(0.7);
+		clock_2_get.ShowBitmap(0.7);
+		//character.ShowBitmap(0.5);
 		if (clock1) {
-			clock.SetTopLeft(219, 40);
-			clock.ShowBitmap(0.6);
+			clock.SetTopLeft(320, 20);
+		}
+		else {
+			clock_shelf.ShowBitmap();
 		}
 		if (clock2) {
-			clock_1.SetTopLeft(359, 17);
-			clock_1.ShowBitmap(0.6);
+			clock_1.SetTopLeft(380, 20);
+		}
+		else {
+			clock_1_shelf.ShowBitmap();
 		}
 		if (clock3) {
-			clock_2.SetTopLeft(499, 40);
-			clock_2.ShowBitmap(0.6);
+			clock_2.SetTopLeft(440, 20);
 		}
-		
-		bubble_fly.ShowBitmap();
-		flower_fly.ShowBitmap();
-		meow_fly.ShowBitmap();
-		//bubble_fly.SetAnimation(500, true);
-		if (times > 18)
-		{
-			bubble.ShowBitmap(0.9);
-			flower.ShowBitmap(0.9);
-			meow.ShowBitmap(0.9);
-			start_1.ShowBitmap();
-			start.ShowBitmap();
-			restart_2.ShowBitmap();
-			restart_1.ShowBitmap();
-			musicButton_play_1.ShowBitmap();
-			musicButton_play.ShowBitmap();
+		else {
+			clock_2_shelf.ShowBitmap();
 		}
-		//meow.ShowBitmap(0.9);
+		clock.ShowBitmap(0.3);
+		clock_1.ShowBitmap(0.3);
+		clock_2.ShowBitmap(0.3);
+
+		direction_1.ShowBitmap();
+		direction_2.ShowBitmap();
+		exit.ShowBitmap();
+		character.ShowBitmap(0.7);
+		character.SetAnimation(300, false);
+		show_text_by_phase();
+	}
+}
+void CGameStateRun::show_image_pass() {
+	if (phase == 1)
+		phase += 1;
+	//pass = false;
+	show_image_by_phase();
+	clock_get.ShowBitmap(0.57);
+	clock_1_get.ShowBitmap(0.57);
+	clock_2_get.ShowBitmap(0.57);
+	if (clock1) {
+		clock.SetTopLeft(219, 40);
+		clock.ShowBitmap(0.6);
+	}
+	if (clock2) {
+		clock_1.SetTopLeft(359, 17);
+		clock_1.ShowBitmap(0.6);
+	}
+	if (clock3) {
+		clock_2.SetTopLeft(499, 40);
+		clock_2.ShowBitmap(0.6);
+	}
+	bubble_fly.ShowBitmap();
+	flower_fly.ShowBitmap();
+	meow_fly.ShowBitmap();
+	if (times > 18)
+	{
+		bubble.ShowBitmap(0.9);
+		flower.ShowBitmap(0.9);
+		meow.ShowBitmap(0.9);
+		start_1.ShowBitmap();
+		start.ShowBitmap();
+		restart_2.ShowBitmap();
+		restart_1.ShowBitmap();
+		musicButton_play_1.ShowBitmap();
+		musicButton_play.ShowBitmap();
+	}
+}
+void CGameStateRun::OnShow()
+{
+	if (!pass && phase == 1) {
+		show_image_unpass();
+	}
+	//顯示過關畫面(未完成)
+	else if (pass) {
+		show_image_pass();
 	}
 	
 }
@@ -618,11 +621,7 @@ void CGameStateRun::show_image_by_phase() {
 				flower_fly.ToggleAnimation();
 				meow_fly.ToggleAnimation();
 			}
-				
 			times++;
-			//bubble_fly.SelectShowBitmap(0);
-			
-			
 		}
 		background.ShowBitmap();
 		//background_filter.ShowBitmap();
@@ -645,41 +644,7 @@ void CGameStateRun::show_image_by_phase() {
 }
 
 void CGameStateRun::show_text_by_phase() {
-	/*CDC *pDC = CDDraw::GetBackCDC();
-	CFont* fp;
-
-	CTextDraw::ChangeFontLog(pDC, fp, 21, "微軟正黑體", RGB(0, 0, 0), 800);
-
-	if (phase == 1 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 237, 128, "修改你的主角！");
-		CTextDraw::Print(pDC, 55, 163, "將灰色方格換成 resources 內的 giraffe.bmp 圖樣！");
-		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (phase == 2 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 26, 128, "下一個階段，讓長頸鹿能夠透過上下左右移動到這個位置！");
-		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (phase == 3 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 205, 128, "幫你準備了一個寶箱");
-		CTextDraw::Print(pDC, 68, 162, "設計程式讓長頸鹿摸到寶箱後，將寶箱消失！");
-		CTextDraw::Print(pDC, 68, 196, "記得寶箱要去背，使用 RGB(255, 255, 255)");
-		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (phase == 4 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 173, 128, "幫你準備了一個蜜蜂好朋友");
-		CTextDraw::Print(pDC, 89, 162, "已經幫它做了兩幀的動畫，讓它可以上下移動");
-		CTextDraw::Print(pDC, 110, 196, "寫個程式來讓你的蜜蜂好朋友擁有動畫！");
-		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (phase == 5 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 173, 128, "幫你準備了三扇門");
-		CTextDraw::Print(pDC, 89, 162, "設計程式讓長頸鹿摸到門之後，門會打開");
-		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (phase == 6 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 173, 128, "幫你準備了一顆會倒數的球");
-		CTextDraw::Print(pDC, 89, 162, "設計程式讓球倒數，然後顯示 OK 後停止動畫");
-		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (sub_phase == 2) {
-		CTextDraw::Print(pDC, 268, 128, "完成！");
-	}
-
-	CDDraw::ReleaseBackCDC();*/
+	
 }
 
 bool CGameStateRun::validate_phase_1() {
