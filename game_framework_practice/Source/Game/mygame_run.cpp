@@ -492,6 +492,20 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 				pass = false;
 			}
 		}
+		//進入下一關
+		if (point.x > start.Left() + 25 && point.x <= start.Left() + start.Width() - 25) {
+			if (point.y > start.Top() + 15 && point.y <= start.Top() + start.Height() - 20) {
+				phase += 1;
+				times = 0;
+				pass = false;
+			}
+		}
+		//切換音樂(音樂還未做)
+		if (point.x > musicButton_play.Left() + 25 && point.x <= musicButton_play.Left() + musicButton_play.Width() - 25) {
+			if (point.y > musicButton_play.Top() + 15 && point.y <= musicButton_play.Top() + musicButton_play.Height() - 20) {
+				CAudio::Instance()->Play(AUDIO_START_BGM);
+			}
+		}
 	}
 }
 
