@@ -211,29 +211,15 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
-	/*background.LoadBitmapByString({ 
-		"resources/phase11_background.bmp", 
-		"resources/phase12_background.bmp", 
-		"resources/phase21_background.bmp", 
-		"resources/phase22_background.bmp", 
-		"resources/phase31_background.bmp", 
-		"resources/phase32_background.bmp",
-		"resources/phase41_background.bmp",
-		"resources/phase42_background.bmp",
-		"resources/phase51_background.bmp",
-		"resources/phase52_background.bmp",
-		"resources/phase61_background.bmp",
-		"resources/phase62_background.bmp",
-	});*/
-	background_stars.LoadBitmap("resources/runState/backgroundStars.bmp");
+	background_stars.LoadBitmapByString({ "resources/runState/backgroundStars.bmp", "resources/runState/pass/bg1.bmp" });
 	background_stars.SetTopLeft(0, -605);
-	background.LoadBitmapByString({ "resources/runState/bg2_1.bmp" }, RGB(1, 1, 1));
+	background.LoadBitmapByString({ "resources/runState/bg2_1.bmp", "resources/runState/pass/bg2.bmp"}, RGB(1, 1, 1));
 	background.SetTopLeft(0, 100);
 	//background_filter.LoadBitmap("resources/runState/bg2_2.bmp", RGB(254, 254, 254));
 	//background_filter.SetTopLeft(100, 100);
 	//bg4.LoadBitmapByString({ "resources/runState/bg4.bmp" }, RGB(1, 1, 1));
 	//bg4.SetTopLeft(0, 100);
-
+	
 	character.LoadBitmapByString({ "resources/runState/flower_1.bmp", "resources/runState/flower_2.bmp", "resources/runState/flower_3.bmp" }, RGB(1, 1, 1));
 	//character.LoadBitmapByString({  "resources/runState/flower_1.bmp" }, RGB(1, 1, 1));
 	character.SetTopLeft(185, 403);
@@ -286,12 +272,36 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	exit.LoadBitmap("resources/runState/door_1.bmp", RGB(0, 0, 0));
 	exit.SetTopLeft(713,193);
 
-	clock_get.LoadBitmap("resources/runState/clock_1.bmp", RGB(1, 1, 1));
-	clock_1_get.LoadBitmap("resources/runState/clock_1.bmp", RGB(1, 1, 1));
-	clock_2_get.LoadBitmap("resources/runState/clock_1.bmp", RGB(1, 1, 1));
+	clock_get.LoadBitmapByString({ "resources/runState/clock_1.bmp" ,"resources/runState/pass/clock_1.bmp"}, RGB(1, 1, 1));
+	clock_1_get.LoadBitmapByString({ "resources/runState/clock_1.bmp" ,"resources/runState/pass/clock_1.bmp" }, RGB(1, 1, 1));
+	clock_2_get.LoadBitmapByString({ "resources/runState/clock_1.bmp" ,"resources/runState/pass/clock_1.bmp" }, RGB(1, 1, 1));
 	clock_get.SetTopLeft(310, 20);
 	clock_1_get.SetTopLeft(370, 20);
 	clock_2_get.SetTopLeft(430, 20);
+
+	musicButton_play.LoadBitmap("resources/runState/pass/music_1.bmp", RGB(1, 1, 1));
+	musicButton_play_1.LoadBitmap("resources/runState/pass/music_2.bmp", RGB(1, 1, 1));
+
+	bubble.LoadBitmapByString({ "resources/runState/pass/bubble.bmp" }, RGB(254, 254, 254));
+	bubble.SetTopLeft(110, 170);
+	bubble_fly.LoadBitmapByString({ "resources/runState/pass/bubble_flypath_1.bmp",
+	"resources/runState/pass/bubble_flypath_2.bmp" ,"resources/runState/pass/bubble_flypath_3.bmp" }, RGB(254,254,254));
+	bubble_fly.SetTopLeft(-130, 190);
+	bubble_fly.SetAnimation(330, true);
+	
+	flower.LoadBitmap("resources/runState/pass/flower.bmp", RGB(254, 254, 254));
+	flower.SetTopLeft(310, 130);
+	flower_fly.LoadBitmapByString({ "resources/runState/pass/flower_flypath_1.bmp",
+	"resources/runState/pass/flower_flypath_2.bmp" ,"resources/runState/pass/flower_flypath_3.bmp" }, RGB(1, 1, 1));
+	flower_fly.SetTopLeft(255, 300);
+	flower_fly.SetAnimation(330, true);
+
+	meow.LoadBitmap("resources/runState/pass/meow.bmp", RGB(254, 254, 254));
+	meow.SetTopLeft(480, 170);
+	meow_fly.LoadBitmapByString({ "resources/runState/pass/meow_flypath_1.bmp",
+	"resources/runState/pass/meow_flypath_2.bmp" ,"resources/runState/pass/meow_flypath_3.bmp" }, RGB(1, 1, 1));
+	meow_fly.SetTopLeft(525, 250);
+	meow_fly.SetAnimation(330, true);
 
 	chest_and_key.LoadBitmapByString({ "resources/chest.bmp", "resources/chest_ignore.bmp" }, RGB(255, 255, 255));
 	chest_and_key.SetTopLeft(150, 430);
@@ -466,6 +476,7 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 
 void CGameStateRun::OnShow()
 {
+
 	if (!pass) {
 		if (!isStart) { //重啟或剛開始
 			if (isRestart) {
@@ -542,15 +553,77 @@ void CGameStateRun::OnShow()
 		}
 	}
 	//顯示過關畫面(未完成)
-	if (pass) { 
-
+	else if (pass) { 
+		show_image_by_phase();
+		clock_get.ShowBitmap(0.57);
+		clock_1_get.ShowBitmap(0.57);
+		clock_2_get.ShowBitmap(0.57);
+		if (clock1) {
+			clock.SetTopLeft(219, 40);
+			clock.ShowBitmap(0.6);
+		}
+		if (clock2) {
+			clock_1.SetTopLeft(359, 17);
+			clock_1.ShowBitmap(0.6);
+		}
+		if (clock3) {
+			clock_2.SetTopLeft(499, 40);
+			clock_2.ShowBitmap(0.6);
+		}
+		
+		bubble_fly.ShowBitmap();
+		flower_fly.ShowBitmap();
+		meow_fly.ShowBitmap();
+		//bubble_fly.SetAnimation(500, true);
+		if (times > 18)
+		{
+			bubble.ShowBitmap(0.9);
+			flower.ShowBitmap(0.9);
+			meow.ShowBitmap(0.9);
+			start_1.ShowBitmap();
+			start.ShowBitmap();
+			restart_2.ShowBitmap();
+			restart_1.ShowBitmap();
+			musicButton_play_1.ShowBitmap();
+			musicButton_play.ShowBitmap();
+		}
+		//meow.ShowBitmap(0.9);
 	}
 	
 }
 
 void CGameStateRun::show_image_by_phase() {
 	if (phase <= 6) {
-		background.SelectShowBitmap((phase - 1) * 2 + (sub_phase - 1));
+		//background.SelectShowBitmap((phase - 1) * 2 + (sub_phase - 1));
+		if (pass) {
+			background.SelectShowBitmap(1);
+			background.SetTopLeft(-5, -7);
+			clock_get.SelectShowBitmap(1);
+			clock_1_get.SelectShowBitmap(1);
+			clock_2_get.SelectShowBitmap(1);
+			clock_get.SetTopLeft(210, 33);
+			clock_1_get.SetTopLeft(350, 10);
+			clock_2_get.SetTopLeft(490, 33);
+			start.SetTopLeft(350, 441);
+			start_1.SetTopLeft(357, 443);
+			restart_1.SetTopLeft(210, 441);
+			restart_2.SetTopLeft(213, 453);
+			musicButton_play.SetTopLeft(490, 441);
+			musicButton_play_1.SetTopLeft(493, 456);
+			background_stars.SelectShowBitmap(1);
+			background_stars.SetTopLeft(270, 210);
+			background_stars.ShowBitmap();
+			if (times == 0) {
+				bubble_fly.ToggleAnimation();
+				flower_fly.ToggleAnimation();
+				meow_fly.ToggleAnimation();
+			}
+				
+			times++;
+			//bubble_fly.SelectShowBitmap(0);
+			
+			
+		}
 		background.ShowBitmap();
 		//background_filter.ShowBitmap();
 		//bg4.ShowBitmap(1.2);

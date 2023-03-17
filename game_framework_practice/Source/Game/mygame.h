@@ -115,6 +115,7 @@ namespace game_framework {
 	private:
 		int phase = 1;
 		int sub_phase = 1;
+		int times = 0;
 		CMovingBitmap background;
 		CMovingBitmap background_filter;
 		CMovingBitmap background_stars;
@@ -142,6 +143,14 @@ namespace game_framework {
 		CMovingBitmap direction_1;
 		CMovingBitmap direction_2;
 		CMovingBitmap exit;
+		CMovingBitmap musicButton_play;
+		CMovingBitmap musicButton_play_1;
+		CMovingBitmap bubble;
+		CMovingBitmap bubble_fly;
+		CMovingBitmap flower;
+		CMovingBitmap flower_fly;
+		CMovingBitmap meow;
+		CMovingBitmap meow_fly;
 
 		CMovingBitmap chest_and_key;
 		CMovingBitmap bee;
@@ -174,6 +183,7 @@ namespace game_framework {
 		bool clock3 = false;
 		void onCharacterMove();
 		void onCloudsMove();
+		void onPassCharacterMove();
 		bool bitmapOverlap(CMovingBitmap a, CMovingBitmap b,int offsetX ,int offsetY);
 	};
 
