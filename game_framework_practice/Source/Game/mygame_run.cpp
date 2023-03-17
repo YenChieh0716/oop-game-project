@@ -411,13 +411,14 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
+	//點擊重新開始或開始
 	if (point.x > 697 + 25 && point.x <= 697 + start.Width() - 25) {
 		if (point.y > 12 + 15 && point.y <= 12 + start.Height() - 20) {
-			if (!isStart) {
+			if (!isStart && !pass) {
 				isCharacterMove = true;
 				isStart = true;
 			}
-			else if (isStart) { //在該關重新開始(bool 回到初始值)
+			else if (isStart && !pass) { //在該關重新開始(bool 回到初始值)
 				isRestart = true;
 				isCharacterMove = false;
 				isStart = false;
@@ -439,7 +440,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		}
 	}
 	//設定點擊dir1就可讓dir1跟著滑鼠位置移動
-	if(!isStart){
+	if(!isStart && !pass){
 		if (point.x > direction_1.Left() + 25 && point.x <= direction_1.Left() + direction_1.Width() - 25) {
 			if (point.y > direction_1.Top() + 15 && point.y <= direction_1.Top() + direction_1.Height() - 20) {
 				isDirectionMove = true;
@@ -447,6 +448,49 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 		}
 		if (isDirectionMove) {
 			direction_1.SetTopLeft(point.x - 25, point.y - 15);
+		}
+	}
+	//設定過關後點擊重新開始
+	if (pass) {
+		if (point.x > restart_1.Left() + 25 && point.x <= restart_1.Left() + restart_1.Width() - 25) {
+			if (point.y > restart_1.Top() + 15 && point.y <= restart_1.Top() + restart_1.Height() - 20) {
+				isRestart = true;
+				isCharacterMove = false;
+				isStart = false;
+				character.SetTopLeft(185, 403);
+				dir1 = false;
+				dir2 = false;
+				isMovingLeft = false;
+				isMovingRight = true;
+				isMovingUp = false;
+				isMovingDown = false;
+				isDirectionMove = false;
+				//bool isRestart = false;
+				dir1_f = false; //用於設定初始方向
+				dir2_f = false;
+				clock1 = false;
+				clock2 = false;
+				clock3 = false;
+				//以下是過關改動的畫面(已改動)
+				background.SelectShowBitmap(0);
+				background.SetTopLeft(0, 100);
+				clock_get.SelectShowBitmap(0);
+				clock_1_get.SelectShowBitmap(0);
+				clock_2_get.SelectShowBitmap(0);
+				clock_get.SetTopLeft(310, 20);
+				clock_1_get.SetTopLeft(370, 20);
+				clock_2_get.SetTopLeft(430, 20);
+				start.SetTopLeft(697, 12);
+				start_1.SetTopLeft(702, 12);
+				restart_1.SetTopLeft(697, 12);
+				restart_2.SetTopLeft(700, 19);
+				background_stars.SelectShowBitmap(0);
+				background_stars.SetTopLeft(0, -605);
+				background_stars.ShowBitmap();
+				direction_1.SetTopLeft(180, 173);
+				times = 0;
+				pass = false;
+			}
 		}
 	}
 }
@@ -548,9 +592,6 @@ void CGameStateRun::show_image_unpass() {
 	}
 }
 void CGameStateRun::show_image_pass() {
-	if (phase == 1)
-		phase += 1;
-	//pass = false;
 	show_image_by_phase();
 	clock_get.ShowBitmap(0.57);
 	clock_1_get.ShowBitmap(0.57);
@@ -581,16 +622,25 @@ void CGameStateRun::show_image_pass() {
 		restart_1.ShowBitmap();
 		musicButton_play_1.ShowBitmap();
 		musicButton_play.ShowBitmap();
+		//重新設定不過關，進入下一關
+		/*if (pass) {
+			pass = false;
+		}*/
 	}
 }
 void CGameStateRun::OnShow()
 {
-	if (!pass && phase == 1) {
-		show_image_unpass();
+	if (phase == 1) {
+		if (!pass)
+			show_image_unpass();
+		//顯示過關畫面(未完成)
+		else if (pass) {
+			show_image_pass();
+		}
 	}
-	//顯示過關畫面(未完成)
-	else if (pass) {
-		show_image_pass();
+	//第二關(phase += 1;)
+	if (!pass && phase == 2) {
+		//times = 0;
 	}
 	
 }
