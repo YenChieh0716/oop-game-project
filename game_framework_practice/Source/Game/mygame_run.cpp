@@ -72,7 +72,6 @@ void CGameStateRun::onCharacterMove() {
 				isMovingDown = false;
 			}
 		}
-		
 		if (isMovingLeft)
 			x -= STEP_SIZE;
 		if (isMovingRight)
@@ -126,87 +125,29 @@ bool CGameStateRun::bitmapOverlap(CMovingBitmap a, CMovingBitmap b,int offsetX,i
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
-	if (!dir1) {
-		dir1 = bitmapOverlap(character, direction_1, 55,80);
-	}
-	if (!dir2) {
-		dir2 = bitmapOverlap(character, direction_2, 55,80);
-	}
-	if (!pass) {
-		pass = bitmapOverlap(character, exit, 30,70); // 抵達出口
-		if (pass)
-			isCharacterMove = false;
-	}
-	if (!clock1)
-		clock1 = bitmapOverlap(character, clock, 55, 80);
-	if (!clock2)
-		clock2 = bitmapOverlap(character, clock_1, 55, 80);
-	if (!clock3)
-		clock3 = bitmapOverlap(character, clock_2, 55, 80);
-	if (isCharacterMove)
-		onCharacterMove();
-	/*
-	if (dir1) {
-		isMovingRight = true;
-		isMovingDown = false;
-		isMovingUp = false;
-		isMovingLeft = false;
-	}
-	if (dir2) {
-		isMovingRight = false;
-		isMovingDown = false;
-		isMovingUp = true;
-		isMovingLeft = false;
-	}*/
-		
-	//檢查重疊character,chest_and_key
-	/*
-	int characterX1 = character.Left() - 5;
-	int characterY1 = character.Top() - 5;
-	int characterX2 = characterX1 + character.Width() - 5;
-	int characterY2 = characterY1 + character.Height() - 5;
-	int chest_and_keyX1 = chest_and_key.Left() - 5;
-	int chest_and_keyY1 = chest_and_key.Top() - 5;
-	int chest_and_keyX2 = chest_and_keyX1 + chest_and_key.Width() - 5;
-	int chest_and_keyY2 = chest_and_keyY1 + chest_and_key.Height() - 5;
-	//up, down, left, right
-	if ((characterY2 >= chest_and_keyY1) && (chest_and_keyY2 >= characterY1) && (characterX2 >= chest_and_keyX1) && (characterX1 <= chest_and_keyX2)) {
-		chest_and_key.SelectShowBitmap(1);
-		chest_and_key.ShowBitmap();
-	}
-	//檢查重疊character,door，後來發現前面的步驟更改到門
-	if (phase == 5) {
-		int first_doorX1 = door[0].Left() - 5;
-		int first_doorY1 = door[0].Top() - 5;
-		int first_doorX2 = first_doorX1 + door[0].Width() - 5;
-		int first_doorY2 = first_doorY1 + door[0].Height() - 5;
-
-		int second_doorX1 = door[1].Left() - 5;
-		int second_doorY1 = door[1].Top() - 5;
-		int second_doorX2 = second_doorX1 + door[1].Width() - 5;
-		int second_doorY2 = second_doorY1 + door[1].Height() - 5;
-
-		int third_doorX1 = door[2].Left() - 5;
-		int third_doorY1 = door[2].Top() - 5;
-		int third_doorX2 = third_doorX1 + door[2].Width() - 5;
-		int third_doorY2 = third_doorY1 + door[2].Height() - 5;
-		//up, down, left, right(door 0~2)
-		if ((characterY2 >= first_doorY1) && (first_doorY2 >= characterY1) && (characterX2 >= first_doorX1) && (characterX1 <= first_doorX2)) {
-			door[0].SelectShowBitmap(1);
-			door[0].ShowBitmap();
+	//第一關碰撞物體判斷
+	if (phase == 1 && !pass) {
+		if (!dir1) {
+			dir1 = bitmapOverlap(character, direction_1, 55, 80);
 		}
-		if ((characterY2 >= second_doorY1) && (second_doorY2 >= characterY1) && (characterX2 >= second_doorX1) && (characterX1 <= second_doorX2)) {
-			door[1].SelectShowBitmap(1);
-			door[1].ShowBitmap();
+		if (!dir2) {
+			dir2 = bitmapOverlap(character, direction_2, 55, 80);
 		}
-
-		if ((characterY2 >= third_doorY1) && (third_doorY2 >= characterY1) && (characterX2 >= third_doorX1) && (characterX1 <= third_doorX2)) {
-			door[2].SelectShowBitmap(1);
-			door[2].ShowBitmap();
+		if (!pass) {
+			pass = bitmapOverlap(character, exit, 30, 70); // 抵達出口
+			if (pass)
+				isCharacterMove = false;
 		}
+		if (!clock1)
+			clock1 = bitmapOverlap(character, clock, 55, 80);
+		if (!clock2)
+			clock2 = bitmapOverlap(character, clock_1, 55, 80);
+		if (!clock3)
+			clock3 = bitmapOverlap(character, clock_2, 55, 80);
+		if (isCharacterMove)
+			onCharacterMove();
 	}
-	*/
-	
+	//第二關(未完)
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -411,6 +352,7 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
+	//phase = 2; //要改掉
 	//點擊重新開始或開始
 	if (point.x > 697 + 25 && point.x <= 697 + start.Width() - 25) {
 		if (point.y > 12 + 15 && point.y <= 12 + start.Height() - 20) {
@@ -498,6 +440,44 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 				phase += 1;
 				times = 0;
 				pass = false;
+				isRestart = false;
+				isCharacterMove = false;
+				isStart = false;
+				//character.SetTopLeft(185, 403);
+				dir1 = false;
+				dir2 = false;
+				isMovingLeft = false;
+				isMovingRight = true;//初始為往右走
+				isMovingUp = false;
+				isMovingDown = false;
+				isDirectionMove = false;
+				dir1_f = false; //用於設定初始方向
+				dir2_f = false;
+				clock1 = false;
+				clock2 = false;
+				clock3 = false;
+				//以下是過關改動的畫面(已改動)
+				background.SelectShowBitmap(0);
+				background.SetTopLeft(0, 100);
+				clock_get.SelectShowBitmap(0);
+				clock_1_get.SelectShowBitmap(0);
+				clock_2_get.SelectShowBitmap(0);
+				clock_get.SetTopLeft(310, 20);
+				clock_1_get.SetTopLeft(370, 20);
+				clock_2_get.SetTopLeft(430, 20);
+				start.SetTopLeft(697, 12);
+				start_1.SetTopLeft(702, 12);
+				restart_1.SetTopLeft(697, 12);
+				restart_2.SetTopLeft(700, 19);
+				background_stars.SelectShowBitmap(0);
+				background_stars.SetTopLeft(0, -605);
+				background_stars.ShowBitmap();
+				direction_1.SetTopLeft(180, 173);
+				//clock.SetTopLeft(380, 305);
+				clock.SetTopLeft(185, 403);
+				//clock_1.SetTopLeft(500, 193);
+				clock_1.SetTopLeft(380, 193);
+				clock_2.SetTopLeft(520, 305);
 			}
 		}
 		//切換音樂(音樂還未做)
@@ -533,77 +513,169 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 }
 
 void CGameStateRun::show_image_unpass() {
-	if (!isStart) { //重啟或剛開始
-		if (isRestart) {
-			isRestart = false;
-			clock.SetTopLeft(380, 305);
-			clock_1.SetTopLeft(500, 193);
-			clock_2.SetTopLeft(620, 193);
-		}
-		background_stars.ShowBitmap();
-		onCloudsMove();
-		stage.ShowBitmap();
-		stage_num.ShowBitmap();
-		show_image_by_phase();
-		level_1.ShowBitmap(0.7);
-		level.ShowBitmap(0.7);
-		start_1.ShowBitmap(0.7);
-		start.ShowBitmap(0.7);
+	//第一關畫面
+	if (phase == 1) {
+		if (!isStart) { //重啟或剛開始
+			if (isRestart) {
+				isRestart = false;
+				clock.SetTopLeft(380, 305);
+				clock_1.SetTopLeft(500, 193);
+				clock_2.SetTopLeft(620, 193);
+			}
+			background_stars.ShowBitmap();
+			onCloudsMove();
+			stage.ShowBitmap();
+			stage_num.ShowBitmap();
+			show_image_by_phase();
+			level_1.ShowBitmap(0.7);
+			level.ShowBitmap(0.7);
+			start_1.ShowBitmap(0.7);
+			start.ShowBitmap(0.7);
 
-		clock.ShowBitmap(0.3);
-		clock_shelf.ShowBitmap();
-		clock_1.ShowBitmap(0.3);
-		clock_1_shelf.ShowBitmap();
-		clock_2.ShowBitmap(0.3);
-		clock_2_shelf.ShowBitmap();
-		direction_1.ShowBitmap();
-		direction_2.ShowBitmap();
-		exit.ShowBitmap();
-		character.ShowBitmap(0.7);
-		character.SetAnimation(300, false);
-		show_text_by_phase();
-	}
-	else if (isStart) {
-		background_stars.ShowBitmap();
-		onCloudsMove();
-		show_image_by_phase();
-		level_1.ShowBitmap(0.7);
-		level.ShowBitmap(0.7);
-		restart_2.ShowBitmap(0.7);
-		restart_1.ShowBitmap(0.7);
-		clock_get.ShowBitmap(0.7);
-		clock_1_get.ShowBitmap(0.7);
-		clock_2_get.ShowBitmap(0.7);
-		//character.ShowBitmap(0.5);
-		if (clock1) {
-			clock.SetTopLeft(320, 20);
-		}
-		else {
+			clock.ShowBitmap(0.3);
 			clock_shelf.ShowBitmap();
-		}
-		if (clock2) {
-			clock_1.SetTopLeft(380, 20);
-		}
-		else {
+			clock_1.ShowBitmap(0.3);
 			clock_1_shelf.ShowBitmap();
-		}
-		if (clock3) {
-			clock_2.SetTopLeft(440, 20);
-		}
-		else {
+			clock_2.ShowBitmap(0.3);
 			clock_2_shelf.ShowBitmap();
+			direction_1.ShowBitmap();
+			direction_2.ShowBitmap();
+			exit.ShowBitmap();
+			character.ShowBitmap(0.7);
+			character.SetAnimation(300, false);
+			show_text_by_phase();
 		}
-		clock.ShowBitmap(0.3);
-		clock_1.ShowBitmap(0.3);
-		clock_2.ShowBitmap(0.3);
+		else if (isStart) {
+			background_stars.ShowBitmap();
+			onCloudsMove();
+			show_image_by_phase();
+			level_1.ShowBitmap(0.7);
+			level.ShowBitmap(0.7);
+			restart_2.ShowBitmap(0.7);
+			restart_1.ShowBitmap(0.7);
+			clock_get.ShowBitmap(0.7);
+			clock_1_get.ShowBitmap(0.7);
+			clock_2_get.ShowBitmap(0.7);
+			//character.ShowBitmap(0.5);
+			if (clock1) {
+				clock.SetTopLeft(320, 20);
+			}
+			else {
+				clock_shelf.ShowBitmap();
+			}
+			if (clock2) {
+				clock_1.SetTopLeft(380, 20);
+			}
+			else {
+				clock_1_shelf.ShowBitmap();
+			}
+			if (clock3) {
+				clock_2.SetTopLeft(440, 20);
+			}
+			else {
+				clock_2_shelf.ShowBitmap();
+			}
+			clock.ShowBitmap(0.3);
+			clock_1.ShowBitmap(0.3);
+			clock_2.ShowBitmap(0.3);
 
-		direction_1.ShowBitmap();
-		direction_2.ShowBitmap();
-		exit.ShowBitmap();
-		character.ShowBitmap(0.7);
-		character.SetAnimation(300, false);
-		show_text_by_phase();
+			direction_1.ShowBitmap();
+			direction_2.ShowBitmap();
+			exit.ShowBitmap();
+			character.ShowBitmap(0.7);
+			character.SetAnimation(300, false);
+			show_text_by_phase();
+		}
 	}
+	else if (phase == 2) {
+		if (!isStart) { //重啟或剛開始；角色開始移動前畫面
+			if (isRestart) {
+				isRestart = false;
+				clock.SetTopLeft(380, 305);
+				clock_1.SetTopLeft(500, 193);
+				clock_2.SetTopLeft(620, 193);
+			}
+			clock_shelf.SetTopLeft(195, 478);
+			clock_1_shelf.SetTopLeft(375, 243);
+			clock_2_shelf.SetTopLeft(555, 355);
+			start.SetTopLeft(697, 12);
+			start_1.SetTopLeft(702, 12);
+			restart_1.SetTopLeft(697, 12);
+			restart_2.SetTopLeft(700, 19);
+			background_stars.SelectShowBitmap(0);
+			background_stars.SetTopLeft(0, -605);
+			background_stars.ShowBitmap();
+			direction_1.SetTopLeft(180, 173);
+			clock.SetTopLeft(200, 428);
+			clock_1.SetTopLeft(380, 193);
+			clock_2.SetTopLeft(560, 305);
+			background_stars.ShowBitmap();
+			onCloudsMove();
+			stage.ShowBitmap();
+			stage_num.ShowBitmap();
+			show_image_by_phase();
+			level_1.ShowBitmap(0.7);
+			level.ShowBitmap(0.7);
+			start_1.ShowBitmap(0.7);
+			start.ShowBitmap(0.7);
+
+			clock.ShowBitmap(0.3);
+			clock_shelf.ShowBitmap();
+			clock_1.ShowBitmap(0.3);
+			clock_1_shelf.ShowBitmap();
+			clock_2.ShowBitmap(0.3);
+			clock_2_shelf.ShowBitmap();
+			direction_1.ShowBitmap();
+			direction_2.ShowBitmap();
+			exit.ShowBitmap();
+			character.SetTopLeft(185, 403);
+			//character.ShowBitmap(0.7);
+			//character.SetAnimation(300, false);
+			show_text_by_phase();
+		}
+		else if (isStart) {
+			background_stars.ShowBitmap();
+			onCloudsMove();
+			show_image_by_phase();
+			level_1.ShowBitmap(0.7);
+			level.ShowBitmap(0.7);
+			restart_2.ShowBitmap(0.7);
+			restart_1.ShowBitmap(0.7);
+			clock_get.ShowBitmap(0.7);
+			clock_1_get.ShowBitmap(0.7);
+			clock_2_get.ShowBitmap(0.7);
+			//character.ShowBitmap(0.5);
+			if (clock1) {
+				clock.SetTopLeft(320, 20);
+			}
+			else {
+				clock_shelf.ShowBitmap();
+			}
+			if (clock2) {
+				clock_1.SetTopLeft(380, 20);
+			}
+			else {
+				clock_1_shelf.ShowBitmap();
+			}
+			if (clock3) {
+				clock_2.SetTopLeft(440, 20);
+			}
+			else {
+				clock_2_shelf.ShowBitmap();
+			}
+			clock.ShowBitmap(0.3);
+			clock_1.ShowBitmap(0.3);
+			clock_2.ShowBitmap(0.3);
+
+			direction_1.ShowBitmap();
+			direction_2.ShowBitmap();
+			exit.ShowBitmap();
+			//character.ShowBitmap(0.7);
+			//character.SetAnimation(300, false);
+			show_text_by_phase();
+		}
+	}
+	
 }
 void CGameStateRun::show_image_pass() {
 	show_image_by_phase();
@@ -644,6 +716,7 @@ void CGameStateRun::show_image_pass() {
 }
 void CGameStateRun::OnShow()
 {
+	phase = 2;
 	if (phase == 1) {
 		if (!pass)
 			show_image_unpass();
@@ -653,8 +726,14 @@ void CGameStateRun::OnShow()
 		}
 	}
 	//第二關(phase += 1;)
-	if (!pass && phase == 2) {
+	if (phase == 2) {
 		//times = 0;
+		if (!pass)
+			show_image_unpass();
+		//顯示過關畫面(未完成)
+		else if (pass) {
+			show_image_pass();
+		}
 	}
 	
 }

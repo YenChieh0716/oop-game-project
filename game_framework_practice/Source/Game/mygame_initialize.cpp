@@ -29,7 +29,6 @@ void CGameStateInit::OnInit()
 	ShowInitProgress(0, "Start Initialize...");	// 一開始的loading進度為0%
 	Sleep(200);
 
-
 	load_background();
 
 	ShowInitProgress(66, "Initialize...");
