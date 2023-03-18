@@ -161,9 +161,11 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//bg4.LoadBitmapByString({ "resources/runState/bg4.bmp" }, RGB(1, 1, 1));
 	//bg4.SetTopLeft(0, 100);
 	
-	character.LoadBitmapByString({ "resources/runState/flower_1.bmp", "resources/runState/flower_2.bmp", "resources/runState/flower_3.bmp" }, RGB(1, 1, 1));
+	character.LoadBitmapByString({ "resources/runState/flower_1.bmp", "resources/runState/flower_2.bmp", "resources/runState/flower_3.bmp" }, RGB(1, 1, 1));//花花
+	character2.LoadBitmapByString({ "resources/runState/stage2/bubble.bmp", "resources/runState/stage2/bubble_1.bmp", "resources/runState/stage2/bubble_2.bmp" }, RGB(254, 254, 254));//泡泡
 	//character.LoadBitmapByString({  "resources/runState/flower_1.bmp" }, RGB(1, 1, 1));
 	character.SetTopLeft(185, 403);
+	character2.SetTopLeft(300, 300);
 	//character.SetAnimation(300, false);
 	
 	cloud.LoadBitmap("resources/runState/clouds_1.bmp", RGB(1, 1, 1)); //1,1,1
@@ -187,7 +189,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	clock_2_shelf.SetTopLeft(615, 238);
 
 	stage.LoadBitmap("resources/runState/stage.bmp", RGB(1, 1, 1));
-	stage_num.LoadBitmap("resources/runState/stage_num.bmp", RGB(1, 1, 1));
+	stage_num.LoadBitmapByString({ "resources/runState/stage_num.bmp", "resources/runState/stage2/stage_num.bmp" }, RGB(1, 1, 1));
 	stage.SetTopLeft(310, 20);
 	stage_num.SetTopLeft(490, 20);
 
@@ -205,12 +207,13 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	restart_1.SetTopLeft(697, 12);
 	restart_2.SetTopLeft(700, 19);
 
-	direction_1.LoadBitmap("resources/runState/direction_1_1.bmp", RGB(1, 1, 1));
-	direction_2.LoadBitmap("resources/runState/direction_2.bmp", RGB(1, 1, 1));
+	direction_1.LoadBitmapByString({ "resources/runState/direction_1_1.bmp", "resources/runState/stage2/dir1.bmp" }, RGB(1, 1, 1));
+	direction_2.LoadBitmapByString({ "resources/runState/direction_2.bmp", "resources/runState/stage2/dir2.bmp" }, RGB(1, 1, 1));
+	direction_3.LoadBitmapByString({ "resources/runState/stage2/dir3.bmp" }, RGB(1, 1, 1));
 	direction_1.SetTopLeft(180, 173);
 	direction_2.SetTopLeft(358, 415);
 
-	exit.LoadBitmap("resources/runState/door_1.bmp", RGB(0, 0, 0));
+	exit.LoadBitmapByString({ "resources/runState/door_1.bmp", "resources/runState/stage2/door_1.bmp" }, RGB(0, 0, 0));
 	exit.SetTopLeft(713,193);
 
 	clock_get.LoadBitmapByString({ "resources/runState/clock_1.bmp" ,"resources/runState/pass/clock_1.bmp"}, RGB(1, 1, 1));
@@ -605,13 +608,20 @@ void CGameStateRun::show_image_unpass() {
 			background_stars.SelectShowBitmap(0);
 			background_stars.SetTopLeft(0, -605);
 			background_stars.ShowBitmap();
+			direction_1.SelectShowBitmap(1);
 			direction_1.SetTopLeft(180, 173);
+			direction_2.SelectShowBitmap(1);
+			direction_2.SetTopLeft(540,173);
+			direction_3.SetTopLeft(540,418);
+			character2.SetTopLeft(350,418);
+			character2.SetAnimation(300, false);
 			clock.SetTopLeft(200, 428);
 			clock_1.SetTopLeft(380, 193);
 			clock_2.SetTopLeft(560, 305);
 			background_stars.ShowBitmap();
 			onCloudsMove();
 			stage.ShowBitmap();
+			stage_num.SelectShowBitmap(1);
 			stage_num.ShowBitmap();
 			show_image_by_phase();
 			level_1.ShowBitmap(0.7);
@@ -627,10 +637,12 @@ void CGameStateRun::show_image_unpass() {
 			clock_2_shelf.ShowBitmap();
 			direction_1.ShowBitmap();
 			direction_2.ShowBitmap();
+			direction_3.ShowBitmap();
+			exit.SelectShowBitmap(1);
+			exit.SetTopLeft(180, 80);
 			exit.ShowBitmap();
-			character.SetTopLeft(185, 403);
-			//character.ShowBitmap(0.7);
-			//character.SetAnimation(300, false);
+			//character.SetTopLeft(185, 403);
+			character2.ShowBitmap(0.7);
 			show_text_by_phase();
 		}
 		else if (isStart) {

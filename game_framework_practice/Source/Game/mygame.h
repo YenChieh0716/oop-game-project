@@ -121,6 +121,7 @@ namespace game_framework {
 		CMovingBitmap background_stars;
 		CMovingBitmap bg4;
 		CMovingBitmap character;
+		CMovingBitmap character2;
 		CMovingBitmap cloud;
 		CMovingBitmap cloud_1;
 		CMovingBitmap stage;
@@ -142,6 +143,7 @@ namespace game_framework {
 		CMovingBitmap clock_2_get;
 		CMovingBitmap direction_1;
 		CMovingBitmap direction_2;
+		CMovingBitmap direction_3;
 		CMovingBitmap exit;
 		CMovingBitmap musicButton_play;
 		CMovingBitmap musicButton_play_1;
