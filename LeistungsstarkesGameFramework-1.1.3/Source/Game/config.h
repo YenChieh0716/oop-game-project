@@ -2,7 +2,7 @@
 // 定義遊戲可設定的環境與條件
 /////////////////////////////////////////////////////////////////////////////
 
-#define GAME_TITLE           "飛天小女警晨間任務"
+#define GAME_TITLE           "The Powerpuff Girls Morning Mayhem"
 //! 設定遊戲畫面的解析度（寬度）
 #define SIZE_X				 800	
 //! 設定遊戲畫面的解析度（高度）

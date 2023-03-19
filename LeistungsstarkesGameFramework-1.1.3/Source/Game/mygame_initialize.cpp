@@ -22,9 +22,7 @@ void CGameStateInit::OnInit()
 	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
-	CAudio::Instance()->Load(AUDIO_START_BGM, "resources/music/music_ingame01.mp3");
-	//Load進音樂後馬上播放
-	CAudio::Instance()->Play(AUDIO_START_BGM);
+	
 	ShowInitProgress(0, "Start Initialize...");	// 一開始的loading進度為0%
 	//
 	// 開始載入資料
@@ -78,7 +76,9 @@ void CGameStateInit::OnShow()
 	//draw_text();
 }
 void CGameStateInit::load_background() {
-
+	CAudio::Instance()->Load(AUDIO_START_BGM, "resources/music/music_ingame01.mp3");
+	//Load進音樂後馬上播放
+	CAudio::Instance()->Play(AUDIO_START_BGM);
 	//background.LoadBitmapByString({ "resources/mainMenu/background.bmp" }, RGB(255, 255, 255));
 	background.LoadBitmapByString({ "resources/mainMenu/background.bmp" }, RGB(0, 0, 0));
 	background_stars.LoadBitmap("resources/mainMenu/backgroundStars.bmp");
