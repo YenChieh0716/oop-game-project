@@ -179,8 +179,10 @@ namespace game_framework {
 		bool isRestart = false;
 		bool dir1 = false;
 		bool dir2 = false;
+		bool dir3 = false;
 		bool dir1_f = false; //用於設定初始方向
 		bool dir2_f = false;
+		bool dir3_f = false;
 		bool pass = false;
 		bool clock1 = false;
 		bool clock2 = false;
