@@ -53,6 +53,13 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 			CAudio::Instance()->Stop(AUDIO_START_BGM);
 		}
 	}
+	if (point.x > 680 + 25 && point.x <= 680 + background_musicButton_play_1.GetWidth() - 25) {
+		if (point.y > 10 + 15 && point.y <= 10 + startButton_play.GetHeight() - 20) {
+			//GotoGameState(GAME_STATE_RUN);
+			CAudio::Instance()->Play(AUDIO_BUTTON);//有延遲
+			CAudio::Instance()->Stop(AUDIO_START_BGM);
+		}
+	}
 	//GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 }
 
@@ -65,7 +72,8 @@ void CGameStateInit::OnShow()
 	onSleepMove(sleep_3, 350, 220);
 	onCloudsMove();
 	background_title.ShowBitmap();
-	background_musicButton_play.ShowBitmap(0.7);
+	background_musicButton_play_2.ShowBitmap(0.7);
+	background_musicButton_play_1.ShowBitmap(0.7);
 	fence_right_bottom.ShowBitmap();
 	startButton_play_1.ShowBitmap();
 	startButton_play.ShowBitmap();
@@ -77,6 +85,7 @@ void CGameStateInit::OnShow()
 }
 void CGameStateInit::load_background() {
 	CAudio::Instance()->Load(AUDIO_START_BGM, "resources/music/music_ingame01.mp3");
+	CAudio::Instance()->Load(AUDIO_BUTTON, "resources/music/btn_click.mp3");
 	//Load進音樂後馬上播放
 	CAudio::Instance()->Play(AUDIO_START_BGM);
 	//background.LoadBitmapByString({ "resources/mainMenu/background.bmp" }, RGB(255, 255, 255));
@@ -84,7 +93,8 @@ void CGameStateInit::load_background() {
 	background_stars.LoadBitmap("resources/mainMenu/backgroundStars.bmp");
 	//background_title.LoadBitmapByString({ "resources/mainMenu/title.bmp" }, RGB(255, 255, 255));
 	background_title.LoadBitmapByString({ "resources/mainMenu/title.bmp" }, RGB(1, 1, 1));
-	background_musicButton_play.LoadBitmapByString({ "resources/mainMenu/music_button_1.bmp" }, RGB(1, 1, 1));
+	background_musicButton_play_1.LoadBitmapByString({ "resources/mainMenu/music_button_1.bmp" }, RGB(1, 1, 1));
+	background_musicButton_play_2.LoadBitmapByString({ "resources/mainMenu/music_2.bmp" }, RGB(1, 1, 1));
 	background_musicButton_unplay.LoadBitmapByString({ "resources/mainMenu/music_button_5.bmp" }, RGB(255, 255, 255));
 	startButton_play.LoadBitmapByString({ "resources/mainMenu/start_1.bmp" }, RGB(1, 1, 1));
 	startButton_play_1.LoadBitmapByString({ "resources/mainMenu/start_2.bmp" }, RGB(1, 1, 1));
@@ -105,7 +115,8 @@ void CGameStateInit::load_background() {
 	background.SetTopLeft(0, 200);
 	background_stars.SetTopLeft(0, -600);
 	background_title.SetTopLeft(20, 20);
-	background_musicButton_play.SetTopLeft(680, 10);
+	background_musicButton_play_1.SetTopLeft(680, 10);
+	background_musicButton_play_2.SetTopLeft(697, 23);
 	startButton_play.SetTopLeft(640, 460);
 	startButton_play_1.SetTopLeft(646, 460);
 	fence_right_bottom.SetTopLeft(545, 485);

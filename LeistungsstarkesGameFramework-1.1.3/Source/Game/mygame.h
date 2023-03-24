@@ -48,7 +48,8 @@ namespace game_framework {
 		/*AUDIO_DING,				// 0
 		AUDIO_LAKE,				// 1
 		AUDIO_NTUT				// 2*/
-		AUDIO_START_BGM //0
+		AUDIO_START_BGM, //0
+		AUDIO_BUTTON //1
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -71,7 +72,8 @@ namespace game_framework {
 		CMovingBitmap background;
 		CMovingBitmap background_stars;
 		CMovingBitmap background_title;
-		CMovingBitmap background_musicButton_play;
+		CMovingBitmap background_musicButton_play_1;
+		CMovingBitmap background_musicButton_play_2;
 		CMovingBitmap background_musicButton_unplay;
 		CMovingBitmap startButton_play;
 		CMovingBitmap startButton_play_1;
