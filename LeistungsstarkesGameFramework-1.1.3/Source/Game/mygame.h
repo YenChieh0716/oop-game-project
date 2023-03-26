@@ -45,11 +45,10 @@ namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 
 	enum AUDIO_ID {				// 定義各種音效的編號
-		/*AUDIO_DING,				// 0
-		AUDIO_LAKE,				// 1
-		AUDIO_NTUT				// 2*/
-		AUDIO_START_BGM, //0
-		AUDIO_BUTTON //1
+		AUDIO_START_BGM,		//0
+		AUDIO_BUTTON,			//1
+		AUDIO_RUNSTATE_BGM,		//2
+		AUDIO_PASS				//3
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -89,6 +88,7 @@ namespace game_framework {
 		CMovingBitmap sleep_2;
 		CMovingBitmap sleep_3;
 		bool isMoving = true;
+		bool isBGMPlay = true;
 		void onCloudsMove();
 		void onSleepMove(CMovingBitmap &sleep, int ori_x, int ori_y);					// csie的logo
 	};
@@ -189,6 +189,7 @@ namespace game_framework {
 		bool clock1 = false;
 		bool clock2 = false;
 		bool clock3 = false;
+		bool isBGMPlay = true;
 		void onCharacterMove();
 		void onCloudsMove();
 		void onPassCharacterMove();

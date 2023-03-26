@@ -23,6 +23,7 @@ CGameStateRun::~CGameStateRun()
 
 void CGameStateRun::OnBeginState()
 {
+	CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
 }
 
 void CGameStateRun::onCharacterMove() {
@@ -202,8 +203,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		if (!pass) {
 			pass = bitmapOverlap(character, exit, 30, 0); // 抵達出口
-			if (pass)
+			if (pass) {
 				isCharacterMove = false;
+				CAudio::Instance()->Pause();
+				CAudio::Instance()->Play(AUDIO_PASS);
+			}
+				
 		}
 		if (!clock1)
 			clock1 = bitmapOverlap(character, clock, 55, 80);
@@ -228,8 +233,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		if (!pass) {
 			pass = bitmapOverlap(character2, exit, 0, 0); // 抵達出口
-			if (pass)
+			if (pass) {
 				isCharacterMove = false;
+				CAudio::Instance()->Pause();
+				CAudio::Instance()->Play(AUDIO_PASS); //切換到關卡開始畫面撥放另一音樂
+			}
+				
 		}
 		if (!clock1)
 			clock1 = bitmapOverlap(character2, clock, -110, 80);
@@ -248,6 +257,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
+	CAudio::Instance()->Load(AUDIO_RUNSTATE_BGM, "resources/music/music_ingame02.mp3");
+	CAudio::Instance()->Load(AUDIO_PASS, "resources/music/win.mp3");
+	
 	background_stars.LoadBitmapByString({ "resources/runState/backgroundStars.bmp", "resources/runState/pass/bg1.bmp" });
 	background_stars.SetTopLeft(0, -605);
 	background.LoadBitmapByString({ "resources/runState/bg2_1.bmp", "resources/runState/pass/bg2.bmp" }, RGB(1, 1, 1));
@@ -545,6 +557,8 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 				direction_1.SetTopLeft(180, 173);
 				times = 0;
 				pass = false;
+				CAudio::Instance()->Play(AUDIO_BUTTON);
+				CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //關卡重新開始並撥放音樂
 			}
 		}
 		//進入下一關
@@ -604,12 +618,25 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 				clock_1.SetTopLeft(380, 193);
 				clock_2.SetTopLeft(560, 305);
 				exit.SetTopLeft(180, 80);
+				CAudio::Instance()->Pause();
+				CAudio::Instance()->Play(AUDIO_BUTTON);
+				CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
 			}
 		}
 		//切換音樂(音樂還未做)
 		if (point.x > musicButton_play.GetLeft() + 25 && point.x <= musicButton_play.GetLeft() + musicButton_play.GetWidth() - 25) {
 			if (point.y > musicButton_play.GetTop() + 15 && point.y <= musicButton_play.GetTop() + musicButton_play.GetHeight() - 20) {
-				CAudio::Instance()->Play(AUDIO_START_BGM);
+				if (!isBGMPlay) {
+					CAudio::Instance()->Stop(AUDIO_RUNSTATE_BGM);
+					CAudio::Instance()->Resume();
+					CAudio::Instance()->Play(AUDIO_BUTTON);//有延遲
+					isBGMPlay = true;
+				}
+				else {
+					CAudio::Instance()->Play(AUDIO_BUTTON);//有延遲
+					CAudio::Instance()->Pause();
+					isBGMPlay = false;
+				}
 			}
 		}
 	}

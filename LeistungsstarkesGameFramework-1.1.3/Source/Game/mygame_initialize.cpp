@@ -49,15 +49,38 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	if (point.x > 640 + 25 && point.x <= 640 + startButton_play.GetWidth() - 25) {
 		if (point.y > 460 + 15 && point.y <= 460 + startButton_play.GetHeight() - 20) {
+			//應切換到關卡選擇畫面(未完成)
+			if (!isBGMPlay) {
+				//CAudio::Instance()->Resume();
+				CAudio::Instance()->Play(AUDIO_BUTTON);//有延遲
+				isBGMPlay = true;
+			}
+			else {
+				CAudio::Instance()->Play(AUDIO_BUTTON);//有延遲
+				//CAudio::Instance()->Pause();
+				isBGMPlay = false;
+			}
+			//切換到關卡開始，應暫停BGM
+			CAudio::Instance()->Play(AUDIO_BUTTON);//有延遲
 			GotoGameState(GAME_STATE_RUN);
 			CAudio::Instance()->Stop(AUDIO_START_BGM);
+			
 		}
 	}
+	//音樂切換
 	if (point.x > 680 + 25 && point.x <= 680 + background_musicButton_play_1.GetWidth() - 25) {
 		if (point.y > 10 + 15 && point.y <= 10 + startButton_play.GetHeight() - 20) {
-			//GotoGameState(GAME_STATE_RUN);
-			CAudio::Instance()->Play(AUDIO_BUTTON);//有延遲
-			CAudio::Instance()->Stop(AUDIO_START_BGM);
+			if (!isBGMPlay) {
+				CAudio::Instance()->Resume();
+				CAudio::Instance()->Play(AUDIO_BUTTON);
+				isBGMPlay = true;
+			}
+			else {
+				CAudio::Instance()->Play(AUDIO_BUTTON);
+				CAudio::Instance()->Pause();
+				isBGMPlay = false;
+			}
+			
 		}
 	}
 	//GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
