@@ -195,7 +195,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	//第一關碰撞物體判斷
 	if (phase == 1 && !pass) {
 		if (!dir1) {
-			dir1 = bitmapOverlap(character, direction_1, 55, 80);
+			dir1 = bitmapOverlap(character, direction_1, -50, 80);
 			//dir1 = character.IsOverlap(character, direction_1);
 		}
 		if (!dir2) {
@@ -211,11 +211,11 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				
 		}
 		if (!clock1)
-			clock1 = bitmapOverlap(character, clock, 55, 80);
+			clock1 = bitmapOverlap(character, clock, 35, 120);
 		if (!clock2)
-			clock2 = bitmapOverlap(character, clock_1, 55, 80);
+			clock2 = bitmapOverlap(character, clock_1, 35, 120);
 		if (!clock3)
-			clock3 = bitmapOverlap(character, clock_2, 55, 80);
+			clock3 = bitmapOverlap(character, clock_2, 35, 120);
 		if (isCharacterMove)
 			onCharacterMove();
 	}
