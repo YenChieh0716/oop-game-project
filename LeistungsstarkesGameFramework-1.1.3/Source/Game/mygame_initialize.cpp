@@ -49,21 +49,21 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	if (point.x > 640 + 25 && point.x <= 640 + startButton_play.GetWidth() - 25) {
 		if (point.y > 460 + 15 && point.y <= 460 + startButton_play.GetHeight() - 20) {
-			//應切換到關卡選擇畫面(未完成)
+			// 應切換到關卡選擇畫面(未完成)，要做在runState
 			if (!isBGMPlay) {
 				//CAudio::Instance()->Resume();
-				CAudio::Instance()->Play(AUDIO_BUTTON);//有延遲
+				CAudio::Instance()->Play(AUDIO_BUTTON);
 				isBGMPlay = true;
 			}
 			else {
-				CAudio::Instance()->Play(AUDIO_BUTTON);//有延遲
+				CAudio::Instance()->Play(AUDIO_BUTTON);
 				//CAudio::Instance()->Pause();
 				isBGMPlay = false;
 			}
 			//切換到關卡開始，應暫停BGM
-			CAudio::Instance()->Play(AUDIO_BUTTON);//有延遲
+			CAudio::Instance()->Play(AUDIO_BUTTON);
 			GotoGameState(GAME_STATE_RUN);
-			CAudio::Instance()->Stop(AUDIO_START_BGM);
+			//CAudio::Instance()->Stop(AUDIO_START_BGM);
 			
 		}
 	}

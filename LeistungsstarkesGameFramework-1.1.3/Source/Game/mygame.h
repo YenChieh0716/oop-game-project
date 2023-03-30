@@ -118,6 +118,14 @@ namespace game_framework {
 		int phase = 1;
 		int sub_phase = 1;
 		int times = 0;
+		int getClock_arr[30];
+		int level_page = 1;
+		CMovingBitmap Levels[30];
+		CMovingBitmap Levels_bg[30];
+		CMovingBitmap Levels_num[30];
+		CMovingBitmap Levels_clock1[30];
+		CMovingBitmap Levels_clock2[30];
+		CMovingBitmap Levels_clock3[30];
 		CMovingBitmap background;
 		CMovingBitmap background_filter;
 		CMovingBitmap background_stars;
@@ -149,6 +157,7 @@ namespace game_framework {
 		CMovingBitmap exit;
 		CMovingBitmap musicButton_play;
 		CMovingBitmap musicButton_play_1;
+		CMovingBitmap musicButton_unplay;
 		CMovingBitmap bubble;
 		CMovingBitmap bubble_fly;
 		CMovingBitmap flower;
@@ -190,9 +199,11 @@ namespace game_framework {
 		bool clock2 = false;
 		bool clock3 = false;
 		bool isBGMPlay = true;
+		bool isChoose = false;
 		void onCharacterMove();
 		void onCloudsMove();
 		void onPassCharacterMove();
+		void show_level_choose();
 		bool bitmapOverlap(CMovingBitmap a, CMovingBitmap b, int offsetX, int offsetY);
 	};
 

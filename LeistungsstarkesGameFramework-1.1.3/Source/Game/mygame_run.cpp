@@ -6,6 +6,7 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "mygame.h"
+#include <string>
 
 using namespace game_framework;
 
@@ -23,7 +24,9 @@ CGameStateRun::~CGameStateRun()
 
 void CGameStateRun::OnBeginState()
 {
-	CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
+	//CAudio::Instance()->Play(AUDIO_START_BGM);
+	//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
+	fill(getClock_arr,getClock_arr + 30, 0);
 }
 
 void CGameStateRun::onCharacterMove() {
@@ -194,6 +197,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 {
 	//第一關碰撞物體判斷
 	if (phase == 1 && !pass) {
+		int getClock = 0;
 		if (!dir1) {
 			dir1 = bitmapOverlap(character, direction_1, -50, 80);
 			//dir1 = character.IsOverlap(character, direction_1);
@@ -205,17 +209,28 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			pass = bitmapOverlap(character, exit, 30, 0); // 抵達出口
 			if (pass) {
 				isCharacterMove = false;
+				getClock_arr[0] = getClock;
 				CAudio::Instance()->Pause();
 				CAudio::Instance()->Play(AUDIO_PASS);
 			}
-				
 		}
-		if (!clock1)
+		if (!clock1) {
 			clock1 = bitmapOverlap(character, clock, 35, 120);
-		if (!clock2)
+			if(clock1)
+				getClock++;
+		}
+			
+		if (!clock2) {
 			clock2 = bitmapOverlap(character, clock_1, 35, 120);
-		if (!clock3)
+			if (clock2)
+				getClock++;
+		}
+			
+		if (!clock3) {
 			clock3 = bitmapOverlap(character, clock_2, 35, 120);
+			if (clock3)
+				getClock++;
+		}
 		if (isCharacterMove)
 			onCharacterMove();
 	}
@@ -331,9 +346,9 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	clock_1_get.SetTopLeft(370, 20);
 	clock_2_get.SetTopLeft(430, 20);
 
-	musicButton_play.LoadBitmap("resources/runState/pass/music_1.bmp", RGB(1, 1, 1));
+	musicButton_play.LoadBitmapByString({ "resources/runState/pass/music_1.bmp", "resources/level_bg/music_button_1.bmp" }, RGB(1, 1, 1));
 	musicButton_play_1.LoadBitmap("resources/runState/pass/music_2.bmp", RGB(1, 1, 1));
-
+	musicButton_unplay.LoadBitmapByString({ "resources/mainMenu/music_button_5.bmp" }, RGB(255, 255, 255));
 	bubble.LoadBitmapByString({ "resources/runState/pass/bubble.bmp" }, RGB(254, 254, 254));
 	bubble.SetTopLeft(110, 170);
 	bubble_fly.LoadBitmapByString({ "resources/runState/pass/bubble_flypath_1.bmp",
@@ -354,6 +369,27 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	"resources/runState/pass/meow_flypath_2.bmp" ,"resources/runState/pass/meow_flypath_3.bmp" }, RGB(1, 1, 1));
 	meow_fly.SetTopLeft(525, 250);
 	meow_fly.SetAnimation(330, true);
+	// 關卡
+	for (int i = 0; i < 30; i++) {
+		Levels[i].LoadBitmapByString({"resources/level_bg/level_lock.bmp", "resources/level_bg/level_unlock.bmp" }, RGB(1, 1, 1));
+		Levels[i].SetTopLeft(120+(110* (i%5)), 115+120*int(i/5));
+		Levels_bg[i].LoadBitmapByString({ "resources/level_bg/level_bg.bmp" }, RGB(1, 1, 1));
+		Levels_bg[i].SetTopLeft(116 + (110 * (i % 5)), 145 + 120 * int(i / 5));
+		if (i + 1 <= phase) {
+			string temp = "resources/level_bg/" + std::to_string(i + 1) + ".bmp";
+			Levels_num[i].LoadBitmapByString({ temp }, RGB(1, 1, 1));
+			Levels_num[i].SetTopLeft(163 + (110 * (i % 5)), 125 + 120 * int(i / 5) );
+			Levels_clock1[i].LoadBitmapByString({"resources/level_bg/greenClock.bmp","resources/level_bg/whiteClock.bmp"}, RGB(1, 1, 1));
+			Levels_clock1[i].SetTopLeft(129 + (110 * (i % 5)), 170 + 120 * int(i / 5));
+			Levels_clock2[i].LoadBitmapByString({ "resources/level_bg/greenClock.bmp","resources/level_bg/whiteClock.bmp" }, RGB(1, 1, 1));
+			Levels_clock2[i].SetTopLeft(154 + (110 * (i % 5)), 170 + 120 * int(i / 5));
+			Levels_clock3[i].LoadBitmapByString({ "resources/level_bg/greenClock.bmp","resources/level_bg/whiteClock.bmp" }, RGB(1, 1, 1));
+			Levels_clock3[i].SetTopLeft(179 + (110 * (i % 5)), 170 + 120 * int(i / 5));
+		}
+			
+	}
+
+
 
 	chest_and_key.LoadBitmapByString({ "resources/chest.bmp", "resources/chest_ignore.bmp" }, RGB(255, 255, 255));
 	chest_and_key.SetTopLeft(150, 430);
@@ -467,6 +503,23 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
+	//選擇關卡點擊事件
+	if (!isChoose) {
+		for (int i = 0; i < phase; i++) {
+			if (point.x > Levels[i].GetLeft() && point.x <= Levels[i].GetLeft() + Levels[i].GetWidth() - 25) {
+				if (point.y > Levels[i].GetTop() + 15 && point.y <= Levels[i].GetTop() + Levels[i].GetHeight() - 20) {
+					isChoose = true;
+					phase = i + 1;
+					//要把start位置調整回去,音樂按鈕選擇調回去，音樂切換到開始
+					start.SetTopLeft(697, 12);
+					start_1.SetTopLeft(702, 12);
+					musicButton_play.SetFrameIndexOfBitmap(0);
+					CAudio::Instance()->Stop(AUDIO_START_BGM);
+					CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM);
+				}
+			}
+		}
+	}
 	//點擊重新開始或開始
 	if (point.x > 697 + 25 && point.x <= 697 + start.GetWidth() - 25) {
 		if (point.y > 12 + 15 && point.y <= 12 + start.GetHeight() - 20) {
@@ -872,27 +925,72 @@ void CGameStateRun::show_image_pass() {
 		}*/
 	}
 }
+void CGameStateRun::show_level_choose() {
+	background_stars.SetTopLeft(0,0);
+	background_stars.ShowBitmap();
+	musicButton_play.SetFrameIndexOfBitmap(1);
+	musicButton_play_1.SetTopLeft(692, 15);
+	musicButton_play.SetTopLeft(675, 0);
+	musicButton_play_1.ShowBitmap(0.7);
+	musicButton_play.ShowBitmap(0.7);
+	start.SetTopLeft(673,238);
+	start_1.SetTopLeft(680,240);
+	start_1.ShowBitmap(0.8);
+	start.ShowBitmap(0.8);
+	
+	if (level_page == 1) {
+		for (int i = 0; i < 15; i++) {
+			Levels_bg[i].ShowBitmap(0.8);
+			if (i + 1 <= phase) {
+				Levels[i].SetFrameIndexOfBitmap(1);
+				Levels[i].ShowBitmap(0.8);
+				Levels_num[i].ShowBitmap(0.9);
+				Levels_clock1[i].ShowBitmap(0.4);
+				Levels_clock2[i].ShowBitmap(0.4);
+				Levels_clock3[i].ShowBitmap(0.4);
+			}
+			else
+				Levels[i].ShowBitmap(0.8);
+			
+		}
+	}
+	else {
+		for (int i = 15; i < 30; i++) {
+			Levels_bg[i].ShowBitmap(0.8);
+			Levels[i].ShowBitmap(0.8);
+		}
+	}
+	//Sleep(1000);
+	//isChoose = true;
+}
 void CGameStateRun::OnShow()
 {
-	//phase = 2;(要改掉)
-	if (phase == 1) {
-		if (!pass)
-			show_image_unpass();
-		//顯示過關畫面(未完成)
-		else if (pass) {
-			show_image_pass();
+	//進入關卡選擇畫面
+	if (!isChoose) {
+		show_level_choose();
+	}
+	else{
+		//phase = 2;(要改掉)
+		if (phase == 1) {
+			if (!pass)
+				show_image_unpass();
+			//顯示過關畫面(未完成)
+			else if (pass) {
+				show_image_pass();
+			}
+		}
+		//第二關(phase += 1;)
+		if (phase == 2) {
+			//times = 0;
+			if (!pass)
+				show_image_unpass();
+			//顯示過關畫面(未完成)
+			else if (pass) {
+				show_image_pass();
+			}
 		}
 	}
-	//第二關(phase += 1;)
-	if (phase == 2) {
-		//times = 0;
-		if (!pass)
-			show_image_unpass();
-		//顯示過關畫面(未完成)
-		else if (pass) {
-			show_image_pass();
-		}
-	}
+	
 }
 void CGameStateRun::show_image_by_phase() {
 	if (phase <= 6) {
