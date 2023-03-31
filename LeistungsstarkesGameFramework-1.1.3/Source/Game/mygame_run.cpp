@@ -380,10 +380,10 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 			Levels[i].SetTopLeft(120 + (110 * (i % 5)), 115 + 120 * int(i / 5));
 			Levels_bg[i].SetTopLeft(116 + (110 * (i % 5)), 145 + 120 * int(i / 5));
 		}
-		if (i + 1 <= phase) {
+		if (i + 1 <= 2) {
 			string temp = "resources/level_bg/" + std::to_string(i + 1) + ".bmp";
 			Levels_num[i].LoadBitmapByString({ temp }, RGB(1, 1, 1));
-			Levels_num[i].SetTopLeft(163 + (110 * (i % 5)), 125 + 120 * int(i / 5) );
+			Levels_num[i].SetTopLeft(163 + (100 * (i % 5)), 125 + 120 * int(i / 5) );
 			Levels_clock1[i].LoadBitmapByString({"resources/level_bg/greenClock.bmp","resources/level_bg/whiteClock.bmp"}, RGB(1, 1, 1));
 			Levels_clock1[i].SetTopLeft(129 + (110 * (i % 5)), 170 + 120 * int(i / 5));
 			Levels_clock2[i].LoadBitmapByString({ "resources/level_bg/greenClock.bmp","resources/level_bg/whiteClock.bmp" }, RGB(1, 1, 1));
