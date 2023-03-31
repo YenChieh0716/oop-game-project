@@ -253,7 +253,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				CAudio::Instance()->Pause();
 				CAudio::Instance()->Play(AUDIO_PASS); //切換到關卡開始畫面撥放另一音樂
 			}
-				
 		}
 		if (!clock1)
 			clock1 = bitmapOverlap(character2, clock, -110, 80);
@@ -372,9 +371,15 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	// 關卡
 	for (int i = 0; i < 30; i++) {
 		Levels[i].LoadBitmapByString({"resources/level_bg/level_lock.bmp", "resources/level_bg/level_unlock.bmp" }, RGB(1, 1, 1));
-		Levels[i].SetTopLeft(120+(110* (i%5)), 115+120*int(i/5));
 		Levels_bg[i].LoadBitmapByString({ "resources/level_bg/level_bg.bmp" }, RGB(1, 1, 1));
-		Levels_bg[i].SetTopLeft(116 + (110 * (i % 5)), 145 + 120 * int(i / 5));
+		if (i >= 15) {
+			Levels[i].SetTopLeft(120 + (110 * ((i-15) % 5)), 115 + 120 * int((i - 15) / 5));
+			Levels_bg[i].SetTopLeft(116 + (110 * ((i - 15) % 5)), 145 + 120 * int((i - 15) / 5));
+		}
+		else {
+			Levels[i].SetTopLeft(120 + (110 * (i % 5)), 115 + 120 * int(i / 5));
+			Levels_bg[i].SetTopLeft(116 + (110 * (i % 5)), 145 + 120 * int(i / 5));
+		}
 		if (i + 1 <= phase) {
 			string temp = "resources/level_bg/" + std::to_string(i + 1) + ".bmp";
 			Levels_num[i].LoadBitmapByString({ temp }, RGB(1, 1, 1));
@@ -385,11 +390,8 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 			Levels_clock2[i].SetTopLeft(154 + (110 * (i % 5)), 170 + 120 * int(i / 5));
 			Levels_clock3[i].LoadBitmapByString({ "resources/level_bg/greenClock.bmp","resources/level_bg/whiteClock.bmp" }, RGB(1, 1, 1));
 			Levels_clock3[i].SetTopLeft(179 + (110 * (i % 5)), 170 + 120 * int(i / 5));
-		}
-			
+		}	
 	}
-
-
 
 	chest_and_key.LoadBitmapByString({ "resources/chest.bmp", "resources/chest_ignore.bmp" }, RGB(255, 255, 255));
 	chest_and_key.SetTopLeft(150, 430);
@@ -516,183 +518,273 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					musicButton_play.SetFrameIndexOfBitmap(0);
 					CAudio::Instance()->Stop(AUDIO_START_BGM);
 					CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM);
+					CAudio::Instance()->Play(AUDIO_BUTTON);
 				}
 			}
 		}
-	}
-	//點擊重新開始或開始
-	if (point.x > 697 + 25 && point.x <= 697 + start.GetWidth() - 25) {
-		if (point.y > 12 + 15 && point.y <= 12 + start.GetHeight() - 20) {
-			if (!isStart && !pass) {
-				isCharacterMove = true;
-				isStart = true;
-			}
-			else if (isStart && !pass) { //在該關重新開始(bool 回到初始值)
-				isRestart = true;
-				isCharacterMove = false;
-				isStart = false;
-				character.SetTopLeft(185, 403);
-				dir1 = false;
-				dir2 = false;
-				isMovingLeft = false;
-				isMovingRight = true;
-				isMovingUp = false;
-				isMovingDown = false;
-				isDirectionMove = false;
-				//bool isRestart = false;
-				dir1_f = false; //用於設定初始方向
-				dir2_f = false;
-				clock1 = false;
-				clock2 = false;
-				clock3 = false;
-			}
-		}
-	}
-	//設定點擊dir1就可讓dir1跟著滑鼠位置移動
-	if (!isStart && !pass && phase == 1) {
-		if (point.x > direction_1.GetLeft() + 25 && point.x <= direction_1.GetLeft() + direction_1.GetWidth() - 25) {
-			if (point.y > direction_1.GetTop() + 15 && point.y <= direction_1.GetTop() + direction_1.GetHeight() - 20) {
-				isDirectionMove = true;
-			}
-		}
-		if (isDirectionMove) {
-			direction_1.SetTopLeft(point.x - 25, point.y - 15);
-		}
-	}
-	//設定點擊dir2就可讓dir2跟著滑鼠位置移動
-	if (!isStart && !pass && phase == 2) {
-		if (point.x > direction_2.GetLeft() + 25 && point.x <= direction_2.GetLeft() + direction_2.GetWidth() - 25) {
-			if (point.y > direction_2.GetTop() + 15 && point.y <= direction_2.GetTop() + direction_2.GetHeight() - 20) {
-				isDirectionMove = true;
-			}
-		}
-		if (isDirectionMove) {
-			direction_2.SetTopLeft(point.x - 25, point.y - 15);
-		}
-	}
-	//設定過關後點擊重新開始
-	if (pass) {
-		if (point.x > restart_1.GetLeft() + 25 && point.x <= restart_1.GetLeft() + restart_1.GetWidth() - 25) {
-			if (point.y > restart_1.GetTop() + 15 && point.y <= restart_1.GetTop() + restart_1.GetHeight() - 20) {
-				isRestart = true;
-				isCharacterMove = false;
-				isStart = false;
-				character.SetTopLeft(185, 403);
-				dir1 = false;
-				dir2 = false;
-				isMovingLeft = false;
-				isMovingRight = true;
-				isMovingUp = false;
-				isMovingDown = false;
-				isDirectionMove = false;
-				//bool isRestart = false;
-				dir1_f = false; //用於設定初始方向
-				dir2_f = false;
-				clock1 = false;
-				clock2 = false;
-				clock3 = false;
-				//以下是過關改動的畫面(已改動)
-				background.SetFrameIndexOfBitmap(0);
-				background.SetTopLeft(0, 100);
-				clock_get.SetFrameIndexOfBitmap(0);
-				clock_1_get.SetFrameIndexOfBitmap(0);
-				clock_2_get.SetFrameIndexOfBitmap(0);
-				clock_get.SetTopLeft(310, 20);
-				clock_1_get.SetTopLeft(370, 20);
-				clock_2_get.SetTopLeft(430, 20);
-				start.SetTopLeft(697, 12);
-				start_1.SetTopLeft(702, 12);
-				restart_1.SetTopLeft(697, 12);
-				restart_2.SetTopLeft(700, 19);
-				background_stars.SetFrameIndexOfBitmap(0);
-				background_stars.SetTopLeft(0, -605);
-				background_stars.ShowBitmap();
-				direction_1.SetTopLeft(180, 173);
-				times = 0;
-				pass = false;
-				CAudio::Instance()->Play(AUDIO_BUTTON);
-				CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //關卡重新開始並撥放音樂
-			}
-		}
-		//進入下一關
-		if (point.x > start.GetLeft() + 25 && point.x <= start.GetLeft() + start.GetWidth() - 25) {
-			if (point.y > start.GetTop() + 15 && point.y <= start.GetTop() + start.GetHeight() - 20) {
-				phase += 1;
-				times = 0;
-				pass = false;
-				isRestart = false;
-				isCharacterMove = false;
-				isStart = false;
-				//character.SetTopLeft(185, 403);
-				dir1 = false;
-				dir2 = false;
-				isMovingLeft = true;//初始為往左走
-				isMovingRight = false;
-				isMovingUp = false;
-				isMovingDown = false;
-				isDirectionMove = false;
-				dir1_f = false; //用於設定初始方向
-				dir2_f = false;
-				clock1 = false;
-				clock2 = false;
-				clock3 = false;
-				//以下是過關改動的畫面(已改動)
-				background.SetFrameIndexOfBitmap(0);
-				background.SetTopLeft(0, 100);
-				clock_get.SetFrameIndexOfBitmap(0);
-				clock_1_get.SetFrameIndexOfBitmap(0);
-				clock_2_get.SetFrameIndexOfBitmap(0);
-				clock_get.SetTopLeft(310, 20);
-				clock_1_get.SetTopLeft(370, 20);
-				clock_2_get.SetTopLeft(430, 20);
-				start.SetTopLeft(697, 12);
-				start_1.SetTopLeft(702, 12);
-				restart_1.SetTopLeft(697, 12);
-				restart_2.SetTopLeft(700, 19);
-				background_stars.SetFrameIndexOfBitmap(0);
-				background_stars.SetTopLeft(0, -605);
-				background_stars.ShowBitmap();
-				direction_1.SetTopLeft(180, 173);
-				//clock.SetTopLeft(380, 305);
-				clock.SetTopLeft(185, 403);
-				//clock_1.SetTopLeft(500, 193);
-				clock_1.SetTopLeft(380, 193);
-				clock_2.SetTopLeft(520, 305);
-				//加入
-				clock_shelf.SetTopLeft(195, 478);
-				clock_1_shelf.SetTopLeft(375, 243);
-				clock_2_shelf.SetTopLeft(555, 355);
-				direction_1.SetTopLeft(180, 173);
-				direction_2.SetTopLeft(357, 295);
-				//direction_2.SetTopLeft(540, 173);用成通關要放的位置
-				direction_3.SetTopLeft(540, 418);
-				character2.SetTopLeft(350, 418);
-				clock.SetTopLeft(200, 428);
-				clock_1.SetTopLeft(380, 193);
-				clock_2.SetTopLeft(560, 305);
-				exit.SetTopLeft(180, 80);
-				CAudio::Instance()->Pause();
-				CAudio::Instance()->Play(AUDIO_BUTTON);
-				CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
-			}
-		}
-		//切換音樂(音樂還未做)
+		// 關卡選擇音樂按鈕切換
 		if (point.x > musicButton_play.GetLeft() + 25 && point.x <= musicButton_play.GetLeft() + musicButton_play.GetWidth() - 25) {
 			if (point.y > musicButton_play.GetTop() + 15 && point.y <= musicButton_play.GetTop() + musicButton_play.GetHeight() - 20) {
 				if (!isBGMPlay) {
-					CAudio::Instance()->Stop(AUDIO_RUNSTATE_BGM);
 					CAudio::Instance()->Resume();
-					CAudio::Instance()->Play(AUDIO_BUTTON);//有延遲
+					CAudio::Instance()->Play(AUDIO_BUTTON);
 					isBGMPlay = true;
 				}
 				else {
-					CAudio::Instance()->Play(AUDIO_BUTTON);//有延遲
+					CAudio::Instance()->Play(AUDIO_BUTTON);
 					CAudio::Instance()->Pause();
 					isBGMPlay = false;
 				}
 			}
 		}
+		// 關卡選擇切換第一,二頁
+		if (point.x > start.GetLeft() + 25 && point.x <= start.GetLeft() + start.GetWidth() - 25) {
+			if (point.y > start.GetTop() + 15 && point.y <= start.GetTop() + start.GetHeight() - 20) {
+				if (level_page == 1)
+					level_page = 2;
+				else if (level_page == 2)
+					level_page = 1;
+			}
+		}
 	}
+	else {
+		// 在遊戲開始前或中點擊查看關卡按鈕，切換到關卡選擇頁面
+		if (point.x > level.GetLeft() && point.x <= level.GetLeft() + level.GetWidth() - 25) {
+			if (point.y > level.GetTop() + 15 && point.y <= level.GetTop() + level.GetHeight() - 20) {
+				isChoose = false;
+				CAudio::Instance()->Stop(AUDIO_RUNSTATE_BGM);
+				CAudio::Instance()->Play(AUDIO_BUTTON);
+				CAudio::Instance()->Play(AUDIO_START_BGM);
+			}
+		}
+		// 點擊重新開始或開始
+		if (point.x > 697 + 25 && point.x <= 697 + start.GetWidth() - 25) {
+			if (point.y > 12 + 15 && point.y <= 12 + start.GetHeight() - 20) {
+				if (!isStart && !pass) {
+					isCharacterMove = true;
+					isStart = true;
+				}
+				else if (isStart && !pass) { //在該關重新開始(bool 回到初始值)
+					isRestart = true;
+					isCharacterMove = false;
+					isStart = false;
+					character.SetTopLeft(185, 403);
+					dir1 = false;
+					dir2 = false;
+					isMovingLeft = false;
+					isMovingRight = true;
+					isMovingUp = false;
+					isMovingDown = false;
+					isDirectionMove = false;
+					//bool isRestart = false;
+					dir1_f = false; //用於設定初始方向
+					dir2_f = false;
+					clock1 = false;
+					clock2 = false;
+					clock3 = false;
+				}
+			}
+		}
+		//設定點擊dir1就可讓dir1跟著滑鼠位置移動
+		if (!isStart && !pass && phase == 1) {
+			if (point.x > direction_1.GetLeft() + 25 && point.x <= direction_1.GetLeft() + direction_1.GetWidth() - 25) {
+				if (point.y > direction_1.GetTop() + 15 && point.y <= direction_1.GetTop() + direction_1.GetHeight() - 20) {
+					isDirectionMove = true;
+				}
+			}
+			if (isDirectionMove) {
+				direction_1.SetTopLeft(point.x - 25, point.y - 15);
+			}
+		}
+		//設定點擊dir2就可讓dir2跟著滑鼠位置移動
+		if (!isStart && !pass && phase == 2) {
+			if (point.x > direction_2.GetLeft() + 25 && point.x <= direction_2.GetLeft() + direction_2.GetWidth() - 25) {
+				if (point.y > direction_2.GetTop() + 15 && point.y <= direction_2.GetTop() + direction_2.GetHeight() - 20) {
+					isDirectionMove = true;
+				}
+			}
+			if (isDirectionMove) {
+				direction_2.SetTopLeft(point.x - 25, point.y - 15);
+			}
+		}
+		//設定過關後點擊重新開始
+		if (pass) {
+			if (point.x > restart_1.GetLeft() + 25 && point.x <= restart_1.GetLeft() + restart_1.GetWidth() - 25) {
+				if (point.y > restart_1.GetTop() + 15 && point.y <= restart_1.GetTop() + restart_1.GetHeight() - 20) {
+					isRestart = true;
+					isCharacterMove = false;
+					isStart = false;
+					if (phase == 1) {
+						character.SetTopLeft(185, 403);
+						dir1 = false;
+						dir2 = false;
+						isMovingLeft = false;
+						isMovingRight = true;
+						isMovingUp = false;
+						isMovingDown = false;
+						isDirectionMove = false;
+						//bool isRestart = false;
+						dir1_f = false; //用於設定初始方向
+						dir2_f = false;
+						clock1 = false;
+						clock2 = false;
+						clock3 = false;
+						//以下是過關改動的畫面(已改動)
+						background.SetFrameIndexOfBitmap(0);
+						background.SetTopLeft(0, 100);
+						clock_get.SetFrameIndexOfBitmap(0);
+						clock_1_get.SetFrameIndexOfBitmap(0);
+						clock_2_get.SetFrameIndexOfBitmap(0);
+						clock_get.SetTopLeft(310, 20);
+						clock_1_get.SetTopLeft(370, 20);
+						clock_2_get.SetTopLeft(430, 20);
+						start.SetTopLeft(697, 12);
+						start_1.SetTopLeft(702, 12);
+						restart_1.SetTopLeft(697, 12);
+						restart_2.SetTopLeft(700, 19);
+						background_stars.SetFrameIndexOfBitmap(0);
+						background_stars.SetTopLeft(0, -605);
+						background_stars.ShowBitmap();
+						direction_1.SetTopLeft(180, 173);
+						times = 0;
+						pass = false;
+					}
+					else if (phase == 2) {
+						character2.SetTopLeft(350, 418);
+
+						dir1 = false;
+						dir2 = false;
+						dir3 = false;
+						isMovingLeft = true;//初始為往左走
+						isMovingRight = false;
+						isMovingUp = false;
+						isMovingDown = false;
+						isDirectionMove = false;
+						//bool isRestart = false;
+						dir1_f = false; //用於設定初始方向
+						dir2_f = false;
+						dir3_f = false;
+						clock1 = false;
+						clock2 = false;
+						clock3 = false;
+						//以下是過關改動的畫面(已改動)
+						background.SetFrameIndexOfBitmap(0);
+						background.SetTopLeft(0, 100);
+						clock_get.SetFrameIndexOfBitmap(0);
+						clock_1_get.SetFrameIndexOfBitmap(0);
+						clock_2_get.SetFrameIndexOfBitmap(0);
+						clock_get.SetTopLeft(310, 20);
+						clock_1_get.SetTopLeft(370, 20);
+						clock_2_get.SetTopLeft(430, 20);
+						start.SetTopLeft(697, 12);
+						start_1.SetTopLeft(702, 12);
+						restart_1.SetTopLeft(697, 12);
+						restart_2.SetTopLeft(700, 19);
+						background_stars.SetFrameIndexOfBitmap(0);
+						background_stars.SetTopLeft(0, -605);
+						background_stars.ShowBitmap();
+						direction_1.SetTopLeft(180, 173);
+						clock.SetTopLeft(185, 403);
+						clock_1.SetTopLeft(380, 193);
+						clock_2.SetTopLeft(520, 305);
+						clock_shelf.SetTopLeft(195, 478);
+						clock_1_shelf.SetTopLeft(375, 243);
+						clock_2_shelf.SetTopLeft(555, 355);
+						direction_1.SetTopLeft(180, 173);
+						direction_2.SetTopLeft(357, 295);
+						direction_3.SetTopLeft(540, 418);
+						clock.SetTopLeft(200, 428);
+						clock_1.SetTopLeft(380, 193);
+						clock_2.SetTopLeft(560, 305);
+						exit.SetTopLeft(180, 80);
+						times = 0;
+						pass = false;
+					}
+					CAudio::Instance()->Play(AUDIO_BUTTON);
+					CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //關卡重新開始並撥放音樂
+				}
+			}
+			//進入下一關
+			if (point.x > start.GetLeft() + 25 && point.x <= start.GetLeft() + start.GetWidth() - 25) {
+				if (point.y > start.GetTop() + 15 && point.y <= start.GetTop() + start.GetHeight() - 20) {
+					phase += 1;
+					times = 0;
+					pass = false;
+					isRestart = false;
+					isCharacterMove = false;
+					isStart = false;
+					//character.SetTopLeft(185, 403);
+					dir1 = false;
+					dir2 = false;
+					isMovingLeft = true;//初始為往左走
+					isMovingRight = false;
+					isMovingUp = false;
+					isMovingDown = false;
+					isDirectionMove = false;
+					dir1_f = false; //用於設定初始方向
+					dir2_f = false;
+					clock1 = false;
+					clock2 = false;
+					clock3 = false;
+					//以下是過關改動的畫面(已改動)
+					background.SetFrameIndexOfBitmap(0);
+					background.SetTopLeft(0, 100);
+					clock_get.SetFrameIndexOfBitmap(0);
+					clock_1_get.SetFrameIndexOfBitmap(0);
+					clock_2_get.SetFrameIndexOfBitmap(0);
+					clock_get.SetTopLeft(310, 20);
+					clock_1_get.SetTopLeft(370, 20);
+					clock_2_get.SetTopLeft(430, 20);
+					start.SetTopLeft(697, 12);
+					start_1.SetTopLeft(702, 12);
+					restart_1.SetTopLeft(697, 12);
+					restart_2.SetTopLeft(700, 19);
+					background_stars.SetFrameIndexOfBitmap(0);
+					background_stars.SetTopLeft(0, -605);
+					background_stars.ShowBitmap();
+					direction_1.SetTopLeft(180, 173);
+					//clock.SetTopLeft(380, 305);
+					clock.SetTopLeft(185, 403);
+					//clock_1.SetTopLeft(500, 193);
+					clock_1.SetTopLeft(380, 193);
+					clock_2.SetTopLeft(520, 305);
+					//加入
+					clock_shelf.SetTopLeft(195, 478);
+					clock_1_shelf.SetTopLeft(375, 243);
+					clock_2_shelf.SetTopLeft(555, 355);
+					direction_1.SetTopLeft(180, 173);
+					direction_2.SetTopLeft(357, 295);
+					//direction_2.SetTopLeft(540, 173);用成通關要放的位置
+					direction_3.SetTopLeft(540, 418);
+					character2.SetTopLeft(350, 418);
+					clock.SetTopLeft(200, 428);
+					clock_1.SetTopLeft(380, 193);
+					clock_2.SetTopLeft(560, 305);
+					exit.SetTopLeft(180, 80);
+					CAudio::Instance()->Pause();
+					CAudio::Instance()->Play(AUDIO_BUTTON);
+					CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
+				}
+			}
+			//切換音樂(音樂還未做)
+			if (point.x > musicButton_play.GetLeft() + 25 && point.x <= musicButton_play.GetLeft() + musicButton_play.GetWidth() - 25) {
+				if (point.y > musicButton_play.GetTop() + 15 && point.y <= musicButton_play.GetTop() + musicButton_play.GetHeight() - 20) {
+					if (!isBGMPlay) {
+						CAudio::Instance()->Stop(AUDIO_RUNSTATE_BGM);
+						CAudio::Instance()->Resume();
+						CAudio::Instance()->Play(AUDIO_BUTTON);//有延遲
+						isBGMPlay = true;
+					}
+					else {
+						CAudio::Instance()->Play(AUDIO_BUTTON);//有延遲
+						CAudio::Instance()->Pause();
+						isBGMPlay = false;
+					}
+				}
+			}
+		}
+	}
+	
 }
 
 void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
