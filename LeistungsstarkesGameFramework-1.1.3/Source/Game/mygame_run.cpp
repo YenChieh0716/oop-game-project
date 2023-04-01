@@ -1139,7 +1139,7 @@ void CGameStateRun::show_level_choose() {
 				Levels[i].ShowBitmap(0.8);
 				Levels_num[i].ShowBitmap(0.9);
 				int getClock = getClock_arr[phase - 1];
-				//應用陣列紀錄各個clock是否被拿
+				//應用陣列紀錄各個clock是否被拿(未做)
 				if (getClock == 3)
 				{
 					Levels_clock1[i].SetFrameIndexOfBitmap(1);
