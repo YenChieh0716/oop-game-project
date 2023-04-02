@@ -1079,6 +1079,93 @@ void CGameStateRun::show_image_unpass() {
 			show_text_by_phase();
 		}
 	}
+	else if (phase == 3) {
+	if (!isStart) { //重啟或剛開始；角色開始移動前畫面
+		if (isRestart) {
+			isRestart = false;
+			clock.SetTopLeft(200, 428);
+			clock_1.SetTopLeft(380, 193);
+			clock_2.SetTopLeft(560, 305);
+		}
+
+		background_stars.SetFrameIndexOfBitmap(0);
+		background_stars.SetTopLeft(0, -605);
+		background_stars.ShowBitmap();
+		direction_1.SetFrameIndexOfBitmap(1);
+		direction_2.SetFrameIndexOfBitmap(1);
+		character2.SetAnimation(300, false);
+		background_stars.ShowBitmap();
+		onCloudsMove();
+		stage.ShowBitmap();
+		stage_num.SetFrameIndexOfBitmap(1);
+		stage_num.ShowBitmap();
+		show_image_by_phase();
+		level_1.ShowBitmap(0.7);
+		level.ShowBitmap(0.7);
+		start_1.ShowBitmap(0.7);
+		start.ShowBitmap(0.7);
+
+		clock.ShowBitmap(0.3);
+		clock_shelf.ShowBitmap();
+		clock_1.ShowBitmap(0.3);
+		clock_1_shelf.ShowBitmap();
+		clock_2.ShowBitmap(0.3);
+		clock_2_shelf.ShowBitmap();
+		direction_1.ShowBitmap();
+		direction_2.ShowBitmap();
+		direction_3.ShowBitmap();
+		exit.SetFrameIndexOfBitmap(1);
+
+		exit.ShowBitmap();
+		//character.SetTopLeft(185, 403);
+		character2.ShowBitmap(0.7);
+		show_text_by_phase();
+	}
+	else if (isStart) {
+		background_stars.ShowBitmap();
+		onCloudsMove();
+		show_image_by_phase();
+		level_1.ShowBitmap(0.7);
+		level.ShowBitmap(0.7);
+		restart_2.ShowBitmap(0.7);
+		restart_1.ShowBitmap(0.7);
+		clock_get.ShowBitmap(0.7);
+		clock_1_get.ShowBitmap(0.7);
+		clock_2_get.ShowBitmap(0.7);
+		//character.ShowBitmap(0.5);
+		if (clock1) {
+			clock.SetTopLeft(320, 20);
+		}
+		else {
+			clock_shelf.ShowBitmap();
+		}
+		if (clock2) {
+			clock_1.SetTopLeft(380, 20);
+		}
+		else {
+			clock_1_shelf.ShowBitmap();
+		}
+		if (clock3) {
+			clock_2.SetTopLeft(440, 20);
+		}
+		else {
+			clock_2_shelf.ShowBitmap();
+		}
+		clock.ShowBitmap(0.3);
+		clock_1.ShowBitmap(0.3);
+		clock_2.ShowBitmap(0.3);
+
+		direction_1.ShowBitmap();
+		direction_2.ShowBitmap();
+		direction_3.ShowBitmap();
+		exit.ShowBitmap();
+		character2.ShowBitmap(0.7);
+		character2.SetAnimation(300, false);
+		//character.ShowBitmap(0.7);
+		//character.SetAnimation(300, false);
+		show_text_by_phase();
+	}
+	}
 
 }
 void CGameStateRun::show_image_pass() {
@@ -1196,7 +1283,16 @@ void CGameStateRun::OnShow()
 			}
 		}
 		//第二關(phase += 1;)
-		if (phase == 2) {
+		else if (phase == 2) {
+			//times = 0;
+			if (!pass)
+				show_image_unpass();
+			//顯示過關畫面(未完成)
+			else if (pass) {
+				show_image_pass();
+			}
+		}
+		else if (phase == 3) {
 			//times = 0;
 			if (!pass)
 				show_image_unpass();
