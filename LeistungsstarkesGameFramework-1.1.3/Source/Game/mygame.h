@@ -115,7 +115,7 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		int phase = 1;
+		int phase = 3;
 		int sub_phase = 1;
 		int times = 0;
 		int getClock_arr[30];
@@ -132,6 +132,7 @@ namespace game_framework {
 		CMovingBitmap bg4;
 		CMovingBitmap character;
 		CMovingBitmap character2;
+		CMovingBitmap character3;
 		CMovingBitmap cloud;
 		CMovingBitmap cloud_1;
 		CMovingBitmap stage;
