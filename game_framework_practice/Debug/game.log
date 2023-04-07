@@ -1,0 +1,3 @@
+﻿cl : 命令列 warning D9035: 選項 'Gm' 已被取代，在未來的發行版本中將會移除
+  mygame_run.cpp
+  game.vcxproj -> D:\jessie\Desktop\oop教材\oop_game_ntut\oop_game_ntut\new version tutorial\git practice\game_framework_practice\.\Debug\game.exe
