@@ -58,19 +58,22 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	int third_doorX2 = third_doorX1 + door[2].Width() - 5;
 	int third_doorY2 = third_doorY1 + door[2].Height() - 5;
 	//up, down, left, right(door 0~2)
-	if ((characterY2 >= first_doorY1) && (first_doorY2 >= characterY1) && (characterX2 >= first_doorX1) && (characterX1 <= first_doorX2)) {
-		door[0].SelectShowBitmap(1);
-		door[0].ShowBitmap();
-	}
-	if ((characterY2 >= second_doorY1) && (second_doorY2 >= characterY1) && (characterX2 >= second_doorX1) && (characterX1 <= second_doorX2)) {
-		door[1].SelectShowBitmap(1);
-		door[1].ShowBitmap();
+	if (phase == 5) {
+		if ((characterY2 >= first_doorY1) && (first_doorY2 >= characterY1) && (characterX2 >= first_doorX1) && (characterX1 <= first_doorX2)) {
+			door[0].SelectShowBitmap(1);
+			door[0].ShowBitmap();
+		}
+		if ((characterY2 >= second_doorY1) && (second_doorY2 >= characterY1) && (characterX2 >= second_doorX1) && (characterX1 <= second_doorX2)) {
+			door[1].SelectShowBitmap(1);
+			door[1].ShowBitmap();
+		}
+
+		if ((characterY2 >= third_doorY1) && (third_doorY2 >= characterY1) && (characterX2 >= third_doorX1) && (characterX1 <= third_doorX2)) {
+			door[2].SelectShowBitmap(1);
+			door[2].ShowBitmap();
+		}
 	}
 	
-	if ((characterY2 >= third_doorY1) && (third_doorY2 >= characterY1) && (characterX2 >= third_doorX1) && (characterX1 <= third_doorX2)) {
-		door[2].SelectShowBitmap(1);
-		door[2].ShowBitmap();
-	}
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
