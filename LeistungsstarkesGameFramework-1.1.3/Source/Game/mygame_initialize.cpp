@@ -52,16 +52,17 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 			// 應切換到關卡選擇畫面(未完成)，要做在runState
 			if (!isBGMPlay) {
 				//CAudio::Instance()->Resume();
-				CAudio::Instance()->Play(AUDIO_BUTTON);
-				isBGMPlay = true;
+				
+				//isBGMPlay = true;
 			}
 			else {
-				CAudio::Instance()->Play(AUDIO_BUTTON);
+				//CAudio::Instance()->Play(AUDIO_BUTTON);
 				//CAudio::Instance()->Pause();
-				isBGMPlay = false;
+				CAudio::Instance()->Play(AUDIO_BUTTON);
+				//isBGMPlay = false;
 			}
 			//切換到關卡開始，應暫停BGM
-			CAudio::Instance()->Play(AUDIO_BUTTON);
+			//CAudio::Instance()->Play(AUDIO_BUTTON);
 			GotoGameState(GAME_STATE_RUN);
 			//CAudio::Instance()->Stop(AUDIO_START_BGM);
 			

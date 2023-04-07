@@ -115,7 +115,7 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		int phase = 3;
+		int phase = 1; //Demo改回1
 		int sub_phase = 1;
 		int times = 0;
 		int getClock_arr[30];

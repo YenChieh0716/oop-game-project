@@ -26,6 +26,7 @@ void CGameStateRun::OnBeginState()
 {
 	//CAudio::Instance()->Play(AUDIO_START_BGM);
 	//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
+	//isBGMPlay = BGMPlay;
 	fill(getClock_arr,getClock_arr + 30, 0);
 }
 
@@ -253,7 +254,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				isCharacterMove = false;
 				getClock_arr[0] = getClock;
 				CAudio::Instance()->Pause();
-				CAudio::Instance()->Play(AUDIO_PASS);
+				if (isBGMPlay) {
+					CAudio::Instance()->Play(AUDIO_PASS);
+				}
 			}
 		}
 		if (!clock1) {
@@ -294,7 +297,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			if (pass) {
 				isCharacterMove = false;
 				CAudio::Instance()->Pause();
-				CAudio::Instance()->Play(AUDIO_PASS); //切換到關卡開始畫面撥放另一音樂
+				if (isBGMPlay) {
+					CAudio::Instance()->Play(AUDIO_PASS); //切換到關卡開始畫面撥放另一音樂
+				}
 			}
 		}
 		if (!clock1)
@@ -320,7 +325,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			if (pass) {
 				isCharacterMove = false;
 				CAudio::Instance()->Pause();
-				CAudio::Instance()->Play(AUDIO_PASS); // 切換到關卡開始畫面撥放另一音樂
+				if (isBGMPlay) {
+					CAudio::Instance()->Play(AUDIO_PASS); // 切換到關卡開始畫面撥放另一音樂
+				}
 			}
 		}
 		if (!clock1)
@@ -447,7 +454,8 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 			Levels[i].SetTopLeft(120 + (110 * (i % 5)), 115 + 120 * int(i / 5));
 			Levels_bg[i].SetTopLeft(116 + (110 * (i % 5)), 145 + 120 * int(i / 5));
 		}
-		if (i + 1 <= phase) {
+		// i+1<=phase
+		if (i + 1 <= 3) {
 			string temp = "resources/level_bg/" + std::to_string(i + 1) + ".bmp";
 			Levels_num[i].LoadBitmapByString({ temp }, RGB(1, 1, 1));
 			Levels_num[i].SetTopLeft(163 + (100 * (i % 5)), 125 + 120 * int(i / 5) );
@@ -730,8 +738,10 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					start_1.SetTopLeft(702, 12);
 					musicButton_play.SetFrameIndexOfBitmap(0);
 					CAudio::Instance()->Stop(AUDIO_START_BGM);
-					CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM);
-					CAudio::Instance()->Play(AUDIO_BUTTON);
+					if (isBGMPlay) {
+						//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM);
+					}
+					//CAudio::Instance()->Play(AUDIO_BUTTON);
 				}
 			}
 		}
@@ -741,11 +751,11 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 			if (point.y > musicButton_play.GetTop() + 15 && point.y <= musicButton_play.GetTop() + musicButton_play.GetHeight() - 20) {
 				if (!isBGMPlay) {
 					CAudio::Instance()->Resume();
-					CAudio::Instance()->Play(AUDIO_BUTTON);
+					// CAudio::Instance()->Play(AUDIO_BUTTON);
 					isBGMPlay = true;
 				}
 				else {
-					CAudio::Instance()->Play(AUDIO_BUTTON);
+					//CAudio::Instance()->Play(AUDIO_BUTTON);
 					CAudio::Instance()->Pause();
 					isBGMPlay = false;
 				}
@@ -767,8 +777,10 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 			if (point.y > level.GetTop() + 15 && point.y <= level.GetTop() + level.GetHeight() - 20) {
 				isChoose = false;
 				CAudio::Instance()->Stop(AUDIO_RUNSTATE_BGM);
-				CAudio::Instance()->Play(AUDIO_BUTTON);
-				CAudio::Instance()->Play(AUDIO_START_BGM);
+				if (isBGMPlay) {
+					CAudio::Instance()->Play(AUDIO_BUTTON);
+					CAudio::Instance()->Play(AUDIO_START_BGM);
+				}
 			}
 		}
 		// 點擊重新開始或開始
@@ -935,8 +947,10 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 						times = 0;
 						pass = false;
 					}
-					CAudio::Instance()->Play(AUDIO_BUTTON);
-					CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //關卡重新開始並撥放音樂
+					if (isBGMPlay) {
+						CAudio::Instance()->Play(AUDIO_BUTTON);
+						//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //關卡重新開始並撥放音樂
+					}
 				}
 			}
 			//進入下一關
@@ -997,9 +1011,12 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 						clock_1.SetTopLeft(380, 193);
 						clock_2.SetTopLeft(560, 305);
 						exit.SetTopLeft(180, 80);
-						CAudio::Instance()->Pause();
-						CAudio::Instance()->Play(AUDIO_BUTTON);
-						CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
+						
+							CAudio::Instance()->Pause();
+						if (isBGMPlay) {
+							CAudio::Instance()->Play(AUDIO_BUTTON);
+							//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
+						}
 					}
 					else if (phase == 3) {
 						//character.SetTopLeft(185, 403);
@@ -1051,9 +1068,10 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 						//clock_2.SetTopLeft(560, 305);
 						//exit.SetTopLeft(180, 80);
 						CAudio::Instance()->Pause();
-						CAudio::Instance()->Play(AUDIO_BUTTON);
-						CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
-
+						if (isBGMPlay) {
+							CAudio::Instance()->Play(AUDIO_BUTTON);
+							//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
+						}
 						direction_1.SetTopLeft(690, 253);
 						direction_2.SetTopLeft(357, 295);
 						//direction_3.SetTopLeft(540, 418);
@@ -1076,7 +1094,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 			if (point.x > musicButton_play.GetLeft() + 25 && point.x <= musicButton_play.GetLeft() + musicButton_play.GetWidth() - 25) {
 				if (point.y > musicButton_play.GetTop() + 15 && point.y <= musicButton_play.GetTop() + musicButton_play.GetHeight() - 20) {
 					if (!isBGMPlay) {
-						CAudio::Instance()->Stop(AUDIO_RUNSTATE_BGM);
+						//CAudio::Instance()->Stop(AUDIO_RUNSTATE_BGM);
 						CAudio::Instance()->Resume();
 						CAudio::Instance()->Play(AUDIO_BUTTON);//有延遲
 						isBGMPlay = true;
@@ -1478,7 +1496,7 @@ void CGameStateRun::show_level_choose() {
 void CGameStateRun::OnShow()
 {
 	//下兩行直接切換到第三關(demo需註解)
-	phase = 3;
+	//phase = 3;
 	//isChoose = true;
 	//進入關卡選擇畫面
 	if (!isChoose) {
