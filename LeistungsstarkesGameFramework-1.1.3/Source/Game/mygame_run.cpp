@@ -314,11 +314,11 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	//第三關
 	if (phase == 3 && !pass) {
 		if (!dir1) {
-			dir1 = bitmapOverlap(character3, direction_1, 0, -50);
+			dir1 = bitmapOverlap(character3, direction_1, 50, -50);
 			//dir1 = character2.IsOverlap(character2, direction_1);
 		}
 		if (!dir2) {
-			dir2 = bitmapOverlap(character3, direction_2, 50, 0);
+			dir2 = bitmapOverlap(character3, direction_2, 50, -50);
 		}
 		if (!pass) {
 			pass = bitmapOverlap(character3, exit, 0, 0); // 抵達出口
@@ -586,144 +586,14 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					isCharacterMove = false;
 					isStart = false;
 					if (phase == 1) {
-						character.SetTopLeft(185, 403);
-						dir1 = false;
-						dir2 = false;
-						isMovingLeft = false;
-						isMovingRight = true;
-						isMovingUp = false;
-						isMovingDown = false;
-						isDirectionMove = false;
-						//bool isRestart = false;
-						dir1_f = false; //用於設定初始方向
-						dir2_f = false;
-						clock1 = false;
-						clock2 = false;
-						clock3 = false;
-						//以下是過關改動的畫面(已改動)
-						background.SetFrameIndexOfBitmap(0);
-						background.SetTopLeft(0, 100);
-						clock_get.SetFrameIndexOfBitmap(0);
-						clock_1_get.SetFrameIndexOfBitmap(0);
-						clock_2_get.SetFrameIndexOfBitmap(0);
-						clock_get.SetTopLeft(310, 20);
-						clock_1_get.SetTopLeft(370, 20);
-						clock_2_get.SetTopLeft(430, 20);
-						clock_shelf.SetTopLeft(375, 350);
-						clock_1_shelf.SetTopLeft(495, 238);
-						clock_2_shelf.SetTopLeft(615, 238);
-						start.SetTopLeft(697, 12);
-						start_1.SetTopLeft(702, 12);
-						restart_1.SetTopLeft(697, 12);
-						restart_2.SetTopLeft(700, 19);
-						background_stars.SetFrameIndexOfBitmap(0);
-						background_stars.SetTopLeft(0, -605);
-						background_stars.ShowBitmap();
-						direction_1.SetTopLeft(180, 173);
-						exit.SetTopLeft(713, 193);
-						direction_2.SetTopLeft(358, 415);
-						times = 0;
-						pass = false;
+						Level1_init();
 					}
 					else if (phase == 2) {
-						character2.SetTopLeft(350, 418);
-						//character.ShowBitmap();
-						dir1 = false;
-						dir2 = false;
-						dir3 = false;
-						isMovingLeft = true;//初始為往左走
-						isMovingRight = false;
-						isMovingUp = false;
-						isMovingDown = false;
-						isDirectionMove = false;
-						//bool isRestart = false;
-						dir1_f = false; //用於設定初始方向
-						dir2_f = false;
-						dir3_f = false;
-						clock1 = false;
-						clock2 = false;
-						clock3 = false;
-						//以下是過關改動的畫面(已改動)
-						background.SetFrameIndexOfBitmap(0);
-						background.SetTopLeft(0, 100);
-						clock_get.SetFrameIndexOfBitmap(0);
-						clock_1_get.SetFrameIndexOfBitmap(0);
-						clock_2_get.SetFrameIndexOfBitmap(0);
-						clock_get.SetTopLeft(310, 20);
-						clock_1_get.SetTopLeft(370, 20);
-						clock_2_get.SetTopLeft(430, 20);
-						start.SetTopLeft(697, 12);
-						start_1.SetTopLeft(702, 12);
-						restart_1.SetTopLeft(697, 12);
-						restart_2.SetTopLeft(700, 19);
-						background_stars.SetFrameIndexOfBitmap(0);
-						background_stars.SetTopLeft(0, -605);
-						background_stars.ShowBitmap();
-						direction_1.SetTopLeft(180, 173);
-						/*clock.SetTopLeft(185, 403);
-						clock_1.SetTopLeft(380, 193);
-						clock_2.SetTopLeft(520, 305);*/
-						clock_shelf.SetTopLeft(195, 478);
-						clock_1_shelf.SetTopLeft(375, 243);
-						clock_2_shelf.SetTopLeft(555, 355);
-						direction_1.SetTopLeft(180, 173);
-						direction_2.SetTopLeft(357, 295);
-						direction_3.SetTopLeft(540, 418);
-						clock.SetTopLeft(200, 428);
-						clock_1.SetTopLeft(380, 193);
-						clock_2.SetTopLeft(560, 305);
-						exit.SetTopLeft(180, 80);
-						times = 0;
-						pass = false;
+						Level2_init();
 					}
 					/*第三關點擊*/
 					else if (phase == 3) {
-						character3.SetTopLeft(130, 185);
-						//character.ShowBitmap();
-						dir1 = false;
-						dir2 = false;
-						dir3 = false;
-						isMovingLeft = false;//初始為往右走
-						isMovingRight = true;
-						isMovingUp = false;
-						isMovingDown = false;
-						isDirectionMove = false;
-						//bool isRestart = false;
-						dir1_f = false; //用於設定初始方向
-						dir2_f = false;
-						dir3_f = false;
-						clock1 = false;
-						clock2 = false;
-						clock3 = false;
-						//以下是過關改動的畫面(已改動)
-						background.SetFrameIndexOfBitmap(0);
-						background.SetTopLeft(0, 100);
-						clock_get.SetFrameIndexOfBitmap(0);
-						clock_1_get.SetFrameIndexOfBitmap(0);
-						clock_2_get.SetFrameIndexOfBitmap(0);
-						clock_get.SetTopLeft(310, 20);
-						clock_1_get.SetTopLeft(370, 20);
-						clock_2_get.SetTopLeft(430, 20);
-						start.SetTopLeft(697, 12);
-						start_1.SetTopLeft(702, 12);
-						restart_1.SetTopLeft(697, 12);
-						restart_2.SetTopLeft(700, 19);
-						background_stars.SetFrameIndexOfBitmap(0);
-						background_stars.SetTopLeft(0, -605);
-						background_stars.ShowBitmap();
-
-						direction_1.SetTopLeft(657, 237);
-						direction_2.SetTopLeft(657, 358);
-
-						clock.SetTopLeft(380, 193);
-						clock_1.SetTopLeft(380, 428);
-						clock_2.SetTopLeft(622, 305);
-						clock_shelf.SetTopLeft(375, 243);
-						clock_1_shelf.SetTopLeft(375, 478);
-						clock_2_shelf.SetTopLeft(617, 355);
-						exit.SetTopLeft(30, 418);
-						times = 0;
-						pass = false;
+						Level3_init();
 					}
 					
 					//要把start位置調整回去,音樂按鈕選擇調回去，音樂切換到開始
@@ -787,9 +657,21 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					isRestart = true;
 					isCharacterMove = false;
 					isStart = false;
-					character.SetTopLeft(185, 403);
+					if (phase == 1) {
+						Level1_init();
+					}
+						//character.SetTopLeft(185, 403);
+					else if (phase == 2) {
+						Level2_init();
+					}
+					else if (phase == 3) {
+						Level3_init();
+					}
+						//character2.SetTopLeft(350, 418);
+					/*
 					dir1 = false;
 					dir2 = false;
+					//dir3 = false;
 					isMovingLeft = false;
 					isMovingRight = true;
 					isMovingUp = false;
@@ -800,7 +682,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					dir2_f = false;
 					clock1 = false;
 					clock2 = false;
-					clock3 = false;
+					clock3 = false;*/
 				}
 			}
 		}
@@ -855,89 +737,13 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					isCharacterMove = false;
 					isStart = false;
 					if (phase == 1) {
-						character.SetTopLeft(185, 403);
-						dir1 = false;
-						dir2 = false;
-						isMovingLeft = false;
-						isMovingRight = true;
-						isMovingUp = false;
-						isMovingDown = false;
-						isDirectionMove = false;
-						//bool isRestart = false;
-						dir1_f = false; //用於設定初始方向
-						dir2_f = false;
-						clock1 = false;
-						clock2 = false;
-						clock3 = false;
-						//以下是過關改動的畫面(已改動)
-						background.SetFrameIndexOfBitmap(0);
-						background.SetTopLeft(0, 100);
-						clock_get.SetFrameIndexOfBitmap(0);
-						clock_1_get.SetFrameIndexOfBitmap(0);
-						clock_2_get.SetFrameIndexOfBitmap(0);
-						clock_get.SetTopLeft(310, 20);
-						clock_1_get.SetTopLeft(370, 20);
-						clock_2_get.SetTopLeft(430, 20);
-						start.SetTopLeft(697, 12);
-						start_1.SetTopLeft(702, 12);
-						restart_1.SetTopLeft(697, 12);
-						restart_2.SetTopLeft(700, 19);
-						background_stars.SetFrameIndexOfBitmap(0);
-						background_stars.SetTopLeft(0, -605);
-						background_stars.ShowBitmap();
-						direction_1.SetTopLeft(180, 173);
-						times = 0;
-						pass = false;
+						Level1_init();
 					}
 					else if (phase == 2) {
-						character2.SetTopLeft(350, 418);
-						dir1 = false;
-						dir2 = false;
-						dir3 = false;
-						isMovingLeft = true;//初始為往左走
-						isMovingRight = false;
-						isMovingUp = false;
-						isMovingDown = false;
-						isDirectionMove = false;
-						//bool isRestart = false;
-						dir1_f = false; //用於設定初始方向
-						dir2_f = false;
-						dir3_f = false;
-						clock1 = false;
-						clock2 = false;
-						clock3 = false;
-						//以下是過關改動的畫面(已改動)
-						background.SetFrameIndexOfBitmap(0);
-						background.SetTopLeft(0, 100);
-						clock_get.SetFrameIndexOfBitmap(0);
-						clock_1_get.SetFrameIndexOfBitmap(0);
-						clock_2_get.SetFrameIndexOfBitmap(0);
-						clock_get.SetTopLeft(310, 20);
-						clock_1_get.SetTopLeft(370, 20);
-						clock_2_get.SetTopLeft(430, 20);
-						start.SetTopLeft(697, 12);
-						start_1.SetTopLeft(702, 12);
-						restart_1.SetTopLeft(697, 12);
-						restart_2.SetTopLeft(700, 19);
-						background_stars.SetFrameIndexOfBitmap(0);
-						background_stars.SetTopLeft(0, -605);
-						background_stars.ShowBitmap();
-						direction_1.SetTopLeft(180, 173);
-						clock.SetTopLeft(185, 403);
-						clock_1.SetTopLeft(380, 193);
-						clock_2.SetTopLeft(520, 305);
-						clock_shelf.SetTopLeft(195, 478);
-						clock_1_shelf.SetTopLeft(375, 243);
-						clock_2_shelf.SetTopLeft(555, 355);
-						direction_1.SetTopLeft(180, 173);
-						direction_2.SetTopLeft(357, 295);
-						direction_3.SetTopLeft(540, 418);
-						clock.SetTopLeft(200, 428);
-						clock_1.SetTopLeft(380, 193);
-						clock_2.SetTopLeft(560, 305);
-						exit.SetTopLeft(180, 80);
-						times = 0;
-						pass = false;
+						Level2_init();
+					}
+					else if (phase == 3) {
+						Level3_init();
 					}
 					if (isBGMPlay) {
 						CAudio::Instance()->Play(AUDIO_BUTTON);
@@ -955,108 +761,20 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					isCharacterMove = false;
 					isStart = false;
 					if (phase == 2) {
-						//character.SetTopLeft(185, 403);
-						dir1 = false;
-						dir2 = false;
-						isMovingLeft = true;//初始為往左走
-						isMovingRight = false;
-						isMovingUp = false;
-						isMovingDown = false;
-						isDirectionMove = false;
-						dir1_f = false; //用於設定初始方向
-						dir2_f = false;
-						clock1 = false;
-						clock2 = false;
-						clock3 = false;
-						//以下是過關改動的畫面(已改動)
-						background.SetFrameIndexOfBitmap(0);
-						background.SetTopLeft(0, 100);
-						clock_get.SetFrameIndexOfBitmap(0);
-						clock_1_get.SetFrameIndexOfBitmap(0);
-						clock_2_get.SetFrameIndexOfBitmap(0);
-						clock_get.SetTopLeft(310, 20);
-						clock_1_get.SetTopLeft(370, 20);
-						clock_2_get.SetTopLeft(430, 20);
-						start.SetTopLeft(697, 12);
-						start_1.SetTopLeft(702, 12);
-						restart_1.SetTopLeft(697, 12);
-						restart_2.SetTopLeft(700, 19);
-						background_stars.SetFrameIndexOfBitmap(0);
-						background_stars.SetTopLeft(0, -605);
-						background_stars.ShowBitmap();
-						direction_1.SetTopLeft(180, 173);
-						//clock.SetTopLeft(380, 305);
-						clock.SetTopLeft(185, 403);
-						//clock_1.SetTopLeft(500, 193);
-						clock_1.SetTopLeft(380, 193);
-						clock_2.SetTopLeft(520, 305);
-						//加入
-						clock_shelf.SetTopLeft(195, 478);
-						clock_1_shelf.SetTopLeft(375, 243);
-						clock_2_shelf.SetTopLeft(555, 355);
-						direction_1.SetTopLeft(180, 173);
-						direction_2.SetTopLeft(357, 295);
-						//direction_2.SetTopLeft(540, 173);用成通關要放的位置
-						direction_3.SetTopLeft(540, 418);
-						character2.SetTopLeft(350, 418);
-						clock.SetTopLeft(200, 428);
-						clock_1.SetTopLeft(380, 193);
-						clock_2.SetTopLeft(560, 305);
-						exit.SetTopLeft(180, 80);
-						
-							CAudio::Instance()->Pause();
+						Level2_init();
+						CAudio::Instance()->Pause();
 						if (isBGMPlay) {
 							CAudio::Instance()->Play(AUDIO_BUTTON);
 							//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
 						}
 					}
 					else if (phase == 3) {
-						character3.SetTopLeft(130, 185);
-						//character.ShowBitmap();
-						dir1 = false;
-						dir2 = false;
-						dir3 = false;
-						isMovingLeft = false;//初始為往右走
-						isMovingRight = true;
-						isMovingUp = false;
-						isMovingDown = false;
-						isDirectionMove = false;
-						//bool isRestart = false;
-						dir1_f = false; //用於設定初始方向
-						dir2_f = false;
-						dir3_f = false;
-						clock1 = false;
-						clock2 = false;
-						clock3 = false;
-						//以下是過關改動的畫面(已改動)
-						background.SetFrameIndexOfBitmap(0);
-						background.SetTopLeft(0, 100);
-						clock_get.SetFrameIndexOfBitmap(0);
-						clock_1_get.SetFrameIndexOfBitmap(0);
-						clock_2_get.SetFrameIndexOfBitmap(0);
-						clock_get.SetTopLeft(310, 20);
-						clock_1_get.SetTopLeft(370, 20);
-						clock_2_get.SetTopLeft(430, 20);
-						start.SetTopLeft(697, 12);
-						start_1.SetTopLeft(702, 12);
-						restart_1.SetTopLeft(697, 12);
-						restart_2.SetTopLeft(700, 19);
-						background_stars.SetFrameIndexOfBitmap(0);
-						background_stars.SetTopLeft(0, -605);
-						background_stars.ShowBitmap();
-
-						direction_1.SetTopLeft(657, 237);
-						direction_2.SetTopLeft(657, 358);
-
-						clock.SetTopLeft(380, 193);
-						clock_1.SetTopLeft(380, 428);
-						clock_2.SetTopLeft(622, 305);
-						clock_shelf.SetTopLeft(375, 243);
-						clock_1_shelf.SetTopLeft(375, 478);
-						clock_2_shelf.SetTopLeft(617, 355);
-						exit.SetTopLeft(30, 418);
-						times = 0;
-						pass = false;
+						Level3_init();
+						CAudio::Instance()->Pause();
+						if (isBGMPlay) {
+							CAudio::Instance()->Play(AUDIO_BUTTON);
+							//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
+						}
 					}
 					
 				}
@@ -1133,6 +851,153 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 {
 }
 
+void CGameStateRun::Level1_init() {
+		character.SetTopLeft(185, 403);
+		dir1 = false;
+		dir2 = false;
+		isMovingLeft = false;
+		isMovingRight = true;
+		isMovingUp = false;
+		isMovingDown = false;
+		isDirectionMove = false;
+		//bool isRestart = false;
+		dir1_f = false; //用於設定初始方向
+		dir2_f = false;
+		clock1 = false;
+		clock2 = false;
+		clock3 = false;
+		//以下是過關改動的畫面(已改動)
+		background.SetFrameIndexOfBitmap(0);
+		background.SetTopLeft(0, 100);
+		clock_get.SetFrameIndexOfBitmap(0);
+		clock_1_get.SetFrameIndexOfBitmap(0);
+		clock_2_get.SetFrameIndexOfBitmap(0);
+		clock_get.SetTopLeft(310, 20);
+		clock_1_get.SetTopLeft(370, 20);
+		clock_2_get.SetTopLeft(430, 20);
+		clock_shelf.SetTopLeft(375, 350);
+		clock_1_shelf.SetTopLeft(495, 238);
+		clock_2_shelf.SetTopLeft(615, 238);
+		start.SetTopLeft(697, 12);
+		start_1.SetTopLeft(702, 12);
+		restart_1.SetTopLeft(697, 12);
+		restart_2.SetTopLeft(700, 19);
+		background_stars.SetFrameIndexOfBitmap(0);
+		background_stars.SetTopLeft(0, -605);
+		background_stars.ShowBitmap();
+		direction_1.SetTopLeft(180, 173);
+		exit.SetTopLeft(713, 193);
+		direction_2.SetTopLeft(358, 415);
+		times = 0;
+		pass = false;
+}
+void CGameStateRun::Level2_init() {
+	character2.SetTopLeft(350, 418);
+	//character.ShowBitmap();
+	dir1 = false;
+	dir2 = false;
+	dir3 = false;
+	isMovingLeft = true;//初始為往左走
+	isMovingRight = false;
+	isMovingUp = false;
+	isMovingDown = false;
+	isDirectionMove = false;
+	//bool isRestart = false;
+	dir1_f = false; //用於設定初始方向
+	dir2_f = false;
+	dir3_f = false;
+	clock1 = false;
+	clock2 = false;
+	clock3 = false;
+	//以下是過關改動的畫面(已改動)
+	background.SetFrameIndexOfBitmap(0);
+	background.SetTopLeft(0, 100);
+	clock_get.SetFrameIndexOfBitmap(0);
+	clock_1_get.SetFrameIndexOfBitmap(0);
+	clock_2_get.SetFrameIndexOfBitmap(0);
+	clock_get.SetTopLeft(310, 20);
+	clock_1_get.SetTopLeft(370, 20);
+	clock_2_get.SetTopLeft(430, 20);
+	start.SetTopLeft(697, 12);
+	start_1.SetTopLeft(702, 12);
+	restart_1.SetTopLeft(697, 12);
+	restart_2.SetTopLeft(700, 19);
+	background_stars.SetFrameIndexOfBitmap(0);
+	background_stars.SetTopLeft(0, -605);
+	background_stars.ShowBitmap();
+
+	direction_1.SetFrameIndexOfBitmap(1);
+	direction_2.SetFrameIndexOfBitmap(1);
+	stage_num.SetFrameIndexOfBitmap(1);
+	exit.SetFrameIndexOfBitmap(1);
+
+	direction_1.SetTopLeft(180, 173);
+	clock_shelf.SetTopLeft(195, 478);
+	clock_1_shelf.SetTopLeft(375, 243);
+	clock_2_shelf.SetTopLeft(555, 355);
+	direction_1.SetTopLeft(180, 173);
+	direction_2.SetTopLeft(357, 295);
+	direction_3.SetTopLeft(540, 418);
+	clock.SetTopLeft(200, 428);
+	clock_1.SetTopLeft(380, 193);
+	clock_2.SetTopLeft(560, 305);
+	exit.SetTopLeft(180, 80);
+	character2.SetAnimation(300, false);
+	times = 0;
+	pass = false;
+}
+void CGameStateRun::Level3_init() {
+	character3.SetTopLeft(130, 185);
+	//character.ShowBitmap();
+	dir1 = false;
+	dir2 = false;
+	dir3 = false;
+	isMovingLeft = false;//初始為往右走
+	isMovingRight = true;
+	isMovingUp = false;
+	isMovingDown = false;
+	isDirectionMove = false;
+	//bool isRestart = false;
+	dir1_f = false; //用於設定初始方向
+	dir2_f = false;
+	dir3_f = false;
+	clock1 = false;
+	clock2 = false;
+	clock3 = false;
+	//以下是過關改動的畫面(已改動)
+	background.SetFrameIndexOfBitmap(0);
+	background.SetTopLeft(0, 100);
+	clock_get.SetFrameIndexOfBitmap(0);
+	clock_1_get.SetFrameIndexOfBitmap(0);
+	clock_2_get.SetFrameIndexOfBitmap(0);
+	clock_get.SetTopLeft(310, 20);
+	clock_1_get.SetTopLeft(370, 20);
+	clock_2_get.SetTopLeft(430, 20);
+	start.SetTopLeft(697, 12);
+	start_1.SetTopLeft(702, 12);
+	restart_1.SetTopLeft(697, 12);
+	restart_2.SetTopLeft(700, 19);
+	background_stars.SetFrameIndexOfBitmap(0);
+	background_stars.SetTopLeft(0, -605);
+	background_stars.ShowBitmap();
+	direction_1.SetFrameIndexOfBitmap(2);
+	direction_2.SetFrameIndexOfBitmap(2);
+	character3.SetAnimation(300, false);
+	direction_1.SetTopLeft(657, 237);
+	direction_2.SetTopLeft(657, 358);
+
+	clock.SetTopLeft(380, 193);
+	clock_1.SetTopLeft(380, 428);
+	clock_2.SetTopLeft(622, 305);
+	clock_shelf.SetTopLeft(375, 243);
+	clock_1_shelf.SetTopLeft(375, 478);
+	clock_2_shelf.SetTopLeft(617, 355);
+	exit.SetTopLeft(30, 418);
+	stage_num.SetFrameIndexOfBitmap(2);
+	exit.SetFrameIndexOfBitmap(2);
+	times = 0;
+	pass = false;
+}
 void CGameStateRun::show_image_unpass() {
 	//第一關畫面
 	if (phase == 1) {
@@ -1221,16 +1086,16 @@ void CGameStateRun::show_image_unpass() {
 				clock_2.SetTopLeft(560, 305);
 			}
 			
-			background_stars.SetFrameIndexOfBitmap(0);
+			/*background_stars.SetFrameIndexOfBitmap(0);
 			background_stars.SetTopLeft(0, -605);
 			background_stars.ShowBitmap();
 			direction_1.SetFrameIndexOfBitmap(1);
-			direction_2.SetFrameIndexOfBitmap(1);
-			character2.SetAnimation(300, false);
+			direction_2.SetFrameIndexOfBitmap(1);*/
+			//character2.SetAnimation(300, false);
 			background_stars.ShowBitmap();
 			onCloudsMove();
 			stage.ShowBitmap();
-			stage_num.SetFrameIndexOfBitmap(1);
+			//stage_num.SetFrameIndexOfBitmap(1);
 			stage_num.ShowBitmap();
 			show_image_by_phase();
 			level_1.ShowBitmap(0.7);
@@ -1247,7 +1112,7 @@ void CGameStateRun::show_image_unpass() {
 			direction_1.ShowBitmap();
 			direction_2.ShowBitmap();
 			direction_3.ShowBitmap();
-			exit.SetFrameIndexOfBitmap(1);
+			//exit.SetFrameIndexOfBitmap(1);
 
 			exit.ShowBitmap();
 			//character.SetTopLeft(185, 403);
@@ -1293,7 +1158,7 @@ void CGameStateRun::show_image_unpass() {
 			direction_3.ShowBitmap();
 			exit.ShowBitmap();
 			character2.ShowBitmap(0.7);
-			character2.SetAnimation(300, false);
+			//character2.SetAnimation(300, false);
 			//character.ShowBitmap(0.7);
 			//character.SetAnimation(300, false);
 			show_text_by_phase();
@@ -1308,16 +1173,11 @@ void CGameStateRun::show_image_unpass() {
 			clock_2.SetTopLeft(622, 305);
 		}
 
-		background_stars.SetFrameIndexOfBitmap(0);
-		background_stars.SetTopLeft(0, -605);
-		background_stars.ShowBitmap();
-		direction_1.SetFrameIndexOfBitmap(2);
-		direction_2.SetFrameIndexOfBitmap(2);
-		character3.SetAnimation(300, false);
+		
 		background_stars.ShowBitmap();
 		onCloudsMove();
 		stage.ShowBitmap();
-		stage_num.SetFrameIndexOfBitmap(2);
+		
 		stage_num.ShowBitmap();
 		show_image_by_phase();
 		level_1.ShowBitmap(0.7);
@@ -1334,7 +1194,7 @@ void CGameStateRun::show_image_unpass() {
 		direction_1.ShowBitmap();
 		direction_2.ShowBitmap();
 		//direction_3.ShowBitmap();
-		exit.SetFrameIndexOfBitmap(2);
+		
 
 		exit.ShowBitmap();
 		block.ShowBitmap();

@@ -204,6 +204,9 @@ namespace game_framework {
 		bool bitmapOverlap(CMovingBitmap a, CMovingBitmap b, int offsetX, int offsetY);
 		bool dir1_click = false; //判斷第三關哪個dir被點擊中
 		bool dir2_click = true;
+		void Level1_init();
+		void Level2_init();
+		void Level3_init();
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
