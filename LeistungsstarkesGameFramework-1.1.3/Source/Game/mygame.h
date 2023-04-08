@@ -165,11 +165,7 @@ namespace game_framework {
 		CMovingBitmap flower_fly;
 		CMovingBitmap meow;
 		CMovingBitmap meow_fly;
-
-		CMovingBitmap chest_and_key;
-		CMovingBitmap bee;
-		CMovingBitmap ball;
-		CMovingBitmap door[3];
+		CMovingBitmap block;
 		void show_image_by_phase();
 		void show_image_unpass();
 		void show_image_pass();
@@ -206,6 +202,8 @@ namespace game_framework {
 		void onPassCharacterMove();
 		void show_level_choose();
 		bool bitmapOverlap(CMovingBitmap a, CMovingBitmap b, int offsetX, int offsetY);
+		bool dir1_click = false; //判斷第三關哪個dir被點擊中
+		bool dir2_click = true;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
