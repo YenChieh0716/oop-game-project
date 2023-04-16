@@ -22,15 +22,15 @@ void CGameStateInit::OnInit()
 	// 當圖很多時，OnInit載入所有的圖要花很多時間。為避免玩遊戲的人
 	//     等的不耐煩，遊戲會出現「Loading ...」，顯示Loading的進度。
 	//
-	
-	ShowInitProgress(0, "Start Initialize...");	// 一開始的loading進度為0%
+	//loading_bg.ShowBitmap();
+	//ShowInitProgress(0, "Start Initialize...");	// 一開始的loading進度為0%
 	//
 	// 開始載入資料
 	//
 	load_background();
 
-	ShowInitProgress(66, "Initialize...");
-	Sleep(200);									// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
+	//ShowInitProgress(66, "Initialize...");
+	//Sleep(200);							// 放慢，以便看清楚進度，實際遊戲請刪除此Sleep
 	//
 	// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 	//
@@ -38,8 +38,8 @@ void CGameStateInit::OnInit()
 
 void CGameStateInit::OnBeginState()
 {
-}
 
+}
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 
@@ -89,22 +89,50 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CGameStateInit::OnShow()
 {
-	background_stars.ShowBitmap();
-	background.ShowBitmap();
-	onSleepMove(sleep_1, 450, 220);
-	onSleepMove(sleep_2, 400, 220);
-	onSleepMove(sleep_3, 350, 220);
-	onCloudsMove();
-	background_title.ShowBitmap();
-	background_musicButton_play_2.ShowBitmap(0.7);
-	background_musicButton_play_1.ShowBitmap(0.7);
-	fence_right_bottom.ShowBitmap();
-	startButton_play_1.ShowBitmap();
-	startButton_play.ShowBitmap();
-	fence_left_bottom.ShowBitmap();
-	Mailbox.ShowBitmap();
-	Mailbox_logo.ShowBitmap();
-	Mailbox_flag.ShowBitmap();
+	if (!isInitialed) {	//loading 畫面
+		times += 2;
+		if (times > 0 && times < 120) {
+			
+			loading_1.SetTopLeft(169, 385 - times);
+		}
+		if (times > 120 && times < 310) {
+			times_1 += 2;
+			loading_2.SetTopLeft(350, 390 - times_1);
+
+		}
+		if (times > 310 && times < 500) {
+			times_2 += 2;
+			loading_3.SetTopLeft(469, 390 - times_2);
+		}
+		if (times == 500) {
+			isInitialed = true;
+			times = 0;
+			times_1 = 0;
+			times_2 = 0;
+		}
+		loading_1.ShowBitmap();
+		loading_2.ShowBitmap();
+		loading_3.ShowBitmap();
+		loading_bg.ShowBitmap();
+	}
+	else {
+		background_stars.ShowBitmap();
+		background.ShowBitmap();
+		onSleepMove(sleep_1, 450, 220);
+		onSleepMove(sleep_2, 400, 220);
+		onSleepMove(sleep_3, 350, 220);
+		onCloudsMove();
+		background_title.ShowBitmap();
+		background_musicButton_play_2.ShowBitmap(0.7);
+		background_musicButton_play_1.ShowBitmap(0.7);
+		fence_right_bottom.ShowBitmap();
+		startButton_play_1.ShowBitmap();
+		startButton_play.ShowBitmap();
+		fence_left_bottom.ShowBitmap();
+		Mailbox.ShowBitmap();
+		Mailbox_logo.ShowBitmap();
+		Mailbox_flag.ShowBitmap();
+	}
 	//draw_text();
 }
 void CGameStateInit::load_background() {
@@ -134,7 +162,10 @@ void CGameStateInit::load_background() {
 	sleep_1.LoadBitmap("resources/mainMenu/sleep_1.bmp", RGB(255, 255, 255));
 	sleep_2.LoadBitmap("resources/mainMenu/sleep_2.bmp", RGB(255, 255, 255));
 	sleep_3.LoadBitmap("resources/mainMenu/sleep_3.bmp", RGB(255, 255, 255));
-
+	loading_bg.LoadBitmapByString({ "resources/loading/load_bg.bmp" }, RGB(1, 1, 1));
+	loading_1.LoadBitmapByString({ "resources/loading/loading_1.bmp" }, RGB(1, 1, 1));
+	loading_2.LoadBitmapByString({ "resources/loading/loading_2.bmp" }, RGB(1, 1, 1));
+	loading_3.LoadBitmapByString({ "resources/loading/loading_3.bmp" }, RGB(1, 1, 1));
 	//CAudio::Instance()->Load(AUDIO_START_BGM, "resources/music/music_ingame01.mp3");
 	background.SetTopLeft(0, 200);
 	background_stars.SetTopLeft(0, -600);
@@ -153,6 +184,9 @@ void CGameStateInit::load_background() {
 	sleep_1.SetTopLeft(450, 195);
 	sleep_2.SetTopLeft(400, 185);
 	sleep_3.SetTopLeft(350, 210);
+	loading_bg.SetTopLeft(0, 0);
+	loading_2.SetTopLeft(350, 390);
+	loading_3.SetTopLeft(469, 390);
 }
 
 void CGameStateInit::draw_text() {

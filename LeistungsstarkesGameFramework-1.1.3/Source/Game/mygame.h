@@ -87,8 +87,16 @@ namespace game_framework {
 		CMovingBitmap sleep_1;
 		CMovingBitmap sleep_2;
 		CMovingBitmap sleep_3;
+		CMovingBitmap loading_bg;
+		CMovingBitmap loading_1;
+		CMovingBitmap loading_2;
+		CMovingBitmap loading_3;
 		bool isMoving = true;
 		bool isBGMPlay = true;
+		bool isInitialed = false; //是否顯示進度條
+		int times = 0; //計時
+		int times_1 = 0;
+		int times_2 = 0;
 		void onCloudsMove();
 		void onSleepMove(CMovingBitmap &sleep, int ori_x, int ori_y);					// csie的logo
 	};
@@ -226,6 +234,10 @@ namespace game_framework {
 	private:
 		int counter;	// 倒數之計數器
 		CMovingBitmap background;
+		CMovingBitmap loading_bg;
+		CMovingBitmap loading_1;
+		CMovingBitmap loading_2;
+		CMovingBitmap loading_3;
 		void load_background();
 	};
 

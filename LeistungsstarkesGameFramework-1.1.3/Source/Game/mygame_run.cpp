@@ -28,6 +28,7 @@ void CGameStateRun::OnBeginState()
 	//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
 	//isBGMPlay = BGMPlay;
 	fill(getClock_arr,getClock_arr + 30, 0);
+	phase = 3;
 }
 
 void CGameStateRun::onCharacterMove() {
@@ -1351,7 +1352,7 @@ void CGameStateRun::show_level_choose() {
 void CGameStateRun::OnShow()
 {
 	//下兩行直接切換到第三關(demo需註解)
-	phase = 3;
+	//phase = 3;
 	//isChoose = true;
 	//進入關卡選擇畫面
 	if (!isChoose) {
