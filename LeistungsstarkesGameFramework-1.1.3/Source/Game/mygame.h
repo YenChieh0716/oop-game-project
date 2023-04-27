@@ -128,62 +128,27 @@ namespace game_framework {
 		int times = 0;
 		int getClock_arr[30];
 		int level_page = 1;
-		CMovingBitmap Levels[30];
-		CMovingBitmap Levels_bg[30];
-		CMovingBitmap Levels_num[30];
-		CMovingBitmap Levels_clock1[30];
-		CMovingBitmap Levels_clock2[30];
-		CMovingBitmap Levels_clock3[30];
-		CMovingBitmap background;
-		CMovingBitmap background_filter;
-		CMovingBitmap background_stars;
-		CMovingBitmap bg4;
-		CMovingBitmap character;
-		CMovingBitmap character2;
-		CMovingBitmap character3;
-		CMovingBitmap cloud;
-		CMovingBitmap cloud_1;
-		CMovingBitmap stage;
-		CMovingBitmap stage_num;
-		CMovingBitmap level;
-		CMovingBitmap level_1;
-		CMovingBitmap start;
-		CMovingBitmap start_1;
-		CMovingBitmap restart_1;
-		CMovingBitmap restart_2;
-		CMovingBitmap clock;
-		CMovingBitmap clock_shelf;
-		CMovingBitmap clock_get;
-		CMovingBitmap clock_1;
-		CMovingBitmap clock_1_shelf;
-		CMovingBitmap clock_1_get;
-		CMovingBitmap clock_2;
-		CMovingBitmap clock_2_shelf;
-		CMovingBitmap clock_2_get;
-		CMovingBitmap direction_1;
-		CMovingBitmap direction_2;
-		CMovingBitmap direction_3;
+		CMovingBitmap Levels[30], Levels_bg[30], Levels_num[30], Levels_clock1[30], Levels_clock2[30], Levels_clock3[30];
+		CMovingBitmap background, background_filter, background_stars, bg4;
+		CMovingBitmap character, character2, character3;
+		CMovingBitmap cloud, cloud_1;
+		CMovingBitmap stage, stage_num;
+		CMovingBitmap level, level_1;
+		CMovingBitmap start, start_1;
+		CMovingBitmap restart_1, restart_2;
+		CMovingBitmap clock, clock_shelf, clock_get, clock_1, clock_1_shelf, clock_1_get, clock_2, clock_2_shelf, clock_2_get;
+		CMovingBitmap direction_1, direction_2, direction_3;
 		CMovingBitmap exit;
-		CMovingBitmap musicButton_play;
-		CMovingBitmap musicButton_play_1;
-		CMovingBitmap musicButton_unplay;
-		CMovingBitmap bubble;
-		CMovingBitmap bubble_fly;
-		CMovingBitmap flower;
-		CMovingBitmap flower_fly;
-		CMovingBitmap meow;
-		CMovingBitmap meow_fly;
+		CMovingBitmap musicButton_play, musicButton_play_1, musicButton_unplay;
+		CMovingBitmap bubble, bubble_fly;
+		CMovingBitmap flower, flower_fly;
+		CMovingBitmap meow, meow_fly;
 		CMovingBitmap block;
 		void show_image_by_phase();
 		void show_image_unpass();
 		void show_image_pass();
 		void show_text_by_phase();
-		bool validate_phase_1();
-		bool validate_phase_2();
-		bool validate_phase_3();
-		bool validate_phase_4();
-		bool validate_phase_5();
-		bool validate_phase_6();
+		bool validate_phase_1(), validate_phase_2(), validate_phase_3(), validate_phase_4(), validate_phase_5(), validate_phase_6();
 		//因腳色沒有碰到方向只會左右移動
 		bool isMovingLeft = false;
 		bool isMovingRight = true;
@@ -212,9 +177,11 @@ namespace game_framework {
 		bool bitmapOverlap(CMovingBitmap a, CMovingBitmap b, int offsetX, int offsetY);
 		bool dir1_click = false; //判斷第三關哪個dir被點擊中
 		bool dir2_click = true;
-		void Level1_init();
-		void Level2_init();
-		void Level3_init();
+		void Level1_init(),Level2_init(),Level3_init(),Level4_init();
+		CMovingBitmap exit1, exit2; // phase4
+		CMovingBitmap c1_flower, c2_bubble; //phase4 character
+		CMovingBitmap dir_f1, dir_f2, dir_f3, dir_b1, dir_b2, dir_b3;//phase4 dir button
+		CMovingBitmap block1, block2, block3;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
