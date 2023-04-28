@@ -489,7 +489,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			dir3 = bitmapOverlap(c1_flower, dir_f3, 50, -50);
 		}
 		if (!dir1_b_f) {
-			dir1_b = bitmapOverlap(c2_bubble, dir_b1, 65, -50);
+			dir1_b = bitmapOverlap(c2_bubble, dir_b1, 65, -50); //65,-50
 		}
 		if (!dir2_b) {
 			dir2_b = bitmapOverlap(c2_bubble, dir_b2, 65, -50);
@@ -946,6 +946,45 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 				direction_2.SetTopLeft(point.x - 25, point.y - 15);
 			}
 		}
+		//設定第四關點擊dirf1,dirf3,dirb1,dirb3就可讓dir跟著滑鼠位置移動
+		if (!isStart && !pass && phase == 4) {
+			if (point.x > dir_f1.GetLeft() && point.x <= dir_f1.GetLeft() + dir_f1.GetWidth()) {
+				if (point.y > dir_f1.GetTop() && point.y <= dir_f1.GetTop() + dir_f1.GetHeight()) {
+					dirf1_click = true;
+					isDirectionMove = true;
+				}
+			}
+			if (point.x > dir_f3.GetLeft() && point.x <= dir_f3.GetLeft() + dir_f3.GetWidth()) {
+				if (point.y > dir_f3.GetTop() && point.y <= dir_f3.GetTop() + dir_f3.GetHeight()) {
+					dirf3_click = true;
+					isDirectionMove = true;
+				}
+			}
+			if (point.x > dir_b1.GetLeft() && point.x <= dir_b1.GetLeft() + dir_b1.GetWidth()) {
+				if (point.y > dir_b1.GetTop() && point.y <= dir_b1.GetTop() + dir_b1.GetHeight()) {
+					dirb1_click = true;
+					isDirectionMove = true;
+				}
+			}
+			if (point.x > dir_b3.GetLeft() && point.x <= dir_b3.GetLeft() + dir_b3.GetWidth()) {
+				if (point.y > dir_b3.GetTop() && point.y <= dir_b3.GetTop() + dir_b3.GetHeight()) {
+					dirb3_click = true;
+					isDirectionMove = true;
+				}
+			}
+			if (isDirectionMove && dirf1_click) {
+				dir_f1.SetTopLeft(point.x - 25, point.y - 15);
+			}
+			else if (isDirectionMove && dirf3_click) {
+				dir_f3.SetTopLeft(point.x - 25, point.y - 15);
+			}
+			else if (isDirectionMove && dirb1_click) {
+				dir_b1.SetTopLeft(point.x - 25, point.y - 15);
+			}
+			else if (isDirectionMove && dirb3_click) {
+				dir_b3.SetTopLeft(point.x - 25, point.y - 15);
+			}
+		}
 		//設定過關後點擊重新開始
 		if (pass) {
 			if (point.x > restart_1.GetLeft() + 25 && point.x <= restart_1.GetLeft() + restart_1.GetWidth() - 25) {
@@ -1036,6 +1075,25 @@ void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 				dir2_click = false;
 			}
 		}
+		else if (phase == 4) {
+			// 要知道點擊了哪個dir
+			if (dirf1_click == true) {
+				dir_f1.SetTopLeft(point.x - 25, point.y - 15);
+				dirf1_click = false;
+			}
+			else if (dirf3_click == true) {
+				dir_f3.SetTopLeft(point.x - 25, point.y - 15);
+				dirf3_click = false;
+			}
+			else if (dirb1_click == true) {
+				dir_b1.SetTopLeft(point.x - 25, point.y - 15);
+				dirb1_click = false;
+			}
+			else if (dirb3_click == true) {
+				dir_b3.SetTopLeft(point.x - 25, point.y - 15);
+				dirb3_click = false;
+			}
+		}
 	}
 }
 
@@ -1054,6 +1112,25 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動
 			}
 			else if (dir2_click == true) {
 				direction_2.SetTopLeft(point.x - 25, point.y - 15);
+				//dir2_click = false;
+			}
+		}
+		else if (phase == 4) {
+			// 要知道點擊了哪個dir
+			if (dirf1_click == true) {
+				dir_f1.SetTopLeft(point.x - 25, point.y - 15);
+				//dir1_click = false;
+			}
+			else if (dirf3_click == true) {
+				dir_f3.SetTopLeft(point.x - 25, point.y - 15);
+				//dir2_click = false;
+			}
+			else if (dirb1_click == true) {
+				dir_b1.SetTopLeft(point.x - 25, point.y - 15);
+				//dir1_click = false;
+			}
+			else if (dirb3_click == true) {
+				dir_b3.SetTopLeft(point.x - 25, point.y - 15);
 				//dir2_click = false;
 			}
 		}
@@ -1223,12 +1300,12 @@ void CGameStateRun::Level4_init() {
 	c2_bubble.SetTopLeft(430, 170);
 	c2_bubble.SetAnimation(300, false);
 	
-	dir_f1.SetTopLeft(60, 175);
+	dir_f1.SetTopLeft(600, 175);//60, 175
 	dir_f2.SetTopLeft(60, 473);
-	dir_f3.SetTopLeft(300, 473);
-	dir_b1.SetTopLeft(660, 175);
+	dir_f3.SetTopLeft(420, 305); // 300, 473
+	dir_b1.SetTopLeft(122, 175);//660, 175
 	dir_b2.SetTopLeft(657, 473);
-	dir_b3.SetTopLeft(420, 470);
+	dir_b3.SetTopLeft(300, 305);//420, 470
 	block1.SetTopLeft(192, 255);
 	block2.SetTopLeft(372, 255);
 	block3.SetTopLeft(492, 255);
@@ -1562,6 +1639,9 @@ void CGameStateRun::show_image_unpass() {
 		clock_1_shelf.ShowBitmap();
 		clock_2.ShowBitmap(0.3);
 		clock_2_shelf.ShowBitmap();
+		block1.ShowBitmap(0.7);
+		block2.ShowBitmap(0.7);
+		block3.ShowBitmap(0.7);
 		dir_f1.ShowBitmap();
 		dir_f2.ShowBitmap();
 		dir_f3.ShowBitmap();
@@ -1571,9 +1651,7 @@ void CGameStateRun::show_image_unpass() {
 
 		exit1.ShowBitmap(1.1);
 		exit2.ShowBitmap(1.2);
-		block1.ShowBitmap(0.7);
-		block2.ShowBitmap(0.7);
-		block3.ShowBitmap(0.7);
+		
 		c1_flower.ShowBitmap(0.7);
 		c2_bubble.ShowBitmap(0.7);
 	}
@@ -1611,6 +1689,9 @@ void CGameStateRun::show_image_unpass() {
 		clock_1.ShowBitmap(0.3);
 		clock_2.ShowBitmap(0.3);
 
+		block1.ShowBitmap(0.7);
+		block2.ShowBitmap(0.7);
+		block3.ShowBitmap(0.7);
 		dir_f1.ShowBitmap();
 		dir_f2.ShowBitmap();
 		dir_f3.ShowBitmap();
@@ -1620,9 +1701,7 @@ void CGameStateRun::show_image_unpass() {
 
 		exit1.ShowBitmap(1.1);
 		exit2.ShowBitmap(1.2);
-		block1.ShowBitmap(0.7);
-		block2.ShowBitmap(0.7);
-		block3.ShowBitmap(0.7);
+		
 		c1_flower.ShowBitmap(0.7);
 		c2_bubble.ShowBitmap(0.7);
 		show_text_by_phase();

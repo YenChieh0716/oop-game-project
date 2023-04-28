@@ -198,7 +198,12 @@ namespace game_framework {
 		//	phase4 character pass
 		bool f_pass = false; // flower pass
 		bool b_pass = false; // bubble pass
-		int passNum = 0;
+
+		//	phase4 dir click
+		bool dirf1_click = false;
+		bool dirf3_click = false;
+		bool dirb1_click = false;
+		bool dirb3_click = false;
 
 	};
 
