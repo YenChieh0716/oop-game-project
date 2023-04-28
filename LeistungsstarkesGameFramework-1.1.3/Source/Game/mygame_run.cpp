@@ -33,7 +33,7 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::onCharacterMove() {
 	const int STEP_SIZE = 5;
-	int x, y;
+	int x, y,x2,y2;
 	if (phase == 1) {
 		x = character.GetLeft();
 		y = character.GetTop();
@@ -46,6 +46,12 @@ void CGameStateRun::onCharacterMove() {
 		x = character3.GetLeft();
 		y = character3.GetTop();
 	}
+	else if (phase == 4) {
+		x = c1_flower.GetLeft();
+		y = c1_flower.GetTop();
+		x2 = c2_bubble.GetLeft();
+		y2 = c2_bubble.GetTop();
+	}
 
 	//bool dir;絕對值相減
 	if (x <= 70) {
@@ -55,6 +61,15 @@ void CGameStateRun::onCharacterMove() {
 	else if (x >= 680) {
 		isMovingLeft = true;
 		isMovingRight = false;
+	}
+
+	if (x2 <= 70) {
+		isMovingLeft_b = false;
+		isMovingRight_b = true;
+	}
+	else if (x2 >= 680) {
+		isMovingLeft_b = true;
+		isMovingRight_b = false;
 	}
 	if (phase == 1) {
 		if (dir1) {
@@ -181,6 +196,113 @@ void CGameStateRun::onCharacterMove() {
 			}
 		}
 	}
+	if (phase == 4) {
+		//dir1~dir3 for flower overlap
+		if (dir1) {
+			if (!dir1_f) {
+				dir1_f = true;
+				isMovingUp = true;
+				isMovingDown = false;
+				isMovingRight = false;
+				isMovingLeft = false;
+			}
+			if (y <= 100) {
+				isMovingUp = false;
+				isMovingDown = true;
+			}
+			else if (y >= 465) {
+				isMovingUp = true;
+				isMovingDown = false;
+			}
+		}
+		if (dir2) {
+			if (!dir2_f) {
+				dir2_f = true;
+				isMovingUp = false;
+				isMovingDown = false;
+				isMovingRight = true;
+				isMovingLeft = false;
+			}
+			if (x <= 70) {
+				isMovingLeft = false;
+				isMovingRight = true;
+			}
+			else if (x >= 680) {
+				isMovingLeft = true;
+				isMovingRight = false;
+			}
+		}
+		if (dir3) {
+			if (!dir3_f) {
+				dir3_f = true;
+				isMovingUp = true;
+				isMovingDown = false;
+				isMovingRight = false;
+				isMovingLeft = false;
+			}
+			if (y <= 100) {
+				isMovingUp = false;
+				isMovingDown = true;
+			}
+			else if (y >= 465) {
+				isMovingUp = true;
+				isMovingDown = false;
+			}
+		}
+		if (dir1_b) {
+			if (!dir1_b_f) {
+				dir1_b_f = true;
+				isMovingUp_b = true;
+				isMovingDown_b = false;
+				isMovingRight_b = false;
+				isMovingLeft_b = false;
+			}
+			if (y2 <= 100) {
+				isMovingUp_b = false;
+				isMovingDown_b = true;
+			}
+			//因在碰到左方向時也觸發了到達地圖底部，會有往左上方向移動的bug，加 && !dir2_b_f解決
+			else if (y2 >= 465 && !dir2_b_f) {
+				isMovingUp_b = true;
+				isMovingDown_b = false;
+			}
+		}
+		if (dir2_b) {
+			if (!dir2_b_f) {
+				dir2_b_f = true;
+				isMovingUp_b = false;
+				isMovingDown_b = false;
+				isMovingRight_b = false;
+				isMovingLeft_b = true;
+			}
+			if (x2 <= 70) {
+				isMovingLeft_b = false;
+				isMovingRight_b = true;
+			}
+			else if (x2 >= 680) {
+				isMovingLeft_b = true;
+				isMovingRight_b = false;
+			}
+		}
+		if (dir3_b) {
+			if (!dir3_b_f) {
+				dir3_b_f = true;
+				isMovingUp_b = true;
+				isMovingDown_b = false;
+				isMovingRight_b = false;
+				isMovingLeft_b = false;
+			}
+			if (y2 <= 100) {
+				isMovingUp_b = false;
+				isMovingDown_b = true;
+			}
+			else if (y2 >= 465) {
+				isMovingUp_b = true;
+				isMovingDown_b = false;
+			}
+		}
+		
+	}
 	if (isMovingLeft)
 		x -= STEP_SIZE;
 	if (isMovingRight)
@@ -189,12 +311,26 @@ void CGameStateRun::onCharacterMove() {
 		y -= STEP_SIZE;
 	if (isMovingDown)
 		y += STEP_SIZE;
+
+	if (isMovingLeft_b)
+		x2 -= STEP_SIZE;
+	if (isMovingRight_b)
+		x2 += STEP_SIZE;
+	if (isMovingUp_b)
+		y2 -= STEP_SIZE;
+	if (isMovingDown_b)
+		y2 += STEP_SIZE;
+
 	if(phase == 1)
 		character.SetTopLeft(x, y);
 	else if(phase == 2)
 		character2.SetTopLeft(x, y);
 	else if (phase == 3)
 		character3.SetTopLeft(x, y);
+	else if (phase == 4) {
+		c1_flower.SetTopLeft(x, y);
+		c2_bubble.SetTopLeft(x2, y2);
+	}
 }
 
 void  CGameStateRun::onCloudsMove() {
@@ -341,6 +477,71 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (isCharacterMove)
 			onCharacterMove();
 	}
+	//第四關
+	if (phase == 4 && !pass) {
+		if (!dir1) {
+			dir1 = bitmapOverlap(c1_flower, dir_f1, -70, -50);
+		}
+		if (!dir2) {
+			dir2 = bitmapOverlap(c1_flower, dir_f2, 50, -50);
+		}
+		if (!dir3) {
+			dir3 = bitmapOverlap(c1_flower, dir_f3, 50, -50);
+		}
+		if (!dir1_b_f) {
+			dir1_b = bitmapOverlap(c2_bubble, dir_b1, 65, -50);
+		}
+		if (!dir2_b) {
+			dir2_b = bitmapOverlap(c2_bubble, dir_b2, 65, -50);
+		}
+		if (!dir3_b) {
+			dir3_b = bitmapOverlap(dir_b3,c2_bubble, 40, 0);
+		}
+		if (!pass) {
+			 //= pass;
+			//pass = bitmapOverlap(exit2,c1_flower, 20, -10);
+			//pass = bitmapOverlap(exit1, c2_bubble, 20, -10);
+			if (!f_pass&& isStart) {
+				f_pass = bitmapOverlap(exit2, c1_flower, 20, -10); //花先抵達出口
+				//if (f_pass) 
+					//passNum += 1;
+			}
+			if (!b_pass&& isStart) {
+				b_pass = bitmapOverlap(exit1, c2_bubble, 20, -10); //泡泡
+				//if (b_pass)
+					//passNum += 1;
+			}
+			if (f_pass && b_pass && isStart) {
+				pass = true;
+				isCharacterMove = false;
+				CAudio::Instance()->Pause();
+				if (isBGMPlay) {
+					CAudio::Instance()->Play(AUDIO_PASS); // 切換到關卡開始畫面撥放另一音樂
+				}
+			}
+			
+		}
+		if (!clock1) {
+			clock1 = bitmapOverlap(c1_flower, clock, 0, 0);
+			if(!clock1)
+				clock1 = bitmapOverlap(c2_bubble, clock, 0, 0);
+		}
+			//clock1 = false;
+			
+		if (!clock2) {
+			clock2 = bitmapOverlap(c1_flower, clock_1, 0, 0);
+			if (!clock2)
+				clock2 = bitmapOverlap(c2_bubble, clock_1, 50, 20);
+		}
+		if (!clock3) {
+			clock3 = bitmapOverlap(c1_flower, clock_2, 0, 0);
+			if (!clock3)
+				clock3 = bitmapOverlap(c2_bubble, clock_2, -100, 0);
+		}
+			
+		if (isCharacterMove)
+			onCharacterMove();
+	}
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -472,7 +673,20 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//第三關障礙物
 	block.LoadBitmapByString({ "resources/runState/stage3/block.bmp" }, RGB(1, 1, 1));
 	block.SetTopLeft(62,290);
-
+	//第四關
+	exit1.LoadBitmapByString({ "resources/runState/stage4/door_1.bmp" }, RGB(1, 1, 1));
+	exit2.LoadBitmapByString({ "resources/runState/stage4/door_2.bmp" }, RGB(1, 1, 1));
+	c1_flower.LoadBitmapByString({ "resources/runState/stage4/flower_1.bmp","resources/runState/stage4/flower_2.bmp","resources/runState/stage4/flower_3.bmp" }, RGB(1, 1, 1));
+	c2_bubble.LoadBitmapByString({ "resources/runState/stage4/bubble.bmp","resources/runState/stage4/bubble_1.bmp","resources/runState/stage4/bubble_2.bmp" }, RGB(254, 254, 254));
+	dir_f1.LoadBitmap("resources/runState/stage4/direction_1.bmp", RGB(1, 1, 1));
+	dir_f2.LoadBitmap("resources/runState/stage4/direction_2.bmp", RGB(1, 1, 1));
+	dir_f3.LoadBitmap("resources/runState/stage4/direction_3.bmp", RGB(1, 1, 1));
+	dir_b1.LoadBitmap("resources/runState/stage4/dir1.bmp", RGB(1, 1, 1));
+	dir_b2.LoadBitmap("resources/runState/stage4/dir2.bmp", RGB(1, 1, 1));
+	dir_b3.LoadBitmap("resources/runState/stage4/dir3.bmp", RGB(1, 1, 1));
+	block1.LoadBitmap("resources/runState/stage4/block1.bmp");
+	block2.LoadBitmap("resources/runState/stage4/block2.bmp");
+	block3.LoadBitmap("resources/runState/stage4/block3.bmp");
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -1002,33 +1216,21 @@ void CGameStateRun::Level3_init() {
 	pass = false;
 }
 void CGameStateRun::Level4_init() {
-	exit1.LoadBitmapByString({ "resources/runState/stage4/door_1.bmp" },RGB(1,1,1));
-	exit2.LoadBitmapByString({ "resources/runState/stage4/door_2.bmp" },RGB(1,1,1));
 	exit1.SetTopLeft(430, 90);
 	exit2.SetTopLeft(310, 90);
-	c1_flower.LoadBitmapByString({ "resources/runState/stage4/flower_1.bmp","resources/runState/stage4/flower_2.bmp","resources/runState/stage4/flower_3.bmp" },RGB(1, 1, 1));
 	c1_flower.SetTopLeft(310, 160);
 	c1_flower.SetAnimation(300, false);
-	c2_bubble.LoadBitmapByString({ "resources/runState/stage4/bubble.bmp","resources/runState/stage4/bubble_1.bmp","resources/runState/stage4/bubble_2.bmp" }, RGB(254, 254, 254));
 	c2_bubble.SetTopLeft(430, 170);
 	c2_bubble.SetAnimation(300, false);
-	dir_f1.LoadBitmap("resources/runState/stage4/direction_1.bmp", RGB(1, 1, 1));
+	
 	dir_f1.SetTopLeft(60, 175);
-	dir_f2.LoadBitmap("resources/runState/stage4/direction_2.bmp", RGB(1, 1, 1));
 	dir_f2.SetTopLeft(60, 473);
-	dir_f3.LoadBitmap("resources/runState/stage4/direction_3.bmp", RGB(1, 1, 1));
 	dir_f3.SetTopLeft(300, 473);
-	dir_b1.LoadBitmap("resources/runState/stage4/dir1.bmp", RGB(1, 1, 1));
 	dir_b1.SetTopLeft(660, 175);
-	dir_b2.LoadBitmap("resources/runState/stage4/dir2.bmp", RGB(1, 1, 1));
 	dir_b2.SetTopLeft(657, 473);
-	dir_b3.LoadBitmap("resources/runState/stage4/dir3.bmp", RGB(1, 1, 1));
 	dir_b3.SetTopLeft(420, 470);
-	block1.LoadBitmap("resources/runState/stage4/block1.bmp");
 	block1.SetTopLeft(192, 255);
-	block2.LoadBitmap("resources/runState/stage4/block2.bmp");
 	block2.SetTopLeft(372, 255);
-	block3.LoadBitmap("resources/runState/stage4/block3.bmp");
 	block3.SetTopLeft(492, 255);
 
 	clock.SetTopLeft(80, 305);
@@ -1037,12 +1239,12 @@ void CGameStateRun::Level4_init() {
 	clock_shelf.SetTopLeft(75, 355);
 	clock_1_shelf.SetTopLeft(675, 175);
 	clock_2_shelf.SetTopLeft(497, 535);
-	//character.ShowBitmap();
+
 	dir1 = false;
 	dir2 = false;
 	dir3 = false;
-	isMovingLeft = false;//初始為往右走
-	isMovingRight = true;
+	isMovingLeft = true;//花花初始為往左走
+	isMovingRight = false;
 	isMovingUp = false;
 	isMovingDown = false;
 	isDirectionMove = false;

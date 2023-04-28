@@ -89,7 +89,8 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CGameStateInit::OnShow()
 {
-	/*	註解部分為遊戲載入畫面
+	// 註解部分為遊戲載入畫面
+	
 	if (!isInitialed) {	//loading 畫面
 		times += 2;
 		if (times > 0 && times < 120) {
@@ -115,8 +116,8 @@ void CGameStateInit::OnShow()
 		loading_2.ShowBitmap();
 		loading_3.ShowBitmap();
 		loading_bg.ShowBitmap();
-	}*/
-	//else {
+	}
+	else {
 		background_stars.ShowBitmap();
 		background.ShowBitmap();
 		onSleepMove(sleep_1, 450, 220);
@@ -133,7 +134,7 @@ void CGameStateInit::OnShow()
 		Mailbox.ShowBitmap();
 		Mailbox_logo.ShowBitmap();
 		Mailbox_flag.ShowBitmap();
-	//}
+	}
 	//draw_text(); //不是載入
 }
 void CGameStateInit::load_background() {

@@ -180,8 +180,26 @@ namespace game_framework {
 		void Level1_init(),Level2_init(),Level3_init(),Level4_init();
 		CMovingBitmap exit1, exit2; // phase4
 		CMovingBitmap c1_flower, c2_bubble; //phase4 character
-		CMovingBitmap dir_f1, dir_f2, dir_f3, dir_b1, dir_b2, dir_b3;//phase4 dir button
-		CMovingBitmap block1, block2, block3;
+		CMovingBitmap dir_f1, dir_f2, dir_f3, dir_b1, dir_b2, dir_b3;//phase4 dir button img
+		CMovingBitmap block1, block2, block3; //phase4 block img
+		//phase4 dir button overlap
+		bool dir1_b = false;
+		bool dir2_b = false;
+		bool dir3_b = false;
+		bool dir1_b_f = false; //用於設定初始方向
+		bool dir2_b_f = false;
+		bool dir3_b_f = false;
+		// phase4 character initial direction(for bubble)
+		bool isMovingLeft_b = false;
+		bool isMovingRight_b = true;
+		bool isMovingUp_b = false;
+		bool isMovingDown_b = false;
+		bool isCharacterMove_b = false;
+		//	phase4 character pass
+		bool f_pass = false; // flower pass
+		bool b_pass = false; // bubble pass
+		int passNum = 0;
+
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
