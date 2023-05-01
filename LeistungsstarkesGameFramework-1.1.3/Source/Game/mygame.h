@@ -137,7 +137,7 @@ namespace game_framework {
 		CMovingBitmap start, start_1;
 		CMovingBitmap restart_1, restart_2;
 		CMovingBitmap clock, clock_shelf, clock_get, clock_1, clock_1_shelf, clock_1_get, clock_2, clock_2_shelf, clock_2_get;
-		CMovingBitmap direction_1, direction_2, direction_3;
+		CMovingBitmap direction_1, direction_2, direction_3,direction_4;
 		CMovingBitmap exit;
 		CMovingBitmap musicButton_play, musicButton_play_1, musicButton_unplay;
 		CMovingBitmap bubble, bubble_fly;
@@ -161,9 +161,11 @@ namespace game_framework {
 		bool dir1 = false;
 		bool dir2 = false;
 		bool dir3 = false;
+		bool dir4 = false;//phase5增加
 		bool dir1_f = false; //用於設定初始方向
 		bool dir2_f = false;
 		bool dir3_f = false;
+		bool dir4_f = false;//phase5增加
 		bool pass = false;
 		bool clock1 = false;
 		bool clock2 = false;
@@ -177,7 +179,7 @@ namespace game_framework {
 		bool bitmapOverlap(CMovingBitmap a, CMovingBitmap b, int offsetX, int offsetY);
 		bool dir1_click = false; //判斷第三關哪個dir被點擊中
 		bool dir2_click = true;
-		void Level1_init(),Level2_init(),Level3_init(),Level4_init();
+		void Level1_init(),Level2_init(),Level3_init(),Level4_init(),Level5_init();
 		CMovingBitmap exit1, exit2; // phase4
 		CMovingBitmap c1_flower, c2_bubble; //phase4 character
 		CMovingBitmap dir_f1, dir_f2, dir_f3, dir_b1, dir_b2, dir_b3;//phase4 dir button img

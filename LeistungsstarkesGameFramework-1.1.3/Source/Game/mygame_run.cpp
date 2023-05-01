@@ -28,7 +28,7 @@ void CGameStateRun::OnBeginState()
 	//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
 	//isBGMPlay = BGMPlay;
 	fill(getClock_arr,getClock_arr + 30, 0);
-	phase = 4;
+	phase = 5;
 }
 
 void CGameStateRun::onCharacterMove() {
@@ -51,6 +51,10 @@ void CGameStateRun::onCharacterMove() {
 		y = c1_flower.GetTop();
 		x2 = c2_bubble.GetLeft();
 		y2 = c2_bubble.GetTop();
+	}
+	else if (phase == 5) {
+		x = character3.GetLeft();
+		y = character3.GetTop();
 	}
 
 	//bool dir;絕對值相減
@@ -303,6 +307,77 @@ void CGameStateRun::onCharacterMove() {
 		}
 		
 	}
+	if (phase == 5) {
+		if (dir1) {
+			if (!dir1_f) {
+				dir1_f = true;
+				isMovingUp = true;
+				isMovingDown = false;
+				isMovingRight = false;
+				isMovingLeft = false;
+			}
+			if (y <= 100) {
+				isMovingUp = false;
+				isMovingDown = true;
+			}
+			else if (y >= 465) {
+				isMovingUp = true;
+				isMovingDown = false;
+			}
+		}
+		if (dir2) {
+			if (!dir2_f) {
+				dir2_f = true;
+				isMovingUp = false;
+				isMovingDown = false;
+				isMovingRight = false;
+				isMovingLeft = true;
+			}
+			if (x <= 70) {
+				isMovingLeft = false;
+				isMovingRight = true;
+			}
+			else if (x >= 680) {
+				isMovingLeft = true;
+				isMovingRight = false;
+			}
+		}
+		if (dir3) {
+			if (!dir3_f) {
+				dir3_f = true;
+				isMovingUp = false;
+				isMovingDown = true;
+				isMovingRight = false;
+				isMovingLeft = false;
+			}
+			if (y <= 100) {
+				isMovingUp = false;
+				isMovingDown = true;
+			}
+			else if (y >= 465) {
+				isMovingUp = true;
+				isMovingDown = false;
+			}
+		}
+		if (dir4) {
+			if (!dir4_f) {
+				dir4_f = true;
+				isMovingUp = false;
+				isMovingDown = false;
+				isMovingRight = true;
+				isMovingLeft = false;
+			}
+			if (x <= 70) {
+				isMovingLeft = false;
+				isMovingRight = true;
+			}
+			else if (x >= 680) {
+				isMovingLeft = true;
+				isMovingRight = false;
+			}
+		}
+		
+	}
 	if (isMovingLeft)
 		x -= STEP_SIZE;
 	if (isMovingRight)
@@ -331,6 +406,8 @@ void CGameStateRun::onCharacterMove() {
 		c1_flower.SetTopLeft(x, y);
 		c2_bubble.SetTopLeft(x2, y2);
 	}
+	else if (phase == 5)
+		character3.SetTopLeft(x, y);
 }
 
 void  CGameStateRun::onCloudsMove() {
@@ -366,6 +443,7 @@ bool CGameStateRun::bitmapOverlap(CMovingBitmap a, CMovingBitmap b, int offsetX,
 	int Y1_b = b.GetTop() - 5;
 	int X2_b = X1_b + b.GetWidth();
 	int Y2_b = Y1_b + b.GetHeight() - 5;
+
 	if ((Y2 >= Y1_b) && (Y2_b >= Y1) && (X2 >= X1_b) && (X1 <= X2_b)) {
 		return true;
 	}
@@ -542,6 +620,62 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (isCharacterMove)
 			onCharacterMove();
 	}
+	//第五關
+	if (phase == 5 && !pass) {
+		if (!dir1) {
+			dir1 = bitmapOverlap(character3, direction_1, 50, -50);
+			//dir1 = character2.IsOverlap(character2, direction_1);
+		}
+		if (!dir2) {
+			dir2 = bitmapOverlap(character3, direction_2, 30, 60);
+		}
+		if (!dir3) {
+			dir3 = bitmapOverlap(character3, direction_3, -80, -50);
+		}
+		if (!dir4) {
+			int X1 = direction_4.GetLeft() + 50;
+			int Y1 = direction_4.GetTop() -110 ;
+			int X2 = X1 + direction_4.GetWidth() + 50;
+			int Y2 = Y1 + direction_4.GetHeight() -110;
+			int X1_b = character3.GetLeft();
+			int Y1_b = character3.GetTop() - 150;
+			int X2_b = X1_b + character3.GetWidth();
+			int Y2_b = Y1_b + character3.GetHeight() -60;
+			if ((Y2 >= Y1_b) && (Y2_b >= Y1) && (X2 >= X1_b) && (X1 <= X2_b)) {
+				dir4 =  true;
+			}
+					/*if (character3.GetTop() >= (direction_4.GetTop()-character3.GetHeight())) {
+						//dir4 = true;
+						if (character3.GetTop() <= (direction_4.GetTop()-direction_4.GetHeight()))
+							dir4 = true;
+					}*/
+				//dir4 = true;
+				/*if (character3.GetLeft() + character3.GetWidth() > direction_4.GetLeft()) {
+				if (character3.GetLeft() < (direction_4.GetLeft() + direction_4.GetWidth()))*/
+		//}
+		//dir4 = bitmapOverlap(direction_4, character3, -50, -50);
+			//}
+		}
+		if (!pass) {
+			pass = bitmapOverlap(character3, exit, 0, 0); // 抵達出口
+			if (pass) {
+				isCharacterMove = false;
+				CAudio::Instance()->Pause();
+				if (isBGMPlay) {
+					CAudio::Instance()->Play(AUDIO_PASS); // 切換到關卡開始畫面撥放另一音樂
+				}
+			}
+		}
+		if (!clock1)
+			//clock1 = false;
+			clock1 = bitmapOverlap(character3, clock, 0, 0);
+		if (!clock2)
+			clock2 = bitmapOverlap(character3, clock_1, 0, 0);
+		if (!clock3)
+			clock3 = bitmapOverlap(character3, clock_2, 0, 0);
+		if (isCharacterMove)
+			onCharacterMove();
+	}
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -588,7 +722,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	clock_2_shelf.SetTopLeft(615, 238);
 
 	stage.LoadBitmap("resources/runState/stage.bmp", RGB(1, 1, 1));
-	stage_num.LoadBitmapByString({ "resources/runState/stage_num.bmp", "resources/runState/stage2/stage_num.bmp", "resources/runState/stage3/stage_num.bmp","resources/runState/stage4/stage_num.bmp" }, RGB(1, 1, 1));
+	stage_num.LoadBitmapByString({ "resources/runState/stage_num.bmp", "resources/runState/stage2/stage_num.bmp", "resources/runState/stage3/stage_num.bmp","resources/runState/stage4/stage_num.bmp","resources/runState/stage5/stage_num.bmp" }, RGB(1, 1, 1));
 	stage.SetTopLeft(310, 20);
 	stage_num.SetTopLeft(490, 20);
 
@@ -606,13 +740,14 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	restart_1.SetTopLeft(697, 12);
 	restart_2.SetTopLeft(700, 19);
 
-	direction_1.LoadBitmapByString({ "resources/runState/direction_1_1.bmp", "resources/runState/stage2/dir1.bmp", "resources/runState/stage3/dir1.bmp" }, RGB(1, 1, 1));
-	direction_2.LoadBitmapByString({ "resources/runState/direction_2.bmp", "resources/runState/stage2/dir2.bmp", "resources/runState/stage3/dir2.bmp" }, RGB(1, 1, 1));
-	direction_3.LoadBitmapByString({ "resources/runState/stage2/dir3.bmp" }, RGB(1, 1, 1));
+	direction_1.LoadBitmapByString({ "resources/runState/direction_1_1.bmp", "resources/runState/stage2/dir1.bmp", "resources/runState/stage3/dir1.bmp","resources/runState/stage5/dir1.bmp" }, RGB(1, 1, 1));
+	direction_2.LoadBitmapByString({ "resources/runState/direction_2.bmp", "resources/runState/stage2/dir2.bmp", "resources/runState/stage3/dir2.bmp","resources/runState/stage5/dir2.bmp" }, RGB(1, 1, 1));
+	direction_3.LoadBitmapByString({ "resources/runState/stage2/dir3.bmp","resources/runState/stage5/dir3.bmp" }, RGB(1, 1, 1));
+	direction_4.LoadBitmapByString({ "resources/runState/stage5/dir4.bmp" }, RGB(1, 1, 1));
 	direction_1.SetTopLeft(180, 173);
 	direction_2.SetTopLeft(358, 415);
 
-	exit.LoadBitmapByString({ "resources/runState/door_1.bmp", "resources/runState/stage2/door_1.bmp","resources/runState/stage3/exit.bmp" }, RGB(0, 0, 0));
+	exit.LoadBitmapByString({ "resources/runState/door_1.bmp", "resources/runState/stage2/door_1.bmp","resources/runState/stage3/exit.bmp","resources/runState/stage5/exit.bmp" }, RGB(0, 0, 0));
 	exit.SetTopLeft(713, 193);
 
 	clock_get.LoadBitmapByString({ "resources/runState/clock_1.bmp" ,"resources/runState/pass/clock_1.bmp" }, RGB(1, 1, 1));
@@ -658,10 +793,10 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 			Levels_bg[i].SetTopLeft(116 + (110 * (i % 5)), 145 + 120 * int(i / 5));
 		}
 		// i+1<=phase
-		if (i + 1 <= 4) {
+		if (i + 1 <= 5) {
 			string temp = "resources/level_bg/" + std::to_string(i + 1) + ".bmp";
 			Levels_num[i].LoadBitmapByString({ temp }, RGB(1, 1, 1));
-			Levels_num[i].SetTopLeft(163 + (100 * (i % 5)), 125 + 120 * int(i / 5) );
+			Levels_num[i].SetTopLeft(163 + (107 * (i % 5)), 125 + 120 * int(i / 5) );
 			Levels_clock1[i].LoadBitmapByString({"resources/level_bg/greenClock.bmp","resources/level_bg/whiteClock.bmp"}, RGB(1, 1, 1));
 			Levels_clock1[i].SetTopLeft(129 + (110 * (i % 5)), 170 + 120 * int(i / 5));
 			Levels_clock2[i].LoadBitmapByString({ "resources/level_bg/greenClock.bmp","resources/level_bg/whiteClock.bmp" }, RGB(1, 1, 1));
@@ -670,9 +805,8 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 			Levels_clock3[i].SetTopLeft(179 + (110 * (i % 5)), 170 + 120 * int(i / 5));
 		}	
 	}
-	//第三關障礙物
-	block.LoadBitmapByString({ "resources/runState/stage3/block.bmp" }, RGB(1, 1, 1));
-	block.SetTopLeft(62,290);
+	//第三、五關障礙物
+	block.LoadBitmapByString({ "resources/runState/stage3/block.bmp","resources/runState/stage5/block.bmp" }, RGB(1, 1, 1));
 	//第四關
 	exit1.LoadBitmapByString({ "resources/runState/stage4/door_1.bmp" }, RGB(1, 1, 1));
 	exit2.LoadBitmapByString({ "resources/runState/stage4/door_2.bmp" }, RGB(1, 1, 1));
@@ -812,6 +946,10 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					}
 					else if (phase == 4) {
 						Level4_init();
+					}
+					/*第5關點擊*/
+					else if (phase == 5) {
+						Level5_init();
 					}
 					//要把start位置調整回去,音樂按鈕選擇調回去，音樂切換到開始
 					start.SetTopLeft(697, 12);
@@ -985,6 +1123,18 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 				dir_b3.SetTopLeft(point.x - 25, point.y - 15);
 			}
 		}
+		//設定第五關點擊dir2就可讓dir2跟著滑鼠位置移動
+		if (!isStart && !pass && phase == 5) {
+			if (point.x > direction_2.GetLeft() && point.x <= direction_2.GetLeft() + direction_2.GetWidth()) {
+				if (point.y > direction_2.GetTop() && point.y <= direction_2.GetTop() + direction_2.GetHeight()) {
+					dir2_click = true;
+					isDirectionMove = true;
+				}
+			}
+			else if (isDirectionMove && dir1_click) {
+				direction_2.SetTopLeft(point.x - 25, point.y - 15);
+			}
+		}
 		//設定過關後點擊重新開始
 		if (pass) {
 			if (point.x > restart_1.GetLeft() + 25 && point.x <= restart_1.GetLeft() + restart_1.GetWidth() - 25) {
@@ -1000,6 +1150,12 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					}
 					else if (phase == 3) {
 						Level3_init();
+					}
+					else if (phase == 4) {
+						Level4_init();
+					}
+					else if (phase == 5) {
+						Level5_init();
 					}
 					if (isBGMPlay) {
 						CAudio::Instance()->Play(AUDIO_BUTTON);
@@ -1026,6 +1182,22 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					}
 					else if (phase == 3) {
 						Level3_init();
+						CAudio::Instance()->Pause();
+						if (isBGMPlay) {
+							CAudio::Instance()->Play(AUDIO_BUTTON);
+							//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
+						}
+					}
+					else if (phase == 4) {
+						Level4_init();
+						CAudio::Instance()->Pause();
+						if (isBGMPlay) {
+							CAudio::Instance()->Play(AUDIO_BUTTON);
+							//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
+						}
+					}
+					else if (phase == 5) {
+						Level5_init();
 						CAudio::Instance()->Pause();
 						if (isBGMPlay) {
 							CAudio::Instance()->Play(AUDIO_BUTTON);
@@ -1094,6 +1266,13 @@ void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 				dirb3_click = false;
 			}
 		}
+		else if (phase == 5) {
+			// 要知道點擊了哪個dir
+			if (dir2_click == true) {
+				direction_2.SetTopLeft(point.x - 25, point.y - 15);
+				dir2_click = false;
+			}
+		}
 	}
 }
 
@@ -1131,6 +1310,12 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動
 			}
 			else if (dirb3_click == true) {
 				dir_b3.SetTopLeft(point.x - 25, point.y - 15);
+				//dir2_click = false;
+			}
+		}
+		else if (phase == 5) {
+			if (dir2_click == true) {
+				direction_2.SetTopLeft(point.x - 25, point.y - 15);
 				//dir2_click = false;
 			}
 		}
@@ -1287,6 +1472,7 @@ void CGameStateRun::Level3_init() {
 	clock_1_shelf.SetTopLeft(375, 478);
 	clock_2_shelf.SetTopLeft(617, 355);
 	exit.SetTopLeft(30, 418);
+	block.SetTopLeft(62, 290);
 	stage_num.SetFrameIndexOfBitmap(2);
 	exit.SetFrameIndexOfBitmap(2);
 	times = 0;
@@ -1358,6 +1544,62 @@ void CGameStateRun::Level4_init() {
 	exit.SetTopLeft(30, 418);
 	stage_num.SetFrameIndexOfBitmap(3);
 	exit.SetFrameIndexOfBitmap(2);
+	times = 0;
+	pass = false;
+}
+void CGameStateRun::Level5_init() {
+	character3.SetTopLeft(130, 480);//dir3 130, 185
+	//character.ShowBitmap();
+	dir1 = false;
+	dir2 = false;
+	dir3 = false;
+	isMovingLeft = false;//初始為往右走
+	isMovingRight = true;
+	isMovingUp = false;
+	isMovingDown = false;
+	isDirectionMove = false;
+	//bool isRestart = false;
+	dir1_f = false; //用於設定初始方向
+	dir2_f = false;
+	dir3_f = false;
+	clock1 = false;
+	clock2 = false;
+	clock3 = false;
+	//以下是過關改動的畫面(已改動)
+	background.SetFrameIndexOfBitmap(0);
+	background.SetTopLeft(0, 100);
+	clock_get.SetFrameIndexOfBitmap(0);
+	clock_1_get.SetFrameIndexOfBitmap(0);
+	clock_2_get.SetFrameIndexOfBitmap(0);
+	clock_get.SetTopLeft(310, 20);
+	clock_1_get.SetTopLeft(370, 20);
+	clock_2_get.SetTopLeft(430, 20);
+	start.SetTopLeft(697, 12);
+	start_1.SetTopLeft(702, 12);
+	restart_1.SetTopLeft(697, 12);
+	restart_2.SetTopLeft(700, 19);
+	background_stars.SetFrameIndexOfBitmap(0);
+	background_stars.SetTopLeft(0, -605);
+	background_stars.ShowBitmap();
+	direction_1.SetFrameIndexOfBitmap(3);
+	direction_2.SetFrameIndexOfBitmap(3);
+	direction_3.SetFrameIndexOfBitmap(1);
+	character3.SetAnimation(300, false);
+	direction_1.SetTopLeft(597, 475);
+	direction_2.SetTopLeft(657, 173);
+	direction_3.SetTopLeft(120, 173);
+	direction_4.SetTopLeft(120, 415);
+	clock.SetTopLeft(380, 183);
+	clock_1.SetTopLeft(130, 305);
+	clock_2.SetTopLeft(622, 305);
+	clock_shelf.SetTopLeft(375, 233);
+	clock_1_shelf.SetTopLeft(125, 355);
+	clock_2_shelf.SetTopLeft(617, 355);
+	exit.SetTopLeft(717, 418);
+	block.SetFrameIndexOfBitmap(1);
+	block.SetTopLeft(318, 245);
+	stage_num.SetFrameIndexOfBitmap(4);
+	exit.SetFrameIndexOfBitmap(3);
 	times = 0;
 	pass = false;
 }
@@ -1707,7 +1949,93 @@ void CGameStateRun::show_image_unpass() {
 		show_text_by_phase();
 	}
 	}
+	else if (phase == 5) {
+	if (!isStart) { //重啟或剛開始；角色開始移動前畫面
+		if (isRestart) {
+			isRestart = false;
+			//clock.SetTopLeft(380, 193);
+			//clock_1.SetTopLeft(380, 428);
+			//clock_2.SetTopLeft(622, 305);
+		}
 
+
+		background_stars.ShowBitmap();
+		onCloudsMove();
+		stage.ShowBitmap();
+
+		stage_num.ShowBitmap();
+		show_image_by_phase();
+		level_1.ShowBitmap(0.7);
+		level.ShowBitmap(0.7);
+		start_1.ShowBitmap(0.7);
+		start.ShowBitmap(0.7);
+
+		clock.ShowBitmap(0.3);
+		clock_shelf.ShowBitmap();
+		clock_1.ShowBitmap(0.3);
+		clock_1_shelf.ShowBitmap();
+		clock_2.ShowBitmap(0.3);
+		clock_2_shelf.ShowBitmap();
+		direction_1.ShowBitmap();
+		direction_2.ShowBitmap();
+		direction_3.ShowBitmap();
+		direction_4.ShowBitmap();
+
+
+		exit.ShowBitmap();
+		block.ShowBitmap();
+		//character.SetTopLeft(185, 403);
+		character3.ShowBitmap(0.7);
+		//show_text_by_phase();
+	}
+	else if (isStart) {
+		background_stars.ShowBitmap();
+		onCloudsMove();
+		show_image_by_phase();
+		level_1.ShowBitmap(0.7);
+		level.ShowBitmap(0.7);
+		restart_2.ShowBitmap(0.7);
+		restart_1.ShowBitmap(0.7);
+		clock_get.ShowBitmap(0.7);
+		clock_1_get.ShowBitmap(0.7);
+		clock_2_get.ShowBitmap(0.7);
+		//character.ShowBitmap(0.5);
+		if (clock1) {
+			clock.SetTopLeft(320, 20);
+		}
+		else {
+			clock_shelf.ShowBitmap();
+		}
+		if (clock2) {
+			clock_1.SetTopLeft(380, 20);
+		}
+		else {
+			clock_1_shelf.ShowBitmap();
+		}
+		if (clock3) {
+			clock_2.SetTopLeft(440, 20);
+		}
+		else {
+			clock_2_shelf.ShowBitmap();
+		}
+		clock.ShowBitmap(0.3);
+		clock_1.ShowBitmap(0.3);
+		clock_2.ShowBitmap(0.3);
+
+		direction_1.ShowBitmap();
+		direction_2.ShowBitmap();
+		direction_3.ShowBitmap();
+		direction_4.ShowBitmap();
+		//direction_3.ShowBitmap();
+		exit.ShowBitmap();
+		block.ShowBitmap();
+		character3.SetAnimation(300, false);
+		character3.ShowBitmap(0.7);
+		//character.ShowBitmap(0.7);
+		//character.SetAnimation(300, false);
+		show_text_by_phase();
+	}
+	}
 }
 void CGameStateRun::show_image_pass() {
 	show_image_by_phase();
@@ -1846,6 +2174,15 @@ void CGameStateRun::OnShow()
 			}
 		}
 		else if (phase == 4) {
+			if (!pass)
+				show_image_unpass();
+			//顯示過關畫面(未完成)
+			else if (pass) {
+				show_image_pass();
+			}
+		}
+		else if (phase == 5) {
+			//times = 0;
 			if (!pass)
 				show_image_unpass();
 			//顯示過關畫面(未完成)
