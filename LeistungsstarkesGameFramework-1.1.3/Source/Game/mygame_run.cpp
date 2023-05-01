@@ -403,8 +403,10 @@ void CGameStateRun::onCharacterMove() {
 	else if (phase == 3)
 		character3.SetTopLeft(x, y);
 	else if (phase == 4) {
-		c1_flower.SetTopLeft(x, y);
-		c2_bubble.SetTopLeft(x2, y2);
+		if(isCharacterMove)
+			c1_flower.SetTopLeft(x, y);
+		if(isCharacterMove_b)
+			c2_bubble.SetTopLeft(x2, y2);
 	}
 	else if (phase == 5)
 		character3.SetTopLeft(x, y);
@@ -581,17 +583,21 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			//pass = bitmapOverlap(exit1, c2_bubble, 20, -10);
 			if (!f_pass&& isStart) {
 				f_pass = bitmapOverlap(exit2, c1_flower, 20, -10); //花先抵達出口
+				if(f_pass)
+					isCharacterMove = false;
 				//if (f_pass) 
 					//passNum += 1;
 			}
 			if (!b_pass&& isStart) {
 				b_pass = bitmapOverlap(exit1, c2_bubble, 20, -10); //泡泡
+				if(b_pass)
+					isCharacterMove_b = false;
 				//if (b_pass)
 					//passNum += 1;
 			}
 			if (f_pass && b_pass && isStart) {
 				pass = true;
-				isCharacterMove = false;
+				//isCharacterMove = false;
 				CAudio::Instance()->Pause();
 				if (isBGMPlay) {
 					CAudio::Instance()->Play(AUDIO_PASS); // 切換到關卡開始畫面撥放另一音樂
@@ -617,7 +623,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				clock3 = bitmapOverlap(c2_bubble, clock_2, -100, 0);
 		}
 			
-		if (isCharacterMove)
 			onCharacterMove();
 	}
 	//第五關
@@ -946,6 +951,8 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					}
 					else if (phase == 4) {
 						Level4_init();
+						isCharacterMove = false;
+						isCharacterMove_b = false;
 					}
 					/*第5關點擊*/
 					else if (phase == 5) {
@@ -1006,6 +1013,11 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 			if (point.y > 12 + 15 && point.y <= 12 + start.GetHeight() - 20) {
 				if (!isStart && !pass) {
 					isCharacterMove = true;
+					if (phase == 4)
+					{
+						isCharacterMove = true;
+						isCharacterMove_b = true;
+					}
 					isStart = true;
 				}
 				else if (isStart && !pass) { //在該關重新開始(bool 回到初始值)
@@ -1022,22 +1034,12 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					else if (phase == 3) {
 						Level3_init();
 					}
-						//character2.SetTopLeft(350, 418);
-					/*
-					dir1 = false;
-					dir2 = false;
-					//dir3 = false;
-					isMovingLeft = false;
-					isMovingRight = true;
-					isMovingUp = false;
-					isMovingDown = false;
-					isDirectionMove = false;
-					//bool isRestart = false;
-					dir1_f = false; //用於設定初始方向
-					dir2_f = false;
-					clock1 = false;
-					clock2 = false;
-					clock3 = false;*/
+					else if (phase == 4) {
+						Level4_init();
+					}
+					else if (phase == 5) {
+						Level5_init();
+					}
 				}
 			}
 		}
@@ -1553,6 +1555,7 @@ void CGameStateRun::Level5_init() {
 	dir1 = false;
 	dir2 = false;
 	dir3 = false;
+	dir4 = false;
 	isMovingLeft = false;//初始為往右走
 	isMovingRight = true;
 	isMovingUp = false;
@@ -1562,6 +1565,7 @@ void CGameStateRun::Level5_init() {
 	dir1_f = false; //用於設定初始方向
 	dir2_f = false;
 	dir3_f = false;
+	dir4_f = false;
 	clock1 = false;
 	clock2 = false;
 	clock3 = false;
@@ -1893,7 +1897,6 @@ void CGameStateRun::show_image_unpass() {
 
 		exit1.ShowBitmap(1.1);
 		exit2.ShowBitmap(1.2);
-		
 		c1_flower.ShowBitmap(0.7);
 		c2_bubble.ShowBitmap(0.7);
 	}
@@ -1944,8 +1947,10 @@ void CGameStateRun::show_image_unpass() {
 		exit1.ShowBitmap(1.1);
 		exit2.ShowBitmap(1.2);
 		
-		c1_flower.ShowBitmap(0.7);
-		c2_bubble.ShowBitmap(0.7);
+		if (!f_pass)
+			c1_flower.ShowBitmap(0.7);
+		if (!b_pass)
+			c2_bubble.ShowBitmap(0.7);
 		show_text_by_phase();
 	}
 	}

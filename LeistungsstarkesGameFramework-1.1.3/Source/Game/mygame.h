@@ -206,6 +206,8 @@ namespace game_framework {
 		bool dirf3_click = false;
 		bool dirb1_click = false;
 		bool dirb3_click = false;
+		// phase4 character2 move
+		//bool isCharacter2Move = false;
 
 	};
 
