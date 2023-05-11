@@ -179,7 +179,7 @@ namespace game_framework {
 		bool bitmapOverlap(CMovingBitmap a, CMovingBitmap b, int offsetX, int offsetY);
 		bool dir1_click = false; //判斷第三關哪個dir被點擊中
 		bool dir2_click = true;
-		void Level1_init(),Level2_init(),Level3_init(),Level4_init(),Level5_init(),Level6_init();
+		void Level1_init(),Level2_init(),Level3_init(),Level4_init(),Level5_init(),Level6_init(), Level7_init();
 		//phase4
 		CMovingBitmap exit1, exit2; // phase4
 		CMovingBitmap c1_flower, c2_bubble; //phase4 character
@@ -221,6 +221,11 @@ namespace game_framework {
 		bool dir1_m_f = false;
 		bool m_pass = false; //毛毛是否以抵達出口
 		bool ch_colli = false;
+		// phase7
+		CMovingBitmap cha1_flower, cha2_bubble, cha3_meow; // character
+		bool dirf2_click = false; //方向鍵
+		bool dir2_m = false; //判斷哪個角色跟方向產生碰撞事件
+		bool dir2_m_f = false;
 
 	};
 
