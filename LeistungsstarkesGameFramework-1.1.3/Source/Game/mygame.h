@@ -132,7 +132,7 @@ namespace game_framework {
 		CMovingBitmap background, background_filter, background_stars, bg4;
 		CMovingBitmap character, character2, character3;
 		CMovingBitmap cloud, cloud_1;
-		CMovingBitmap stage, stage_num;
+		CMovingBitmap stage, stage_num,stage_num_6;
 		CMovingBitmap level, level_1;
 		CMovingBitmap start, start_1;
 		CMovingBitmap restart_1, restart_2;
@@ -179,7 +179,8 @@ namespace game_framework {
 		bool bitmapOverlap(CMovingBitmap a, CMovingBitmap b, int offsetX, int offsetY);
 		bool dir1_click = false; //判斷第三關哪個dir被點擊中
 		bool dir2_click = true;
-		void Level1_init(),Level2_init(),Level3_init(),Level4_init(),Level5_init();
+		void Level1_init(),Level2_init(),Level3_init(),Level4_init(),Level5_init(),Level6_init();
+		//phase4
 		CMovingBitmap exit1, exit2; // phase4
 		CMovingBitmap c1_flower, c2_bubble; //phase4 character
 		CMovingBitmap dir_f1, dir_f2, dir_f3, dir_b1, dir_b2, dir_b3;//phase4 dir button img
@@ -206,8 +207,20 @@ namespace game_framework {
 		bool dirf3_click = false;
 		bool dirb1_click = false;
 		bool dirb3_click = false;
-		// phase4 character2 move
-		//bool isCharacter2Move = false;
+
+		// phase6
+		CMovingBitmap exit3;
+		CMovingBitmap ch1_flower, ch2_bubble,ch3_meow; // character
+		CMovingBitmap block4, block5, block6; // block img
+		bool isCharacterMove_meow = false;
+		bool isMovingLeft_meow = false;
+		bool isMovingRight_meow= false;
+		bool isMovingUp_meow = true;
+		bool isMovingDown_meow = false;
+		bool dir1_m = false; //判斷哪個角色跟方向產生碰撞事件
+		bool dir1_m_f = false;
+		bool m_pass = false; //毛毛是否以抵達出口
+		bool ch_colli = false;
 
 	};
 
