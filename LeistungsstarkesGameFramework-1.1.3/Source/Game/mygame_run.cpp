@@ -495,6 +495,24 @@ void CGameStateRun::onCharacterMove() {
 				isMovingLeft = false;
 			}
 		}
+		if (dir2_b) {
+			if (!dir2_b_f) {
+				dir2_b_f = true;
+				isMovingUp_b = false;
+				isMovingDown_b = false;
+				isMovingRight_b = true;
+				isMovingLeft_b = false;
+			}
+		}
+		if (dir2_m) {
+			if (!dir2_m_f) {
+				dir2_m_f = true;
+				isMovingUp_meow = false;
+				isMovingDown_meow = false;
+				isMovingRight_meow = true;
+				isMovingLeft_meow = false;
+			}
+		}
 
 		if (dir3) {
 			if (!dir3_f) {
@@ -503,49 +521,6 @@ void CGameStateRun::onCharacterMove() {
 				isMovingDown = false;
 				isMovingRight = false;
 				isMovingLeft = false;
-			}
-			if (y <= 100) {
-				isMovingUp = false;
-				isMovingDown = true;
-			}
-			else if (y >= 465) {
-				isMovingUp = true;
-				isMovingDown = false;
-			}
-		}
-		if (dir1_b) {
-			if (!dir1_b_f) {
-				dir1_b_f = true;
-				isMovingUp_b = true;
-				isMovingDown_b = false;
-				isMovingRight_b = false;
-				isMovingLeft_b = false;
-			}
-			if (y2 <= 100) {
-				isMovingUp_b = false;
-				isMovingDown_b = true;
-			}
-			//因在碰到左方向時也觸發了到達地圖底部，會有往左上方向移動的bug，加 && !dir2_b_f解決
-			else if (y2 >= 465 && !dir2_b_f) {
-				isMovingUp_b = true;
-				isMovingDown_b = false;
-			}
-		}
-		if (dir2_b) {
-			if (!dir2_b_f) {
-				dir2_b_f = true;
-				isMovingUp_b = false;
-				isMovingDown_b = false;
-				isMovingRight_b = false;
-				isMovingLeft_b = true;
-			}
-			if (x2 <= 70) {
-				isMovingLeft_b = false;
-				isMovingRight_b = true;
-			}
-			else if (x2 >= 680) {
-				isMovingLeft_b = true;
-				isMovingRight_b = false;
 			}
 		}
 		if (dir3_b) {
@@ -556,13 +531,68 @@ void CGameStateRun::onCharacterMove() {
 				isMovingRight_b = false;
 				isMovingLeft_b = false;
 			}
-			if (y2 <= 100) {
-				isMovingUp_b = false;
-				isMovingDown_b = true;
+		}
+		if (dir3_m) {
+			if (!dir3_m_f) {
+				dir3_m_f = true;
+				isMovingUp_meow = true;
+				isMovingDown_meow = false;
+				isMovingRight_meow = false;
+				isMovingLeft_meow = false;
 			}
-			else if (y2 >= 465) {
+		}
+		if (dir4) {
+			if (!dir4_f) {
+				dir4_f = true;
+				isMovingUp = true;
+				isMovingDown = false;
+				isMovingRight = false;
+				isMovingLeft = false;
+			}
+		}
+		if (dir4_b) {
+			if (!dir4_b_f) {
+				dir4_b_f = true;
 				isMovingUp_b = true;
 				isMovingDown_b = false;
+				isMovingRight_b = false;
+				isMovingLeft_b = false;
+			}
+		}
+		if (dir4_m) {
+			if (!dir4_m_f) {
+				dir4_m_f = true;
+				isMovingUp_meow = true;
+				isMovingDown_meow = false;
+				isMovingRight_meow = false;
+				isMovingLeft_meow = false;
+			}
+		}
+		if (dir5) {
+			if (!dir5_f) {
+				dir5_f = true;
+				isMovingUp = true;
+				isMovingDown = false;
+				isMovingRight = false;
+				isMovingLeft = false;
+			}
+		}
+		if (dir5_b) {
+			if (!dir5_b_f) {
+				dir5_b_f = true;
+				isMovingUp_b = true;
+				isMovingDown_b = false;
+				isMovingRight_b = false;
+				isMovingLeft_b = false;
+			}
+		}
+		if (dir5_m) {
+			if (!dir5_m_f) {
+				dir5_m_f = true;
+				isMovingUp_meow = true;
+				isMovingDown_meow = false;
+				isMovingRight_meow = false;
+				isMovingLeft_meow = false;
 			}
 		}
 
@@ -889,8 +919,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		if (!dir4) {
 			//dir4 = bitmapOverlap(character3, direction_4, 50, 0);
-			
-			
 			int X1 = direction_4.GetLeft() + 50;
 			int Y1 = direction_4.GetTop() -100 ;
 			int X2 = X1 + direction_4.GetWidth() + 50;
@@ -938,7 +966,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	}
 	//第六關
 	if (phase == 6 && !pass) {
-		if (!ch_colli) {
+		/*if (!ch_colli) {
 			ch_colli = bitmapOverlap(ch1_flower, ch2_bubble, -100, 90);
 			if (ch_colli) {
 				isMovingDown = true;
@@ -947,7 +975,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				isMovingRight_b = false;
 				//ch_colli = false;
 			}
-		}
+		}*/
 		if (!dir1_f) {
 			if(!dir1_b && !dir1_m)
 				dir1 = bitmapOverlap(ch1_flower, direction_1, 0, 80);
@@ -1015,7 +1043,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	}
 	//第七關
 	if (phase == 7 && !pass) {
-		if (!ch_colli) {
+		/*if (!ch_colli) {
 			ch_colli = bitmapOverlap(cha1_flower, cha2_bubble, -100, 90);
 			if (ch_colli) {
 				isMovingDown = true;
@@ -1024,59 +1052,117 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				isMovingRight_b = false;
 				//ch_colli = false;
 			}
-		}
+		}*/
 		if (!dir1_f) {
-			//if (!dir1_b && !dir1_m)
+			if (!dir1_b && !dir1_m)
 				dir1 = bitmapOverlap(cha1_flower, dir_f1, -60, -40);
 			//if (dir1)
 				//isCharacterMove = false;
 		}
 		if (!dir1_b_f) {
-			//if (!dir1 && !dir1_m)
+			if (!dir1 && !dir1_m)
 				dir1_b = bitmapOverlap(cha2_bubble, dir_f1, -80, 50);
 			//if (dir1_b)
 				//isCharacterMove_b = false;
 		}
 		if (!dir1_m_f) {
-			//if (!dir1 && !dir1_b)
+			if (!dir1 && !dir1_b)
 				dir1_m = bitmapOverlap(cha3_meow, dir_f1, -60, 20);
 			//if (dir1_m)
 				//isCharacterMove_meow = false;
 		}
+
 		if (!dir2_f) {
-			//if (!dir1_b && !dir1_m)
-			dir2 = bitmapOverlap(cha1_flower, dir_f2, -60, -40);
-			if (dir2)
-				isCharacterMove = false;
+			if (!dir2_b && !dir2_m)
+				dir2 = bitmapOverlap(cha1_flower, dir_f2, -60, -40);
+			//if (dir2)
+				//isCharacterMove = false;
 		}
-		if (!dir2_b_f) {
-			//if (!dir1 && !dir1_m)
-			dir2_b = bitmapOverlap(cha2_bubble, dir_f2, -80, 50);
-			if (dir2_b)
-				isCharacterMove_b = false;
+		if (!dir2_b) {
+			if (!dir2 && !dir2_m)
+				dir2_b = bitmapOverlap(cha2_bubble, dir_f2, -80, 50);
+			//if (dir2_b)
+				//isCharacterMove_b = false;
 		}
 		if (!dir2_m_f) {
-			//if (!dir1 && !dir1_b)
-			dir2_m = bitmapOverlap(cha3_meow, dir_f2, -60, 20);
-			if (dir2_m)
-				isCharacterMove_meow = false;
+			if (!dir2 && !dir2_b)
+				dir2_m = bitmapOverlap(cha3_meow, dir_f2, -60, 20);
+			//if (dir2_m)
+				//isCharacterMove_meow = false;
 		}
-
+		if (!dir3_f) {
+			if (!dir3_b && !dir3_m)
+				dir3 = bitmapOverlap(cha1_flower, dir_f3, -60, -40);
+			//if (dir3)
+				//isCharacterMove = false;
+		}
+		if (!dir3_b_f) {
+			if (!dir3 && !dir3_m)
+				dir3_b = bitmapOverlap(cha2_bubble, dir_f3, -80, 50);
+			//if (dir3_b)
+				//isCharacterMove_b = false;
+		}
+		if (!dir3_m_f) {
+			if (!dir3 && !dir3_b)
+				dir3_m = bitmapOverlap(cha3_meow, dir_f3, -60, 20);
+			//if (dir3_m)
+				//isCharacterMove_meow = false;
+		}
+		if (!dir4_f) {
+			if (!dir4_b && !dir4_m)
+			//isCharacterMove = false;
+				dir4 = bitmapOverlap(cha1_flower, dir_b1, -60, -40);
+			//if (dir4)
+				//isCharacterMove = false;
+		}
+		if (!dir4_b_f) {
+			if (!dir4 && !dir4_m)
+				dir4_b = bitmapOverlap(cha2_bubble, dir_b1, -80, 50);
+			//if (dir4_b)
+				//isCharacterMove_b = false;
+		}
+		if (!dir4_m_f) {
+			if (!dir4 && !dir4_b)
+				dir4_m = bitmapOverlap(cha3_meow, dir_b1, -60, 20);
+			//if (dir4_m)
+				//isCharacterMove_meow = false;
+		}
+		if (!dir5_f) {
+			if (!dir5_b && !dir5_m)
+			//isCharacterMove = false;
+				dir5 = bitmapOverlap(cha1_flower, dir_b2, -60, -40);
+			//if (dir5)
+				//isCharacterMove = false;
+		}
+		if (!dir5_b_f) {
+			if (!dir5 && !dir5_m)
+				dir5_b = bitmapOverlap(cha2_bubble, dir_b2, -80, 50);
+			//if (dir5_b)
+				//isCharacterMove_b = false;
+		}
+		if (!dir5_m_f) {
+			if (!dir5 && !dir5_b)
+				dir5_m = bitmapOverlap(cha3_meow, dir_b2, -60, 20);
+			//if (dir5_m)
+				//isCharacterMove_meow = false;
+		}
 		if (!pass) {
 			if (!f_pass&& isStart) {
-				f_pass = bitmapOverlap(exit2, ch1_flower, 20, -10); //花先抵達出口
-				if (f_pass)
-					isCharacterMove = false;
+				//isCharacterMove = false;
+				f_pass = bitmapOverlap(exit2, cha1_flower, -10, -10); //花先抵達出口
+				//if (f_pass)
+					//isCharacterMove = false;
 			}
 			if (!b_pass&& isStart) {
-				b_pass = bitmapOverlap(exit1, ch2_bubble, -50, -10); //泡泡
-				if (b_pass)
-					isCharacterMove_b = false;
+				b_pass = bitmapOverlap(exit1, cha2_bubble, 0, -10); //泡泡
+				//if (b_pass)
+					//isCharacterMove_b = false;
 			}
 			if (!m_pass&& isStart) {
-				m_pass = bitmapOverlap(exit3, ch3_meow, 20, -10); //毛毛
-				if (m_pass)
-					isCharacterMove_meow = false;
+				//isCharacterMove_meow = false;
+				m_pass = bitmapOverlap(exit3,cha3_meow, 10, 0); //毛毛
+				//if (m_pass)
+					//isCharacterMove_meow = false;
 			}
 			if (f_pass && b_pass && m_pass && isStart) {
 				pass = true;
@@ -1088,26 +1174,33 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 		}
 		if (!clock1) {
-			clock1 = bitmapOverlap(ch1_flower, clock, 0, 150);
+			clock1 = bitmapOverlap(cha1_flower, clock, 0, 150);
 			if (!clock1)
-				clock1 = bitmapOverlap(ch2_bubble, clock, 50, 50);
+				clock1 = bitmapOverlap(cha2_bubble, clock, 50, 50);
 			if (!clock1)
-				clock1 = bitmapOverlap(ch3_meow, clock, 0, 0);
+				clock1 = bitmapOverlap(cha3_meow, clock, 0, 150);
+			
 		}
 
 		if (!clock2) {
-			clock2 = bitmapOverlap(ch1_flower, clock_1, 0, 0);
+			clock2 = bitmapOverlap(cha1_flower, clock_1, 0, 0);
+			//if (clock2)
+				//3isCharacterMove = false;
 			if (!clock2)
-				clock2 = bitmapOverlap(ch2_bubble, clock_1, 50, 20);
+				clock2 = bitmapOverlap(cha2_bubble, clock_1, 50, 20);
 			if (!clock2)
-				clock2 = bitmapOverlap(ch3_meow, clock_1, 0, 150);
+				clock2 = bitmapOverlap(cha3_meow, clock_1, -100, 150);
+			
 		}
 		if (!clock3) {
-			clock3 = bitmapOverlap(ch1_flower, clock_2, 0, 0);
+			clock3 = bitmapOverlap(cha1_flower, clock_2, 0, 0);
 			if (!clock3)
-				clock3 = bitmapOverlap(ch2_bubble, clock_2, 50, 0);
+				clock3 = bitmapOverlap(cha2_bubble, clock_2, -100, 0);
+			//if (clock3)
+				//isCharacterMove_b = false;
 			if (!clock3)
-				clock3 = bitmapOverlap(ch3_meow, clock_2, 0, 0);
+				clock3 = bitmapOverlap(cha3_meow, clock_2, -100, 150);
+			
 		}
 
 		onCharacterMove();
@@ -1381,7 +1474,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 {
 	//選擇關卡點擊事件
 	if (!isChoose) {
-		for (int i = 0; i < phase; i++) {
+		for (int i = 0; i < 7; i++) {
 			if (point.x > Levels[i].GetLeft() && point.x <= Levels[i].GetLeft() + Levels[i].GetWidth() - 20) {
 				if (point.y > Levels[i].GetTop() + 15 && point.y <= Levels[i].GetTop() + Levels[i].GetHeight() - 20) {
 					isChoose = true;
@@ -1670,6 +1763,9 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					else if (phase == 6) {
 						Level6_init();
 					}
+					else if (phase == 7) {
+						Level7_init();
+					}
 					if (isBGMPlay) {
 						CAudio::Instance()->Play(AUDIO_BUTTON);
 						//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //關卡重新開始並撥放音樂
@@ -1719,6 +1815,14 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					}
 					else if (phase == 6) {
 						Level6_init();
+						CAudio::Instance()->Pause();
+						if (isBGMPlay) {
+							CAudio::Instance()->Play(AUDIO_BUTTON);
+							//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
+						}
+					}
+					else if (phase == 7) {
+						Level7_init();
 						CAudio::Instance()->Pause();
 						if (isBGMPlay) {
 							CAudio::Instance()->Play(AUDIO_BUTTON);
@@ -2323,6 +2427,35 @@ void CGameStateRun::Level7_init() {
 	dir1_f = false;
 	dir1_b_f = false;
 	dir1_m_f = false;
+
+	dir2 = false;
+	dir2_b = false;
+	dir2_m = false;
+	dir2_f = false;
+	dir2_b_f = false;
+	dir2_m_f = false;
+
+	dir3 = false;
+	dir3_b = false;
+	dir3_m = false;
+	dir3_f = false;
+	dir3_b_f = false;
+	dir3_m_f = false;
+
+	dir4 = false;
+	dir4_b = false;
+	dir4_m = false;
+	dir4_f = false;
+	dir4_b_f = false;
+	dir4_m_f = false;
+
+	dir5 = false;
+	dir5_b = false;
+	dir5_m = false;
+	dir5_f = false;
+	dir5_b_f = false;
+	dir5_m_f = false;
+
 	clock1 = false;
 	clock2 = false;
 	clock3 = false;
@@ -3022,7 +3155,7 @@ void CGameStateRun::show_level_choose() {
 	if (level_page == 1) {
 		for (int i = 0; i < 15; i++) {
 			Levels_bg[i].ShowBitmap(0.8);
-			if (i + 1 <= phase) {
+			if (i + 1 <= 7) {
 				Levels[i].SetFrameIndexOfBitmap(1);
 				Levels[i].ShowBitmap(0.8);
 				Levels_num[i].ShowBitmap(0.9);

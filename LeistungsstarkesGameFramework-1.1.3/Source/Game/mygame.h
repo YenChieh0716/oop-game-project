@@ -226,6 +226,22 @@ namespace game_framework {
 		bool dirf2_click = false; //方向鍵
 		bool dir2_m = false; //判斷哪個角色跟方向產生碰撞事件
 		bool dir2_m_f = false;
+		//bool dirf3_click = false; //方向鍵
+		bool dir3_m = false; //判斷哪個角色跟方向產生碰撞事件
+		bool dir3_m_f = false;
+		//bool dirf4_click = false; //方向鍵
+		bool dir4_m = false; //判斷哪個角色跟方向產生碰撞事件
+		bool dir4_m_f = false;
+		bool dir4_b = false;
+		bool dir4_b_f = false;
+		//bool dirf5_click = false; //方向鍵
+		bool dir5_m = false; //判斷哪個角色跟方向產生碰撞事件
+		bool dir5_m_f = false;
+		bool dir5 = false;
+		bool dir5_b = false;
+		bool dir5_f = false;
+		bool dir5_b_f = false;
+
 
 	};
 
