@@ -10,9 +10,6 @@
 
 using namespace game_framework;
 
-/////////////////////////////////////////////////////////////////////////////
-// 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
-/////////////////////////////////////////////////////////////////////////////
 
 CGameStateRun::CGameStateRun(CGame *g) : CGameState(g)
 {
@@ -956,26 +953,26 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		if (!clock1)
 			//clock1 = false;
-			clock1 = bitmapOverlap(character3, clock, 0, 0);
+			clock1 = bitmapOverlap(character3, clock, -80, 0);
 		if (!clock2)
 			clock2 = bitmapOverlap(character3, clock_1, 0, 0);
 		if (!clock3)
-			clock3 = bitmapOverlap(character3, clock_2, 0, 0);
+			clock3 = bitmapOverlap(character3, clock_2, 0, 80);
 		if (isCharacterMove)
 			onCharacterMove();
 	}
 	//第六關
 	if (phase == 6 && !pass) {
-		/*if (!ch_colli) {
-			ch_colli = bitmapOverlap(ch1_flower, ch2_bubble, -100, 90);
+		if (!ch_colli) {
+			ch_colli = bitmapOverlap(ch1_flower, ch2_bubble, -50, 0);
 			if (ch_colli) {
 				isMovingDown = true;
 				isMovingUp = false;
 				isMovingLeft_b = true;
 				isMovingRight_b = false;
-				//ch_colli = false;
+				ch_colli = false;
 			}
-		}*/
+		}
 		if (!dir1_f) {
 			if(!dir1_b && !dir1_m)
 				dir1 = bitmapOverlap(ch1_flower, direction_1, 0, 80);
@@ -2306,6 +2303,7 @@ void CGameStateRun::Level6_init() {
 
 	exit1.SetTopLeft(720, 305);
 	exit1.SetFrameIndexOfBitmap(1);
+	exit2.SetFrameIndexOfBitmap(0);
 	exit2.SetTopLeft(260, 90);
 	exit3.SetTopLeft(485, 90);
 
