@@ -132,12 +132,12 @@ namespace game_framework {
 		CMovingBitmap background, background_filter, background_stars, bg4;
 		CMovingBitmap character, character2, character3;
 		CMovingBitmap cloud, cloud_1;
-		CMovingBitmap stage, stage_num,stage_num_6;
+		CMovingBitmap stage, stage_num, stage_num_6;
 		CMovingBitmap level, level_1;
 		CMovingBitmap start, start_1;
 		CMovingBitmap restart_1, restart_2;
 		CMovingBitmap clock, clock_shelf, clock_get, clock_1, clock_1_shelf, clock_1_get, clock_2, clock_2_shelf, clock_2_get;
-		CMovingBitmap direction_1, direction_2, direction_3,direction_4;
+		CMovingBitmap direction_1, direction_2, direction_3, direction_4;
 		CMovingBitmap exit;
 		CMovingBitmap musicButton_play, musicButton_play_1, musicButton_unplay;
 		CMovingBitmap bubble, bubble_fly;
@@ -179,7 +179,7 @@ namespace game_framework {
 		bool bitmapOverlap(CMovingBitmap a, CMovingBitmap b, int offsetX, int offsetY);
 		bool dir1_click = false; //判斷第三關哪個dir被點擊中
 		bool dir2_click = true;
-		void Level1_init(),Level2_init(),Level3_init(),Level4_init(),Level5_init(),Level6_init(), Level7_init();
+		void Level1_init(), Level2_init(), Level3_init(), Level4_init(), Level5_init(), Level6_init(), Level7_init(), Level8_init();
 		//phase4
 		CMovingBitmap exit1, exit2; // phase4
 		CMovingBitmap c1_flower, c2_bubble; //phase4 character
@@ -210,11 +210,11 @@ namespace game_framework {
 
 		// phase6
 		CMovingBitmap exit3;
-		CMovingBitmap ch1_flower, ch2_bubble,ch3_meow; // character
+		CMovingBitmap ch1_flower, ch2_bubble, ch3_meow; // character
 		CMovingBitmap block4, block5, block6; // block img
 		bool isCharacterMove_meow = false;
 		bool isMovingLeft_meow = false;
-		bool isMovingRight_meow= false;
+		bool isMovingRight_meow = false;
 		bool isMovingUp_meow = true;
 		bool isMovingDown_meow = false;
 		bool dir1_m = false; //判斷哪個角色跟方向產生碰撞事件
@@ -241,7 +241,7 @@ namespace game_framework {
 		bool dir5_b = false;
 		bool dir5_f = false;
 		bool dir5_b_f = false;
-
+		CMovingBitmap test;
 
 	};
 
