@@ -1274,10 +1274,10 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	restart_1.SetTopLeft(697, 12);
 	restart_2.SetTopLeft(700, 19);
 
-	direction_1.LoadBitmapByString({ "resources/runState/direction_1_1.bmp", "resources/runState/stage2/dir1.bmp", "resources/runState/stage3/dir1.bmp","resources/runState/stage5/dir1.bmp","resources/runState/stage6/dir1.bmp" }, RGB(1, 1, 1));
-	direction_2.LoadBitmapByString({ "resources/runState/direction_2.bmp", "resources/runState/stage2/dir2.bmp", "resources/runState/stage3/dir2.bmp","resources/runState/stage5/dir2.bmp" }, RGB(1, 1, 1));
-	direction_3.LoadBitmapByString({ "resources/runState/stage2/dir3.bmp","resources/runState/stage5/dir3.bmp" }, RGB(1, 1, 1));
-	direction_4.LoadBitmapByString({ "resources/runState/stage5/dir4.bmp" }, RGB(1, 1, 1));
+	direction_1.LoadBitmapByString({ "resources/runState/direction_1_1.bmp", "resources/runState/stage2/dir1.bmp", "resources/runState/stage3/dir1.bmp","resources/runState/stage5/dir1.bmp","resources/runState/stage6/dir1.bmp","resources/runState/stage8/dir1.bmp" }, RGB(1, 1, 1));
+	direction_2.LoadBitmapByString({ "resources/runState/direction_2.bmp", "resources/runState/stage2/dir2.bmp", "resources/runState/stage3/dir2.bmp","resources/runState/stage5/dir2.bmp","resources/runState/stage8/dir2.bmp" }, RGB(1, 1, 1));
+	direction_3.LoadBitmapByString({ "resources/runState/stage2/dir3.bmp","resources/runState/stage5/dir3.bmp","resources/runState/stage8/dir3.bmp" }, RGB(1, 1, 1));
+	direction_4.LoadBitmapByString({ "resources/runState/stage5/dir4.bmp","resources/runState/stage8/dir4.bmp" }, RGB(1, 1, 1));
 	direction_1.SetTopLeft(180, 173);
 	direction_2.SetTopLeft(358, 415);
 
@@ -1352,7 +1352,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	dir_b1.LoadBitmapByString({ "resources/runState/stage4/dir1.bmp", "resources/runState/stage7/dir4.bmp" }, RGB(1, 1, 1));
 	dir_b2.LoadBitmapByString({ "resources/runState/stage4/dir2.bmp","resources/runState/stage7/dir5.bmp" }, RGB(1, 1, 1));
 	dir_b3.LoadBitmapByString({"resources/runState/stage4/dir3.bmp"}, RGB(1, 1, 1));
-	block1.LoadBitmapByString({ "resources/runState/stage4/block1.bmp", "resources/runState/stage6/block1.bmp" });
+	block1.LoadBitmapByString({ "resources/runState/stage4/block1.bmp", "resources/runState/stage6/block1.bmp" ,"resources/runState/stage8/block2.bmp"});
 	block2.LoadBitmapByString({ "resources/runState/stage4/block2.bmp", "resources/runState/stage6/block2.bmp" });
 	block3.LoadBitmapByString({"resources/runState/stage4/block3.bmp","resources/runState/stage6/block3.bmp" });
 	//第六關
@@ -2489,7 +2489,21 @@ void CGameStateRun::Level7_init() {
 	b_pass = false;
 }
 void CGameStateRun::Level8_init() {
-	character2.SetTopLeft(350, 418);
+	ch2_bubble.SetTopLeft(120, 418);
+	ch2_bubble.SetAnimation(300, false);
+	block.SetFrameIndexOfBitmap(1);
+	block.SetTopLeft(195, 245);
+	block1.SetFrameIndexOfBitmap(2);
+	block1.SetTopLeft(436, 245);
+	direction_1.SetTopLeft(362, 293); //597 475
+	direction_1.SetFrameIndexOfBitmap(5);
+	direction_2.SetTopLeft(360, 473);
+	direction_2.SetFrameIndexOfBitmap(4);
+	direction_3.SetTopLeft(660, 470);
+	direction_3.SetFrameIndexOfBitmap(2);
+	direction_4.SetTopLeft(658, 170);
+	direction_4.SetFrameIndexOfBitmap(1);
+	//character2.SetTopLeft(350, 418);
 	//character.ShowBitmap();
 	dir1 = false;
 	dir2 = false;
@@ -2523,23 +2537,17 @@ void CGameStateRun::Level8_init() {
 	background_stars.SetTopLeft(0, -605);
 	background_stars.ShowBitmap();
 
-	direction_1.SetFrameIndexOfBitmap(1);
-	direction_2.SetFrameIndexOfBitmap(1);
 	stage_num.SetFrameIndexOfBitmap(7);
 	exit.SetFrameIndexOfBitmap(4);
 
-	direction_1.SetTopLeft(180, 173);
-	clock_shelf.SetTopLeft(195, 478);
-	clock_1_shelf.SetTopLeft(375, 125);
-	clock_2_shelf.SetTopLeft(555, 355);
-	direction_1.SetTopLeft(180, 173);
-	direction_2.SetTopLeft(357, 295);
-	direction_3.SetTopLeft(540, 418);
-	clock.SetTopLeft(200, 428);
-	clock_1.SetTopLeft(380, 143);
-	clock_2.SetTopLeft(560, 305);
+	clock_shelf.SetTopLeft(75, 533);
+	clock_1_shelf.SetTopLeft(375, 175);
+	clock_2_shelf.SetTopLeft(675, 355);
+	clock.SetTopLeft(80, 483);
+	clock_1.SetTopLeft(380, 125);
+	clock_2.SetTopLeft(680, 305);
 	exit.SetTopLeft(40, 180);
-	character2.SetAnimation(300, false);
+	//character2.SetAnimation(300, false);
 	times = 0;
 	pass = false;
 }
@@ -3184,11 +3192,15 @@ void CGameStateRun::show_image_unpass() {
 		direction_1.ShowBitmap();
 		direction_2.ShowBitmap();
 		direction_3.ShowBitmap();
+		direction_4.ShowBitmap();
 		//exit.SetFrameIndexOfBitmap(1);
 
 		exit.ShowBitmap();
+		block.ShowBitmap();
+		block1.ShowBitmap();
 		//character.SetTopLeft(185, 403);
-		character2.ShowBitmap(0.7);
+		ch2_bubble.ShowBitmap(0.7);
+	
 		show_text_by_phase();
 	}
 	else if (isStart) {
@@ -3229,7 +3241,7 @@ void CGameStateRun::show_image_unpass() {
 		direction_2.ShowBitmap();
 		direction_3.ShowBitmap();
 		exit.ShowBitmap();
-		character2.ShowBitmap(0.7);
+		ch2_bubble.ShowBitmap(0.7);
 		//character2.SetAnimation(300, false);
 		//character.ShowBitmap(0.7);
 		//character.SetAnimation(300, false);
