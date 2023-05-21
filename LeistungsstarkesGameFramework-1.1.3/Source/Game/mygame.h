@@ -244,7 +244,11 @@ namespace game_framework {
 		bool dir5_b = false;
 		bool dir5_f = false;
 		bool dir5_b_f = false;
-		CMovingBitmap test;
+		//CMovingBitmap test;
+		//第十關
+		CMovingBitmap blocks[15];
+		CMovingBitmap dir_b4, dir_b5, dir_b6, dir_b7;
+		CMovingBitmap dir_m1, dir_m2, dir_m3, dir_m4, dir_m5, dir_m6;
 
 	};
 

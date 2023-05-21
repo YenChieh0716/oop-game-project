@@ -1232,17 +1232,17 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	cloud.SetTopLeft(700, 20);
 	cloud_1.SetTopLeft(1000, 130);
 
-	clock.LoadBitmap("resources/runState/clock.bmp", RGB(1, 1, 1)); //1,1,1
+	clock.LoadBitmapByString({ "resources/runState/clock.bmp","resources/runState/stage10/clock_flower.bmp" }, RGB(1, 1, 1)); //1,1,1
 	clock_shelf.LoadBitmap("resources/runState/clockShelf_1.bmp", RGB(1, 1, 1));
 	clock.SetTopLeft(380, 305);
 	clock_shelf.SetTopLeft(375, 350);
 
-	clock_1.LoadBitmap("resources/runState/clock.bmp", RGB(1, 1, 1)); //1,1,1
+	clock_1.LoadBitmapByString({ "resources/runState/clock.bmp","resources/runState/stage10/clock_bubble.bmp" }, RGB(1, 1, 1)); //1,1,1
 	clock_1_shelf.LoadBitmap("resources/runState/clockShelf_1.bmp", RGB(1, 1, 1));
 	clock_1.SetTopLeft(500, 193);
 	clock_1_shelf.SetTopLeft(495, 238);
 
-	clock_2.LoadBitmap("resources/runState/clock.bmp", RGB(1, 1, 1)); //1,1,1
+	clock_2.LoadBitmapByString({ "resources/runState/clock.bmp","resources/runState/stage10/clock_meow.bmp" }, RGB(1, 1, 1)); //1,1,1
 	clock_2_shelf.LoadBitmap("resources/runState/clockShelf_1.bmp", RGB(1, 1, 1));
 	clock_2.SetTopLeft(620, 193);
 	clock_2_shelf.SetTopLeft(615, 238);
@@ -1278,10 +1278,11 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	direction_1.LoadBitmapByString({ "resources/runState/direction_1_1.bmp", "resources/runState/stage2/dir1.bmp", 
 									"resources/runState/stage3/dir1.bmp","resources/runState/stage5/dir1.bmp",
 									"resources/runState/stage6/dir1.bmp","resources/runState/stage8/dir1.bmp",
-									"resources/runState/stage9/dir1.bmp" }, RGB(1, 1, 1));
+									"resources/runState/stage9/dir1.bmp","resources/runState/stage10/dir1_flower.bmp" }, RGB(1, 1, 1));
 	direction_2.LoadBitmapByString({ "resources/runState/direction_2.bmp", "resources/runState/stage2/dir2.bmp", 
 									 "resources/runState/stage3/dir2.bmp","resources/runState/stage5/dir2.bmp",
-									 "resources/runState/stage8/dir2.bmp","resources/runState/stage9/dir2.bmp" }, RGB(1, 1, 1));
+									 "resources/runState/stage8/dir2.bmp","resources/runState/stage9/dir2.bmp",
+									 "resources/runState/stage10/dir2_flower.bmp" }, RGB(1, 1, 1));
 	direction_3.LoadBitmapByString({ "resources/runState/stage2/dir3.bmp","resources/runState/stage5/dir3.bmp","resources/runState/stage8/dir3.bmp" }, RGB(1, 1, 1));
 	direction_4.LoadBitmapByString({ "resources/runState/stage5/dir4.bmp","resources/runState/stage8/dir4.bmp" }, RGB(1, 1, 1));
 	direction_1.SetTopLeft(180, 173);
@@ -1350,19 +1351,24 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	//第三、五關障礙物
 	block.LoadBitmapByString({ "resources/runState/stage3/block.bmp","resources/runState/stage5/block.bmp" }, RGB(1, 1, 1));
 	//第四,九關(dir_f1~f3)
-	exit1.LoadBitmapByString({ "resources/runState/stage4/door_1.bmp", "resources/runState/stage6/door_1.bmp","resources/runState/stage7/door_1.bmp" }, RGB(1, 1, 1));
-	exit2.LoadBitmapByString({ "resources/runState/stage4/door_2.bmp","resources/runState/stage7/door_2.bmp" }, RGB(1, 1, 1));
+	exit1.LoadBitmapByString({ "resources/runState/stage4/door_1.bmp", "resources/runState/stage6/door_1.bmp",
+							   "resources/runState/stage7/door_1.bmp","resources/runState/stage10/door_1.bmp"
+								}, RGB(1, 1, 1));
+	exit2.LoadBitmapByString({ "resources/runState/stage4/door_2.bmp","resources/runState/stage7/door_2.bmp",
+								"resources/runState/stage10/door_2.bmp" }, RGB(1, 1, 1));
 	c1_flower.LoadBitmapByString({ "resources/runState/stage4/flower_1.bmp","resources/runState/stage4/flower_2.bmp","resources/runState/stage4/flower_3.bmp" }, RGB(1, 1, 1));
 	c2_bubble.LoadBitmapByString({ "resources/runState/stage4/bubble.bmp","resources/runState/stage4/bubble_1.bmp","resources/runState/stage4/bubble_2.bmp" }, RGB(254, 254, 254));
 	dir_f1.LoadBitmapByString({ "resources/runState/stage4/direction_1.bmp", "resources/runState/stage7/dir1.bmp", 
-								"resources/runState/stage9/dir3.bmp" }, RGB(1, 1, 1));
+								"resources/runState/stage9/dir3.bmp","resources/runState/stage10/dir3_flower.bmp" }, RGB(1, 1, 1));
 	dir_f2.LoadBitmapByString({ "resources/runState/stage4/direction_2.bmp", "resources/runState/stage7/dir2.bmp",
-								"resources/runState/stage9/dir4.bmp" }, RGB(1, 1, 1));
+								"resources/runState/stage9/dir4.bmp","resources/runState/stage10/dir4_flower.bmp" }, RGB(1, 1, 1));
 	dir_f3.LoadBitmapByString({ "resources/runState/stage4/direction_3.bmp", "resources/runState/stage7/dir3.bmp",
-								"resources/runState/stage9/dir5.bmp" }, RGB(1, 1, 1));
-	dir_b1.LoadBitmapByString({ "resources/runState/stage4/dir1.bmp", "resources/runState/stage7/dir4.bmp" }, RGB(1, 1, 1));
-	dir_b2.LoadBitmapByString({ "resources/runState/stage4/dir2.bmp","resources/runState/stage7/dir5.bmp" }, RGB(1, 1, 1));
-	dir_b3.LoadBitmapByString({"resources/runState/stage4/dir3.bmp"}, RGB(1, 1, 1));
+								"resources/runState/stage9/dir5.bmp","resources/runState/stage10/dir5_flower.bmp" }, RGB(1, 1, 1));
+	dir_b1.LoadBitmapByString({ "resources/runState/stage4/dir1.bmp", "resources/runState/stage7/dir4.bmp",
+								"resources/runState/stage10/dir1_bubble.bmp" }, RGB(1, 1, 1));
+	dir_b2.LoadBitmapByString({ "resources/runState/stage4/dir2.bmp","resources/runState/stage7/dir5.bmp",
+								"resources/runState/stage10/dir2_bubble.bmp" }, RGB(1, 1, 1));
+	dir_b3.LoadBitmapByString({ "resources/runState/stage4/dir3.bmp" , "resources/runState/stage10/dir3_bubble.bmp" }, RGB(1, 1, 1));
 	block1.LoadBitmapByString({ "resources/runState/stage4/block1.bmp", "resources/runState/stage6/block1.bmp" ,
 								"resources/runState/stage8/block2.bmp", "resources/runState/stage9/block1.bmp" });
 	block2.LoadBitmapByString({ "resources/runState/stage4/block2.bmp", "resources/runState/stage6/block2.bmp",
@@ -1376,11 +1382,26 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	block4.LoadBitmapByString({ "resources/runState/stage6/block4.bmp" });
 	block5.LoadBitmapByString({ "resources/runState/stage6/block5.bmp" });
 	block6.LoadBitmapByString({ "resources/runState/stage6/block6.bmp" });
-	exit3.LoadBitmapByString({ "resources/runState/stage6/exit.bmp" });
+	exit3.LoadBitmapByString({ "resources/runState/stage6/exit.bmp", "resources/runState/stage10/exit.bmp" });
 	//第七關
 	cha1_flower.LoadBitmapByString({ "resources/runState/stage7/flower_1.bmp","resources/runState/stage7/flower_2.bmp","resources/runState/stage7/flower_3.bmp" }, RGB(1, 1, 1));
 	cha2_bubble.LoadBitmapByString({ "resources/runState/stage7/bubble.bmp","resources/runState/stage7/bubble_1.bmp","resources/runState/stage7/bubble_2.bmp" }, RGB(254, 254, 254));
 	cha3_meow.LoadBitmapByString({ "resources/runState/stage7/meow.bmp","resources/runState/stage7/meow_1.bmp","resources/runState/stage7/meow_2.bmp" }, RGB(254, 254, 254));
+	//第十關
+	for (int i = 0; i < 15; i++) {
+		string temp = "resources/runState/stage10/block" + std::to_string(i + 1) + ".bmp";
+		blocks[i].LoadBitmapByString({ temp });
+	}
+	dir_b4.LoadBitmapByString({ "resources/runState/stage10/dir4_bubble.bmp" }, RGB(1, 1, 1));
+	dir_b5.LoadBitmapByString({ "resources/runState/stage10/dir5_bubble.bmp" }, RGB(1, 1, 1));
+	dir_b6.LoadBitmapByString({ "resources/runState/stage10/dir6_bubble.bmp" }, RGB(1, 1, 1));
+	dir_b7.LoadBitmapByString({ "resources/runState/stage10/dir7_bubble.bmp" }, RGB(1, 1, 1));
+	dir_m1.LoadBitmapByString({ "resources/runState/stage10/dir1_meow.bmp" }, RGB(1, 1, 1));
+	dir_m2.LoadBitmapByString({ "resources/runState/stage10/dir2_meow.bmp" }, RGB(1, 1, 1));
+	dir_m3.LoadBitmapByString({ "resources/runState/stage10/dir3_meow.bmp" }, RGB(1, 1, 1));
+	dir_m4.LoadBitmapByString({ "resources/runState/stage10/dir4_meow.bmp" }, RGB(1, 1, 1));
+	dir_m5.LoadBitmapByString({ "resources/runState/stage10/dir5_meow.bmp" }, RGB(1, 1, 1));
+	dir_m6.LoadBitmapByString({ "resources/runState/stage10/dir6_meow.bmp" }, RGB(1, 1, 1));
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -2655,11 +2676,12 @@ void CGameStateRun::Level10_init() {
 	isMovingLeft_meow = true;
 	isMovingRight_meow = false;
 
-	exit1.SetTopLeft(39, 300);
-	exit1.SetFrameIndexOfBitmap(2);
-	exit2.SetFrameIndexOfBitmap(1);
-	exit2.SetTopLeft(39, 238);
-	exit3.SetTopLeft(180, 90);
+	exit1.SetTopLeft(729, 420);
+	exit1.SetFrameIndexOfBitmap(3);
+	exit2.SetFrameIndexOfBitmap(2);
+	exit2.SetTopLeft(727, 182);
+	exit3.SetFrameIndexOfBitmap(1);
+	exit3.SetTopLeft(723, 300);
 
 	ch1_flower.SetTopLeft(300, 455);
 	ch1_flower.SetAnimation(300, false);
@@ -2667,23 +2689,44 @@ void CGameStateRun::Level10_init() {
 	ch2_bubble.SetAnimation(300, false);
 	ch3_meow.SetTopLeft(70, 120);
 	ch3_meow.SetAnimation(300, false);
-	dir_f1.SetFrameIndexOfBitmap(1);
-	dir_f1.SetTopLeft(355, 175);
-	dir_f2.SetFrameIndexOfBitmap(1);
-	dir_f2.SetTopLeft(415, 175);
-	dir_f3.SetFrameIndexOfBitmap(1);
-	dir_f3.SetTopLeft(181, 235);
-	dir_b1.SetFrameIndexOfBitmap(1);
-	dir_b1.SetTopLeft(181, 295);
-	dir_b2.SetFrameIndexOfBitmap(1);
-	dir_b2.SetTopLeft(181, 355);
+	direction_1.SetFrameIndexOfBitmap(7);
+	direction_1.SetTopLeft(60, 294);
+	direction_2.SetFrameIndexOfBitmap(6);
+	direction_2.SetTopLeft(418, 235);
+	dir_f1.SetFrameIndexOfBitmap(3);
+	dir_f1.SetTopLeft(419, 115);
+	dir_f2.SetFrameIndexOfBitmap(3);
+	dir_f2.SetTopLeft(661, 115);
+	dir_f3.SetFrameIndexOfBitmap(3);
+	dir_f3.SetTopLeft(658, 175);
 
-	clock.SetTopLeft(201, 185);
-	clock_1.SetTopLeft(141, 245);
-	clock_2.SetTopLeft(141, 310);
-	clock_shelf.SetTopLeft(196, 235);
-	clock_1_shelf.SetTopLeft(136, 295);
-	clock_2_shelf.SetTopLeft(136, 360);
+	dir_b1.SetFrameIndexOfBitmap(2);
+	dir_b1.SetTopLeft(60, 234);
+	dir_b2.SetFrameIndexOfBitmap(2);
+	dir_b2.SetTopLeft(302, 350);
+	dir_b3.SetFrameIndexOfBitmap(1);
+	dir_b3.SetTopLeft(299, 117);
+	dir_b4.SetTopLeft(542, 112);
+	dir_b5.SetTopLeft(539, 474);
+	dir_b6.SetTopLeft(659, 471);
+	dir_b7.SetTopLeft(656, 413);
+
+	//dir_m6.SetTopLeft(160, 356);
+	dir_m1.SetTopLeft(177, 115);
+	dir_m2.SetTopLeft(177, 473);
+	dir_m3.SetTopLeft(416, 473);
+	dir_m4.SetTopLeft(416, 350);
+	dir_m5.SetTopLeft(657, 350);
+	dir_m6.SetTopLeft(60, 356);
+	clock.SetFrameIndexOfBitmap(1);
+	clock.SetTopLeft(377, 245);
+	clock_1.SetFrameIndexOfBitmap(1);
+	clock_1.SetTopLeft(560, 185);
+	clock_2.SetFrameIndexOfBitmap(1);
+	clock_2.SetTopLeft(498, 365);
+	clock_shelf.SetTopLeft(377, 295);
+	clock_1_shelf.SetTopLeft(555, 235);
+	clock_2_shelf.SetTopLeft(496, 415);
 
 	dir1 = false;
 	dir1_b = false;
@@ -2744,12 +2787,15 @@ void CGameStateRun::Level10_init() {
 
 	//exit.SetTopLeft(30, 418);
 	stage_num.SetFrameIndexOfBitmap(9);
-	exit.SetFrameIndexOfBitmap(2);
+	exit.SetFrameIndexOfBitmap(3);
 	times = 0;
 	pass = false;
 	f_pass = false;
 	m_pass = false;
 	b_pass = false;
+	for (int i = 0; i < 15; i++) {
+		blocks[i].SetTopLeft(130 + (120 * (i % 5)), 185 + 120 * int(i / 5));
+	}
 }
 void CGameStateRun::show_image_unpass() {
 	//第一關畫面
@@ -3558,22 +3604,41 @@ void CGameStateRun::show_image_unpass() {
 		start_1.ShowBitmap(0.7);
 		start.ShowBitmap(0.7);
 
-		clock.ShowBitmap(0.3);
+		clock.ShowBitmap(0.8);
 		clock_shelf.ShowBitmap();
-		clock_1.ShowBitmap(0.3);
+		clock_1.ShowBitmap(0.8);
 		clock_1_shelf.ShowBitmap();
-		clock_2.ShowBitmap(0.3);
+		clock_2.ShowBitmap(0.8);
 		clock_2_shelf.ShowBitmap();
 
+		exit1.ShowBitmap(1.1);
+		exit2.ShowBitmap(1.2);
+		exit3.ShowBitmap(1.1);
+
+		direction_1.ShowBitmap();
+		direction_2.ShowBitmap();
 		dir_f1.ShowBitmap();
 		dir_f2.ShowBitmap();
 		dir_f3.ShowBitmap();
 		dir_b1.ShowBitmap();
 		dir_b2.ShowBitmap();
+		dir_b3.ShowBitmap();
+		dir_b4.ShowBitmap();
+		dir_b5.ShowBitmap();
+		dir_b6.ShowBitmap();
+		dir_b7.ShowBitmap();
 
-		exit1.ShowBitmap(1.1);
-		exit2.ShowBitmap(1.2);
-		exit3.ShowBitmap(1.1);
+		dir_m1.ShowBitmap();
+		dir_m2.ShowBitmap();
+		dir_m3.ShowBitmap();
+		dir_m4.ShowBitmap();
+		dir_m5.ShowBitmap();
+		dir_m6.ShowBitmap();
+		
+		//第十關
+		for (int i = 0; i < 15; i++) {
+			blocks[i].ShowBitmap();
+		}
 
 		ch1_flower.ShowBitmap(0.7);
 		ch2_bubble.ShowBitmap(0.7);
@@ -3612,16 +3677,28 @@ void CGameStateRun::show_image_unpass() {
 		clock.ShowBitmap(0.3);
 		clock_1.ShowBitmap(0.3);
 		clock_2.ShowBitmap(0.3);
-
+		exit1.ShowBitmap(1.1);
+		exit2.ShowBitmap(1.2);
+		exit3.ShowBitmap(1.1);
+		direction_1.ShowBitmap();
+		direction_2.ShowBitmap();
 		dir_f1.ShowBitmap();
 		dir_f2.ShowBitmap();
 		dir_f3.ShowBitmap();
 		dir_b1.ShowBitmap();
 		dir_b2.ShowBitmap();
+		dir_b3.ShowBitmap();
+		dir_b4.ShowBitmap();
+		dir_b5.ShowBitmap();
+		dir_b6.ShowBitmap();
+		dir_b7.ShowBitmap();
 
-		exit1.ShowBitmap(1.1);
-		exit2.ShowBitmap(1.2);
-		exit3.ShowBitmap(1.1);
+		dir_m1.ShowBitmap();
+		dir_m2.ShowBitmap();
+		dir_m3.ShowBitmap();
+		dir_m4.ShowBitmap();
+		dir_m5.ShowBitmap();
+		dir_m6.ShowBitmap();
 
 		if (!f_pass)
 			ch1_flower.ShowBitmap(0.7);
