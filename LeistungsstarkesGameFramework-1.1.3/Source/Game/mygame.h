@@ -179,7 +179,10 @@ namespace game_framework {
 		bool bitmapOverlap(CMovingBitmap a, CMovingBitmap b, int offsetX, int offsetY);
 		bool dir1_click = false; //判斷第三關哪個dir被點擊中
 		bool dir2_click = true;
-		void Level1_init(), Level2_init(), Level3_init(), Level4_init(), Level5_init(), Level6_init(), Level7_init(), Level8_init();
+		void Level1_init(), Level2_init(), Level3_init(),
+			 Level4_init(), Level5_init(), Level6_init(),
+			 Level7_init(), Level8_init(), Level9_init(),
+			 Level10_init();
 		//phase4
 		CMovingBitmap exit1, exit2; // phase4
 		CMovingBitmap c1_flower, c2_bubble; //phase4 character
