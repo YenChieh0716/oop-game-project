@@ -73,6 +73,10 @@ void CGameStateRun::onCharacterMove() {
 		x = ch2_bubble.GetLeft();
 		y = ch2_bubble.GetTop();
 	}
+	else if (phase == 9) {
+		x = character.GetLeft();
+		y = character.GetTop();
+	}
 	//bool dir;絕對值相減
 	if (x <= 70) {
 		isMovingLeft = false;
@@ -637,6 +641,53 @@ void CGameStateRun::onCharacterMove() {
 			}
 		}
 	}
+	if (phase == 9) {
+		if (dir1) {
+			if (!dir1_f) {
+				dir1_f = true;
+				isMovingUp = true;
+				isMovingDown = false;
+				isMovingRight = false;
+				isMovingLeft = false;
+			}
+		}
+		if (dir2) {
+			if (!dir2_f) {
+				dir2_f = true;
+				isMovingUp = false;
+				isMovingDown = false;
+				isMovingRight = true;
+				isMovingLeft = false;
+			}
+		}
+		if (dir3) {
+			if (!dir3_f) {
+				dir3_f = true;
+				isMovingUp = true;
+				isMovingDown = false;
+				isMovingRight = false;
+				isMovingLeft = false;
+			}
+		}
+		if (dir4) {
+			if (!dir4_f) {
+				dir4_f = true;
+				isMovingUp = false;
+				isMovingDown = false;
+				isMovingRight = false;
+				isMovingLeft = true;
+			}
+		}
+		if (dir5) {
+			if (!dir5_f) {
+				dir5_f = true;
+				isMovingUp = true;
+				isMovingDown = false;
+				isMovingRight = false;
+				isMovingLeft = false;
+			}
+		}
+	}
 	if (isMovingLeft)
 		x -= STEP_SIZE;
 	if (isMovingRight)
@@ -697,6 +748,10 @@ void CGameStateRun::onCharacterMove() {
 	else if (phase == 8) {
 		if (isCharacterMove)
 			ch2_bubble.SetTopLeft(x, y);
+	}
+	else if (phase == 9) {
+		if (isCharacterMove)
+			character.SetTopLeft(x, y);
 	}
 }
 
@@ -1287,6 +1342,53 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		onCharacterMove();
 	}
+	//第九關
+	if (phase == 9 && !pass) {
+		
+		if (!dir1) {
+			dir1 = bitmapOverlap(character, direction_1, 50, -40);
+		}
+		if (!dir2) {
+			dir2 = bitmapOverlap(character, direction_2, -60, 80);
+		}
+		if (!dir3) {
+			dir3 = bitmapOverlap(character, dir_f1, 50, -40);
+		}
+		if (!dir4) {
+			dir4 = bitmapOverlap(character, dir_f2, -60, 70);
+		}
+		if (!dir5) {
+			dir5 = bitmapOverlap(character, dir_f3,-70, -40);
+		}
+
+
+		if (!pass) {
+			if (!pass&& isStart) {
+				pass = bitmapOverlap(exit, character, 25,-18); //泡泡
+			}
+			if (pass && isStart) {
+				pass = true;
+				CAudio::Instance()->Pause();
+				if (isBGMPlay) {
+					CAudio::Instance()->Play(AUDIO_PASS); // 切換到關卡開始畫面撥放另一音樂
+				}
+			}
+
+		}
+		
+		if (!clock1) {
+			clock1 = bitmapOverlap(character, clock,  30,  60);
+		}
+		
+		if (!clock2) {
+			clock2 = bitmapOverlap(character, clock_1,-90,80);
+		}
+		if (!clock3) {
+			clock3 = bitmapOverlap(character, clock_2, 20, 50);
+		}
+		/**/
+		onCharacterMove();
+	}
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -1715,30 +1817,24 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					isRestart = true;
 					isCharacterMove = false;
 					isStart = false;
-					if (phase == 1) {
+					if (phase == 1)
 						Level1_init();
-					}
-					//character.SetTopLeft(185, 403);
-					else if (phase == 2) {
+					else if (phase == 2)
 						Level2_init();
-					}
-					else if (phase == 3) {
+					else if (phase == 3)
 						Level3_init();
-					}
-					else if (phase == 4) {
+					else if (phase == 4)
 						Level4_init();
-					}
-					else if (phase == 5) {
+					else if (phase == 5)
 						Level5_init();
-					}
-					else if (phase == 6) {
+					else if (phase == 6)
 						Level6_init();
-					}
-					else if (phase == 7) {
+					else if (phase == 7)
 						Level7_init();
-					}
 					else if (phase == 8)
 						Level8_init();
+					else if (phase == 9)
+						Level9_init();
 				}
 			}
 		}
@@ -1878,6 +1974,36 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 			}
 			if (isDirectionMove) {
 				direction_1.SetTopLeft(point.x - 25, point.y - 15);
+			}
+		}
+		//第九關
+		if (!isStart && !pass && phase == 9) {
+			if (point.x > direction_1.GetLeft() && point.x <= direction_1.GetLeft() + direction_1.GetWidth()) {
+				if (point.y > direction_1.GetTop() && point.y <= direction_1.GetTop() + direction_1.GetHeight()) {
+					dir1_click = true;
+					isDirectionMove = true;
+				}
+			}
+			if (point.x > dir_f1.GetLeft() && point.x <= dir_f1.GetLeft() + dir_f1.GetWidth()) {
+				if (point.y > dir_f1.GetTop() && point.y <= dir_f1.GetTop() + dir_f1.GetHeight()) {
+					dirf1_click = true;
+					isDirectionMove = true;
+				}
+			}
+			if (point.x > dir_f3.GetLeft() && point.x <= dir_f3.GetLeft() + dir_f3.GetWidth()) {
+				if (point.y > dir_f3.GetTop() && point.y <= dir_f3.GetTop() + dir_f3.GetHeight()) {
+					dirf3_click = true;
+					isDirectionMove = true;
+				}
+			}
+			if (isDirectionMove && dir1_click) {
+				direction_1.SetTopLeft(point.x - 25, point.y - 15);
+			}
+			else if (isDirectionMove && dirf1_click) {
+				dir_f1.SetTopLeft(point.x - 25, point.y - 15);
+			}
+			else if (isDirectionMove && dirf3_click) {
+				dir_f3.SetTopLeft(point.x - 25, point.y - 15);
 			}
 		}
 		//設定過關後點擊重新開始
@@ -2061,6 +2187,20 @@ void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 		else if (phase == 8) {
 			direction_1.SetTopLeft(point.x - 25, point.y - 15);
 		}
+		else if (phase == 9) {
+			if (dir1_click) {
+				direction_1.SetTopLeft(point.x - 25, point.y - 15);
+				dir1_click = false;
+			}
+			else if (dirf1_click) {
+				dir_f1.SetTopLeft(point.x - 25, point.y - 15);
+				dirf1_click = false;
+			}
+			else if (dirf3_click) {
+				dir_f3.SetTopLeft(point.x - 25, point.y - 15);
+				dirf3_click = false;
+			}
+		}
 	}
 }
 
@@ -2123,6 +2263,17 @@ void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動
 		}
 		else if (phase == 8)
 			direction_1.SetTopLeft(point.x - 25, point.y - 15);
+		else if (phase == 9) {
+			if (dir1_click) {
+				direction_1.SetTopLeft(point.x - 25, point.y - 15);
+			}
+			else if (dirf1_click) {
+				dir_f1.SetTopLeft(point.x - 25, point.y - 15);
+			}
+			else if (dirf3_click) {
+				dir_f3.SetTopLeft(point.x - 25, point.y - 15);
+			}
+		}
 	}
 }
 
@@ -2709,7 +2860,7 @@ void CGameStateRun::Level9_init() {
 	clock.SetTopLeft(378, 425);
 	clock_1.SetTopLeft(383, 125);
 	clock_2.SetTopLeft(620, 243);
-	character.SetTopLeft(125, 453);
+	character.SetTopLeft(125, 470);
 
 	block1.SetFrameIndexOfBitmap(3);
 	block1.SetTopLeft(73, 365);
@@ -2720,14 +2871,22 @@ void CGameStateRun::Level9_init() {
 
 	dir1 = false;
 	dir2 = false;
+	dir3 = false;
+	dir4 = false;
+	dir5 = false;
+	dir1_f = false; //用於設定初始方向
+	dir2_f = false;
+	dir3_f = false;
+	dir4_f = false;
+	dir5_f = false;
+
 	isMovingLeft = false;
 	isMovingRight = true;
 	isMovingUp = false;
 	isMovingDown = false;
 	isDirectionMove = false;
 	//bool isRestart = false;
-	dir1_f = false; //用於設定初始方向
-	dir2_f = false;
+	
 	clock1 = false;
 	clock2 = false;
 	clock3 = false;
@@ -3648,7 +3807,7 @@ void CGameStateRun::show_image_unpass() {
 			dir_f2.ShowBitmap();
 			dir_f3.ShowBitmap();
 			exit.ShowBitmap();
-			character.ShowBitmap(0.7);
+			character.ShowBitmap(0.6);
 			character.SetAnimation(300, false);
 			
 			show_text_by_phase();
@@ -3696,7 +3855,7 @@ void CGameStateRun::show_image_unpass() {
 			dir_f2.ShowBitmap();
 			dir_f3.ShowBitmap();
 			exit.ShowBitmap();
-			character.ShowBitmap(0.7);
+			character.ShowBitmap(0.6);
 			character.SetAnimation(300, false);
 			show_text_by_phase();
 		}
