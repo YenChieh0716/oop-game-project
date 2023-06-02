@@ -233,6 +233,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="resources\gamecurs.cur" />
     <None Include="RES\GAME.RC2" />
   </ItemGroup>
   <ItemGroup>
@@ -267,6 +268,11 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Source\Core\game.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\gameDoc.ico" />
+    <Image Include="resources\icon.ico" />
+    <Image Include="resources\Toolbar.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
