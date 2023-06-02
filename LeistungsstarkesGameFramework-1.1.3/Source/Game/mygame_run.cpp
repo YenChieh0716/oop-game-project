@@ -97,13 +97,13 @@ void CGameStateRun::onCharacterMove() {
 	if (y <= 100) {
 		isMovingUp = false;
 		isMovingDown = true;
-		isMovingDown_b = true;
+		//isMovingDown_b = true;
 	}
 	else if (y >= 481) {
 		isMovingUp = true;
 		isMovingDown = false;
 	}
-	if (x2 <= 70) {
+	if (x2 <= 69) {
 		isMovingLeft_b = false;
 		isMovingRight_b = true;
 	}
@@ -853,9 +853,9 @@ void CGameStateRun::onCharacterMove() {
 		if (dir6_m) {
 			if (!dir6_m_f) {
 				dir6_m_f = true;
-				isMovingUp_meow = true;
+				isMovingUp_meow = false;
 				isMovingDown_meow = false;
-				isMovingRight_meow = false;
+				isMovingRight_meow = true;
 				isMovingLeft_meow = false;
 			}
 		}
@@ -925,6 +925,14 @@ void CGameStateRun::onCharacterMove() {
 	else if (phase == 9) {
 		if (isCharacterMove)
 			character.SetTopLeft(x, y);
+	}
+	else if (phase == 10) {
+		if (isCharacterMove)
+			ch1_flower.SetTopLeft(x, y);
+		if (isCharacterMove_b)
+			ch2_bubble.SetTopLeft(x2, y2);
+		if (isCharacterMove_meow)
+			ch3_meow.SetTopLeft(x3, y3);
 	}
 }
 
@@ -1983,6 +1991,12 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					if (phase == 8) {
 						isCharacterMove = true;
 					}
+					if (phase == 10)
+					{
+						isCharacterMove = true;
+						isCharacterMove_b = true;
+						isCharacterMove_meow = true;
+					}
 					isStart = true;
 				}
 				else if (isStart && !pass) { //在該關重新開始(bool 回到初始值)
@@ -2007,6 +2021,8 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 						Level8_init();
 					else if (phase == 9)
 						Level9_init();
+					else if (phase == 10)
+						Level10_init();
 				}
 			}
 		}
@@ -3161,20 +3177,20 @@ void CGameStateRun::Level10_init() {
 	isCharacterMove_b = false;
 	isCharacterMove_meow = false;
 	//重設各角色移動方向
-	isMovingUp = false;
+	isMovingUp = true;
 	isMovingDown = false;
-	isMovingLeft = true;
+	isMovingLeft = false;
 	isMovingRight = false;
 
-	isMovingUp_b = false;
+	isMovingUp_b = true;
 	isMovingDown_b = false;
-	isMovingLeft_b = true;
+	isMovingLeft_b = false;
 	isMovingRight_b = false;
 
 	isMovingUp_meow = false;
 	isMovingDown_meow = false;
-	isMovingLeft_meow = true;
-	isMovingRight_meow = false;
+	isMovingLeft_meow = false;
+	isMovingRight_meow = true;
 
 	exit1.SetTopLeft(729, 420);
 	exit1.SetFrameIndexOfBitmap(3);
@@ -4172,9 +4188,9 @@ void CGameStateRun::show_image_unpass() {
 		else {
 			clock_2_shelf.ShowBitmap();
 		}
-		clock.ShowBitmap(0.3);
-		clock_1.ShowBitmap(0.3);
-		clock_2.ShowBitmap(0.3);
+		clock.ShowBitmap(0.8);
+		clock_1.ShowBitmap(0.8);
+		clock_2.ShowBitmap(0.8);
 		exit1.ShowBitmap(1.1);
 		exit2.ShowBitmap(1.2);
 		exit3.ShowBitmap(1.1);
@@ -4208,6 +4224,7 @@ void CGameStateRun::show_image_unpass() {
 			ch2_bubble.ShowBitmap(0.7);
 		if (!m_pass)
 			ch3_meow.ShowBitmap(0.7);
+		onCharacterMove();
 	}
 	}
 }
