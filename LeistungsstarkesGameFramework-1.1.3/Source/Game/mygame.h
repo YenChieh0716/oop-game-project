@@ -257,6 +257,10 @@ namespace game_framework {
 		bool dir7_b_f = false;
 		bool dir6_m = false;
 		bool dir6_m_f = false;
+		int pass_num = 0;
+		bool f_add = false;
+		bool b_add = false;
+		bool m_add = false;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

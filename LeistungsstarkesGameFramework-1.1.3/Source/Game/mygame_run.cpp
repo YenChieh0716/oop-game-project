@@ -103,6 +103,7 @@ void CGameStateRun::onCharacterMove() {
 		isMovingUp = true;
 		isMovingDown = false;
 	}
+	if(phase<10){
 	if (x2 <= 65) {
 		isMovingLeft_b = false;
 		isMovingRight_b = true;
@@ -117,6 +118,16 @@ void CGameStateRun::onCharacterMove() {
 	}
 	//465
 	else if (y2 >= 481) {
+		isMovingUp_b = true;
+		isMovingDown_b = false;
+	}
+	
+	if (y2 <= 100) {
+		isMovingUp_b = false;
+		isMovingDown_b = true;
+	}
+	//465
+	else if (y2 >= 465) {
 		isMovingUp_b = true;
 		isMovingDown_b = false;
 	}
@@ -136,7 +147,41 @@ void CGameStateRun::onCharacterMove() {
 		isMovingUp_meow = true;
 		isMovingDown_meow = false;
 	}
-
+	}
+	if (phase == 10) {
+		if (x2 <= 65) {
+			isMovingLeft_b = false;
+			isMovingRight_b = true;
+		}
+		else if (x2 >= 680) {
+			isMovingLeft_b = true;
+			isMovingRight_b = false;
+		}
+		if (y2 <= 100) {
+			isMovingUp_b = false;
+			isMovingDown_b = true;
+		}
+		else if (y2 >= 481) {
+			isMovingUp_b = true;
+			isMovingDown_b = false;
+		}
+		if (x3 <= 70) {
+			isMovingLeft_meow = false;
+			isMovingRight_meow = true;
+		}
+		else if (x3 >= 675) {
+			isMovingLeft_meow = true;
+			isMovingRight_meow = false;
+		}
+		if (y3 <= 100) {
+			isMovingUp_meow = false;
+			isMovingDown_meow = true;
+		}
+		else if (y3 >= 481) {
+			isMovingUp_meow = true;
+			isMovingDown_meow = false;
+		}
+	}
 	if (phase == 1) {
 		if (dir1) {
 			if (!dir1_f) {
@@ -747,8 +792,8 @@ void CGameStateRun::onCharacterMove() {
 			if (!dir2_m_f) {
 				dir2_m_f = true;
 				isMovingUp_meow = false;
-				isMovingDown_meow = true;
-				isMovingRight_meow = false;
+				isMovingDown_meow = false;
+				isMovingRight_meow = true;
 				isMovingLeft_meow = false;
 			}
 		}
@@ -773,9 +818,9 @@ void CGameStateRun::onCharacterMove() {
 		if (dir3_m) {
 			if (!dir3_m_f) {
 				dir3_m_f = true;
-				isMovingUp_meow = false;
+				isMovingUp_meow = true;
 				isMovingDown_meow = false;
-				isMovingRight_meow = true;
+				isMovingRight_meow = false;
 				isMovingLeft_meow = false;
 			}
 		}
@@ -1575,46 +1620,38 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 		if (!dir1) {
 			dir1 = bitmapOverlap(ch1_flower, direction_1, 0, 70);
-		}
-		
-		if (!dir1_b) {
+		}if (!dir1_b) {
 			dir1_b = bitmapOverlap(ch2_bubble, dir_b1, 10, 60);
+		}if (!dir1_m) {
+			dir1_m = bitmapOverlap(ch3_meow, dir_m1, 55, 0);
 		}
-		/*
-		if (!dir1_m) {
-			dir1 = bitmapOverlap(ch1_flower, direction_1, 0, 70);
-		}
-		*/
+
 		if (!dir2) {
 			dir2 = bitmapOverlap(ch1_flower, direction_2, 50, 0);
-		}
-		if (!dir2_b) {
+		}if (!dir2_b) {
 			dir2_b = bitmapOverlap(ch2_bubble, dir_b2, 60, 0);
+		}if (!dir2_m) {
+			if (ch3_meow.GetLeft() >= 177 && ch3_meow.GetTop() >= 473)
+				dir2_m = true;
 		}
-		/*
 
-		if (!dir1_m) {
-			dir1 = bitmapOverlap(ch1_flower, direction_1, 0, 70);
-		}
-		*/
 		if (!dir3) {
 			dir3 = bitmapOverlap(ch1_flower, dir_f1, 0, 70);
-		}
-		if (!dir3_b) {
+		}if (!dir3_b) {
 			dir3_b = bitmapOverlap(ch2_bubble, dir_b3, 0, 60);
+		}if (!dir3_m) {
+			dir3_m = bitmapOverlap(ch3_meow, dir_m3, 60, 0);
+			//m_pass = true;
 		}
 		
-		/*
 
-		if (!dir1_m) {
-			dir1 = bitmapOverlap(ch1_flower, direction_1, 0, 70);
-		}
-		*/
 		if (!dir4) {
 			dir4 = bitmapOverlap(ch1_flower, dir_f2, 50, 0);
-		}
-		if (!dir4_b) {
+		}if (!dir4_b) {
 			dir4_b = bitmapOverlap(ch2_bubble, dir_b4, 60, 0);
+		}if (!dir4_m) {
+			dir4_m = bitmapOverlap(ch3_meow, dir_m4, 0, 60);
+			//m_pass = true;
 		}
 		/*
 		if (!dir1_b) {
@@ -1627,65 +1664,67 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		*/
 		if (!dir5) {
 			dir5 = bitmapOverlap(ch1_flower, dir_f3, 0, -60);
-		}
-
-		
-		if (!dir5_b) {
+		}if (!dir5_b) {
 			dir5_b = bitmapOverlap(ch2_bubble, dir_b5, -10, -55);
+		}if (!dir5_m) {
+			dir5_m = bitmapOverlap(ch3_meow, dir_m5, 55, 0);
+			//m_pass = true;
 		}
+		
 		if (!dir6_b) {
-			dir6_b = bitmapOverlap(ch2_bubble, dir_b6, -10, -10);//659,471
+			if (ch2_bubble.GetLeft() >= 659 && ch2_bubble.GetTop() >= 471)
+				dir6_b = true;
+		}if (!dir6_m) {
+			//dir6_m = bitmapOverlap(ch3_meow, dir_m6, 10, 60);//60, 356
+			if (ch3_meow.GetLeft() >= 657 && ch3_meow.GetTop() <= 306)
+				dir6_m = true;
 		}
-		/*
+		
 		if (!dir7_b) {
-			dir7_b = bitmapOverlap(ch2_bubble, dir_b7, 0, 60);
+			if (ch2_bubble.GetLeft() >= 659 && ch2_bubble.GetTop() <= 413)
+				dir7_b = true;
 		}
-		*/
+	
 		if (!f_pass) {
 			f_pass = bitmapOverlap(ch1_flower, exit2, 25, 0);
-		}
-		/*
-		if (!dir1_b) {
-			dir1 = bitmapOverlap(ch1_flower, direction_1, 0, 70);
-		}
-		
-		if (!dir1_m) {
-			dir1 = bitmapOverlap(ch1_flower, direction_1, 0, 70);
-		}
-		*/
-		/*
-		if (!dir4) {
-			dir4 = bitmapOverlap(character, dir_f2, -60, 70);
-		}
-		if (!dir5) {
-			dir5 = bitmapOverlap(character, dir_f3, -70, -40);
-		}
-		
-
-
-		if (!pass) {
-			if (!pass&& isStart) {
-				pass = bitmapOverlap(exit, character, 25, -18); //泡泡
+			if (f_pass && !f_add) {
+				pass_num += 1;
+				f_add = true;
 			}
-			if (pass && isStart) {
-				pass = true;
-				CAudio::Instance()->Pause();
-				if (isBGMPlay) {
-					CAudio::Instance()->Play(AUDIO_PASS); // 切換到關卡開始畫面撥放另一音樂
-				}
+				
+		}if (!b_pass) {
+			b_pass = bitmapOverlap(ch2_bubble, exit1, 32, 50);
+			if (b_pass && !b_add) {
+				pass_num += 1;
+				b_add = true;
+			}
+		}if (!m_pass) {
+			m_pass = bitmapOverlap(ch3_meow, exit3, 25, 0);
+			if (m_pass && !m_add) {
+				pass_num += 1;
+				m_add = true;
+			}
+		}
+		
+		
+		if (!pass) {
+			if (pass_num == 3) {
+						pass = true;
+						CAudio::Instance()->Pause();
+						if (isBGMPlay) {
+							CAudio::Instance()->Play(AUDIO_PASS); // 切換到關卡開始畫面撥放另一音樂
+						}
 			}
 		}
 		if (!clock1) {
-			clock1 = bitmapOverlap(character, clock, 30, 60);
+			clock1 = bitmapOverlap(ch1_flower, clock, 50, 0);
 		}
-
 		if (!clock2) {
-			clock2 = bitmapOverlap(character, clock_1, -90, 80);
+			clock2 = bitmapOverlap(ch2_bubble, clock_1, -90, 80);
 		}
 		if (!clock3) {
-			clock3 = bitmapOverlap(character, clock_2, 20, 50);
-		}*/
-		
+			clock3 = bitmapOverlap(ch3_meow, clock_2, 20, 50);
+		}
 		//onCharacterMove();
 	}
 }
