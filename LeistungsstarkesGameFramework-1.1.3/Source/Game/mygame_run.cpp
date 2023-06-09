@@ -3462,8 +3462,6 @@ void CGameStateRun::Level10_init() {
 	background_stars.ShowBitmap();
 	character3.SetAnimation(300, false);
 
-
-	//exit.SetTopLeft(30, 418);
 	stage_num.SetFrameIndexOfBitmap(9);
 	exit.SetFrameIndexOfBitmap(3);
 	times = 0;
