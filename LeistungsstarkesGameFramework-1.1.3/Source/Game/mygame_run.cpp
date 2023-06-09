@@ -3468,6 +3468,10 @@ void CGameStateRun::Level10_init() {
 	exit.SetFrameIndexOfBitmap(3);
 	times = 0;
 	pass = false;
+	pass_num = 0;
+	f_add = false;
+	b_add = false;
+	m_add = false;
 	f_pass = false;
 	m_pass = false;
 	b_pass = false;
