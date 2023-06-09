@@ -103,7 +103,7 @@ void CGameStateRun::onCharacterMove() {
 		isMovingUp = true;
 		isMovingDown = false;
 	}
-	if (x2 <= 69) {
+	if (x2 <= 65) {
 		isMovingLeft_b = false;
 		isMovingRight_b = true;
 	}
@@ -115,7 +115,8 @@ void CGameStateRun::onCharacterMove() {
 		isMovingUp_b = false;
 		isMovingDown_b = true;
 	}
-	else if (y2 >= 465) {
+	//465
+	else if (y2 >= 481) {
 		isMovingUp_b = true;
 		isMovingDown_b = false;
 	}
@@ -1569,6 +1570,124 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		/**/
 		onCharacterMove();
 	}
+	//第十關
+	if (phase == 10 && !pass) {
+
+		if (!dir1) {
+			dir1 = bitmapOverlap(ch1_flower, direction_1, 0, 70);
+		}
+		
+		if (!dir1_b) {
+			dir1_b = bitmapOverlap(ch2_bubble, dir_b1, 10, 60);
+		}
+		/*
+		if (!dir1_m) {
+			dir1 = bitmapOverlap(ch1_flower, direction_1, 0, 70);
+		}
+		*/
+		if (!dir2) {
+			dir2 = bitmapOverlap(ch1_flower, direction_2, 50, 0);
+		}
+		if (!dir2_b) {
+			dir2_b = bitmapOverlap(ch2_bubble, dir_b2, 60, 0);
+		}
+		/*
+
+		if (!dir1_m) {
+			dir1 = bitmapOverlap(ch1_flower, direction_1, 0, 70);
+		}
+		*/
+		if (!dir3) {
+			dir3 = bitmapOverlap(ch1_flower, dir_f1, 0, 70);
+		}
+		if (!dir3_b) {
+			dir3_b = bitmapOverlap(ch2_bubble, dir_b3, 0, 60);
+		}
+		
+		/*
+
+		if (!dir1_m) {
+			dir1 = bitmapOverlap(ch1_flower, direction_1, 0, 70);
+		}
+		*/
+		if (!dir4) {
+			dir4 = bitmapOverlap(ch1_flower, dir_f2, 50, 0);
+		}
+		if (!dir4_b) {
+			dir4_b = bitmapOverlap(ch2_bubble, dir_b4, 60, 0);
+		}
+		/*
+		if (!dir1_b) {
+			dir1 = bitmapOverlap(ch1_flower, direction_1, 0, 70);
+		}
+
+		if (!dir1_m) {
+			dir1 = bitmapOverlap(ch1_flower, direction_1, 0, 70);
+		}
+		*/
+		if (!dir5) {
+			dir5 = bitmapOverlap(ch1_flower, dir_f3, 0, -60);
+		}
+
+		
+		if (!dir5_b) {
+			dir5_b = bitmapOverlap(ch2_bubble, dir_b5, -10, -55);
+		}
+		if (!dir6_b) {
+			dir6_b = bitmapOverlap(ch2_bubble, dir_b6, -10, -10);//659,471
+		}
+		/*
+		if (!dir7_b) {
+			dir7_b = bitmapOverlap(ch2_bubble, dir_b7, 0, 60);
+		}
+		*/
+		if (!f_pass) {
+			f_pass = bitmapOverlap(ch1_flower, exit2, 25, 0);
+		}
+		/*
+		if (!dir1_b) {
+			dir1 = bitmapOverlap(ch1_flower, direction_1, 0, 70);
+		}
+		
+		if (!dir1_m) {
+			dir1 = bitmapOverlap(ch1_flower, direction_1, 0, 70);
+		}
+		*/
+		/*
+		if (!dir4) {
+			dir4 = bitmapOverlap(character, dir_f2, -60, 70);
+		}
+		if (!dir5) {
+			dir5 = bitmapOverlap(character, dir_f3, -70, -40);
+		}
+		
+
+
+		if (!pass) {
+			if (!pass&& isStart) {
+				pass = bitmapOverlap(exit, character, 25, -18); //泡泡
+			}
+			if (pass && isStart) {
+				pass = true;
+				CAudio::Instance()->Pause();
+				if (isBGMPlay) {
+					CAudio::Instance()->Play(AUDIO_PASS); // 切換到關卡開始畫面撥放另一音樂
+				}
+			}
+		}
+		if (!clock1) {
+			clock1 = bitmapOverlap(character, clock, 30, 60);
+		}
+
+		if (!clock2) {
+			clock2 = bitmapOverlap(character, clock_1, -90, 80);
+		}
+		if (!clock3) {
+			clock3 = bitmapOverlap(character, clock_2, 20, 50);
+		}*/
+		
+		//onCharacterMove();
+	}
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -1914,6 +2033,10 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 						Level9_init();
 					}
 					else if (phase == 10) {
+						isMovingUp_b = true;
+						isMovingDown_b = false;
+						isMovingLeft_b = false;
+						isMovingRight_b = false;
 						Level10_init();
 					}
 					//要把start位置調整回去,音樂按鈕選擇調回去，音樂切換到開始
@@ -4154,9 +4277,9 @@ void CGameStateRun::show_image_unpass() {
 		dir_m5.ShowBitmap();
 		dir_m6.ShowBitmap();
 
-		ch1_flower.ShowBitmap(0.7);
-		ch2_bubble.ShowBitmap(0.7);
-		ch3_meow.ShowBitmap(0.7);
+		ch1_flower.ShowBitmap(0.6);
+		ch2_bubble.ShowBitmap(0.6);
+		ch3_meow.ShowBitmap(0.6);
 	}
 	else if (isStart) {
 		background_stars.ShowBitmap();
@@ -4219,11 +4342,11 @@ void CGameStateRun::show_image_unpass() {
 		dir_m6.ShowBitmap();
 
 		if (!f_pass)
-			ch1_flower.ShowBitmap(0.7);
+			ch1_flower.ShowBitmap(0.6);
 		if (!b_pass)
-			ch2_bubble.ShowBitmap(0.7);
+			ch2_bubble.ShowBitmap(0.6);
 		if (!m_pass)
-			ch3_meow.ShowBitmap(0.7);
+			ch3_meow.ShowBitmap(0.6);
 		onCharacterMove();
 	}
 	}
