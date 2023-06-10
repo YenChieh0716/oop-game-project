@@ -134,8 +134,9 @@ void CGameStateInit::OnShow()
 		Mailbox.ShowBitmap();
 		Mailbox_logo.ShowBitmap();
 		Mailbox_flag.ShowBitmap();
+		
 	}
-	//draw_text(); //不是載入
+	//draw_text(); 
 }
 void CGameStateInit::load_background() {
 	CAudio::Instance()->Load(AUDIO_START_BGM, "resources/music/music_ingame01.mp3");
@@ -152,6 +153,8 @@ void CGameStateInit::load_background() {
 	background_musicButton_unplay.LoadBitmapByString({ "resources/mainMenu/music_button_5.bmp" }, RGB(255, 255, 255));
 	startButton_play.LoadBitmapByString({ "resources/mainMenu/start_1.bmp" }, RGB(1, 1, 1));
 	startButton_play_1.LoadBitmapByString({ "resources/mainMenu/start_2.bmp" }, RGB(1, 1, 1));
+	
+
 	fence_right_bottom.LoadBitmap("resources/mainMenu/fence_2.bmp", RGB(1, 1, 1));
 	fence_left_bottom.LoadBitmap("resources/mainMenu/fence.bmp", RGB(1, 1, 1));
 	Mailbox.LoadBitmap("resources/mainMenu/mailbox.bmp", RGB(1, 1, 1));
@@ -176,6 +179,8 @@ void CGameStateInit::load_background() {
 	background_musicButton_play_2.SetTopLeft(697, 23);
 	startButton_play.SetTopLeft(640, 460);
 	startButton_play_1.SetTopLeft(646, 460);
+	
+
 	fence_right_bottom.SetTopLeft(545, 485);
 	fence_left_bottom.SetTopLeft(-40, 515);
 	Mailbox.SetTopLeft(50, 455);
@@ -194,17 +199,16 @@ void CGameStateInit::load_background() {
 void CGameStateInit::draw_text() {
 	/*
 	CDC *pDC = CDDraw::GetBackCDC();
-	CFont* fp;
+	CFont fp;
 
 	// Print title
-	CTextDraw::ChangeFontLog(pDC, fp, 36, "微軟正黑體", RGB(255, 255, 255));
-	CTextDraw::Print(pDC, 79, 228, "Game Framework Practice");
-
-	// Print info
-	CTextDraw::ChangeFontLog(pDC, fp, 24, "微軟正黑體", RGB(255, 255, 255));
-	CTextDraw::Print(pDC, 182, 431, "Press any key to start");
-
+	if (isInitialed) {
+		CTextDraw::ChangeFontLog(pDC, 9, "微軟正黑體", RGB(0, 0, 0));
+		CTextDraw::Print(pDC, 533, 505, "CHEATING");
+	}
+	
 	CDDraw::ReleaseBackCDC();
+	
 	*/
 }
 

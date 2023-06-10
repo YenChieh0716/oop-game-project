@@ -25,7 +25,7 @@ void CGameStateRun::OnBeginState()
 	//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
 	//isBGMPlay = BGMPlay;
 	fill(getClock_arr,getClock_arr + 30, 0);
-	phase = 10;
+	//phase = 10;
 }
 
 void CGameStateRun::onCharacterMove() {
@@ -1825,6 +1825,11 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	clock_1_get.SetTopLeft(370, 20);
 	clock_2_get.SetTopLeft(430, 20);
 
+
+	cheatButtton.LoadBitmapByString({ "resources/mainMenu/start_1.bmp" }, RGB(1, 1, 1));
+	cheatButtton_1.LoadBitmapByString({ "resources/mainMenu/start_2.bmp" }, RGB(1, 1, 1));
+	cheatButtton.SetTopLeft(640, 460);
+	cheatButtton_1.SetTopLeft(646, 460);
 	musicButton_play.LoadBitmapByString({ "resources/runState/pass/music_1.bmp", "resources/level_bg/music_button_1.bmp" }, RGB(1, 1, 1));
 	musicButton_play_1.LoadBitmap("resources/runState/pass/music_2.bmp", RGB(1, 1, 1));
 	musicButton_unplay.LoadBitmapByString({ "resources/mainMenu/music_button_5.bmp" }, RGB(255, 255, 255));
@@ -2031,7 +2036,7 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 {
 	//選擇關卡點擊事件
 	if (!isChoose) {
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < phase; i++) {
 			if (point.x > Levels[i].GetLeft() && point.x <= Levels[i].GetLeft() + Levels[i].GetWidth() - 20) {
 				if (point.y > Levels[i].GetTop() + 15 && point.y <= Levels[i].GetTop() + Levels[i].GetHeight() - 20) {
 					isChoose = true;
@@ -2115,12 +2120,33 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					level_page = 1;
 			}
 		}
+		//作弊按鈕
+		if (point.x > cheatButtton.GetLeft() + 25 && point.x <= cheatButtton.GetLeft() + cheatButtton.GetWidth() - 25) {
+			if (point.y > cheatButtton.GetTop() + 15 && point.y <= cheatButtton.GetTop() + cheatButtton.GetHeight() - 20) {
+				if (!isCheat) {
+					if (phase != 1)
+						prevPhase = phase;
+					phase = 10;
+					isCheat = true;
+				}
+				else {
+					if (prevPhase != 1)
+						phase = prevPhase;
+					else
+						phase = 1;
+					isCheat = false;
+				}
+					
+			}
+		}
+
 	}
 	else {
 		// 在遊戲開始前或中點擊查看關卡按鈕，切換到關卡選擇頁面
 		if (point.x > level.GetLeft() && point.x <= level.GetLeft() + level.GetWidth() - 25) {
 			if (point.y > level.GetTop() + 15 && point.y <= level.GetTop() + level.GetHeight() - 20) {
 				isChoose = false;
+				isCheat = false;
 				CAudio::Instance()->Stop(AUDIO_RUNSTATE_BGM);
 				if (isBGMPlay) {
 					CAudio::Instance()->Play(AUDIO_BUTTON);
@@ -2414,6 +2440,15 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					else if (phase == 7) {
 						Level7_init();
 					}
+					else if (phase == 8) {
+						Level8_init();
+					}
+					else if (phase == 9) {
+						Level9_init();
+					}
+					else if (phase == 10) {
+						Level10_init();
+					}
 					if (isBGMPlay) {
 						CAudio::Instance()->Play(AUDIO_BUTTON);
 						//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //關卡重新開始並撥放音樂
@@ -2471,6 +2506,30 @@ void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的
 					}
 					else if (phase == 7) {
 						Level7_init();
+						CAudio::Instance()->Pause();
+						if (isBGMPlay) {
+							CAudio::Instance()->Play(AUDIO_BUTTON);
+							//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
+						}
+					}
+					else if (phase == 8) {
+						Level8_init();
+						CAudio::Instance()->Pause();
+						if (isBGMPlay) {
+							CAudio::Instance()->Play(AUDIO_BUTTON);
+							//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
+						}
+					}
+					else if (phase == 9) {
+						Level9_init();
+						CAudio::Instance()->Pause();
+						if (isBGMPlay) {
+							CAudio::Instance()->Play(AUDIO_BUTTON);
+							//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
+						}
+					}
+					else if (phase == 10) {
+						Level10_init();
 						CAudio::Instance()->Pause();
 						if (isBGMPlay) {
 							CAudio::Instance()->Play(AUDIO_BUTTON);
@@ -2692,6 +2751,9 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 }
 
 void CGameStateRun::Level1_init() {
+		clock.SetFrameIndexOfBitmap(0);
+		clock_1.SetFrameIndexOfBitmap(0);
+		clock_2.SetFrameIndexOfBitmap(0);
 		character.SetTopLeft(185, 403);
 		dir1 = false;
 		dir2 = false;
@@ -2732,6 +2794,9 @@ void CGameStateRun::Level1_init() {
 		pass = false;
 }
 void CGameStateRun::Level2_init() {
+	clock.SetFrameIndexOfBitmap(0);
+	clock_1.SetFrameIndexOfBitmap(0);
+	clock_2.SetFrameIndexOfBitmap(0);
 	character2.SetTopLeft(350, 418);
 	//character.ShowBitmap();
 	dir1 = false;
@@ -2787,6 +2852,9 @@ void CGameStateRun::Level2_init() {
 	pass = false;
 }
 void CGameStateRun::Level3_init() {
+	clock.SetFrameIndexOfBitmap(0);
+	clock_1.SetFrameIndexOfBitmap(0);
+	clock_2.SetFrameIndexOfBitmap(0);
 	character3.SetTopLeft(130, 185);
 	//character.ShowBitmap();
 	dir1 = false;
@@ -2833,6 +2901,7 @@ void CGameStateRun::Level3_init() {
 	clock_1_shelf.SetTopLeft(375, 478);
 	clock_2_shelf.SetTopLeft(617, 355);
 	exit.SetTopLeft(30, 418);
+	block.SetFrameIndexOfBitmap(0);
 	block.SetTopLeft(62, 290);
 	stage_num.SetFrameIndexOfBitmap(2);
 	exit.SetFrameIndexOfBitmap(2);
@@ -2840,6 +2909,11 @@ void CGameStateRun::Level3_init() {
 	pass = false;
 }
 void CGameStateRun::Level4_init() {
+	clock.SetFrameIndexOfBitmap(0);
+	clock_1.SetFrameIndexOfBitmap(0);
+	clock_2.SetFrameIndexOfBitmap(0);
+	exit1.SetFrameIndexOfBitmap(0);
+	exit2.SetFrameIndexOfBitmap(0);
 	exit1.SetTopLeft(430, 90);
 	exit2.SetTopLeft(310, 90);
 	c1_flower.SetTopLeft(310, 160);
@@ -2931,6 +3005,9 @@ void CGameStateRun::Level4_init() {
 	pass = false;
 }
 void CGameStateRun::Level5_init() {
+	clock.SetFrameIndexOfBitmap(0);
+	clock_1.SetFrameIndexOfBitmap(0);
+	clock_2.SetFrameIndexOfBitmap(0);
 	character3.SetTopLeft(130, 480);//dir3 130, 185
 	//character.ShowBitmap();
 	dir1 = false;
@@ -2969,6 +3046,7 @@ void CGameStateRun::Level5_init() {
 	direction_1.SetFrameIndexOfBitmap(3);
 	direction_2.SetFrameIndexOfBitmap(3);
 	direction_3.SetFrameIndexOfBitmap(1);
+	direction_4.SetFrameIndexOfBitmap(0);
 	character3.SetAnimation(300, false);
 	direction_1.SetTopLeft(597, 475);
 	direction_2.SetTopLeft(657, 173);
@@ -2989,6 +3067,9 @@ void CGameStateRun::Level5_init() {
 	pass = false;
 }
 void CGameStateRun::Level6_init() {
+	clock.SetFrameIndexOfBitmap(0);
+	clock_1.SetFrameIndexOfBitmap(0);
+	clock_2.SetFrameIndexOfBitmap(0);
 	isCharacterMove = false;
 	isCharacterMove_b = false;
 	isCharacterMove_meow = false;
@@ -3012,6 +3093,7 @@ void CGameStateRun::Level6_init() {
 	exit1.SetFrameIndexOfBitmap(1);
 	exit2.SetFrameIndexOfBitmap(0);
 	exit2.SetTopLeft(260, 90);
+	exit3.SetFrameIndexOfBitmap(0);
 	exit3.SetTopLeft(485, 90);
 
 	ch1_flower.SetTopLeft(260, 453);
@@ -3077,6 +3159,9 @@ void CGameStateRun::Level6_init() {
 	b_pass = false;
 }
 void CGameStateRun::Level7_init() {
+	clock.SetFrameIndexOfBitmap(0);
+	clock_1.SetFrameIndexOfBitmap(0);
+	clock_2.SetFrameIndexOfBitmap(0);
 	isCharacterMove = false;
 	isCharacterMove_b = false;
 	isCharacterMove_meow = false;
@@ -3100,6 +3185,7 @@ void CGameStateRun::Level7_init() {
 	exit1.SetFrameIndexOfBitmap(2);
 	exit2.SetFrameIndexOfBitmap(1);
 	exit2.SetTopLeft(39, 238);
+	exit3.SetFrameIndexOfBitmap(0);
 	exit3.SetTopLeft(180, 90);
 
 	cha1_flower.SetTopLeft(610, 210);
@@ -3193,6 +3279,9 @@ void CGameStateRun::Level7_init() {
 	b_pass = false;
 }
 void CGameStateRun::Level8_init() {
+	clock.SetFrameIndexOfBitmap(0);
+	clock_1.SetFrameIndexOfBitmap(0);
+	clock_2.SetFrameIndexOfBitmap(0);
 	pass = false;
 	isMovingRight = true;
 	isMovingLeft = false;
@@ -3263,6 +3352,9 @@ void CGameStateRun::Level8_init() {
 	pass = false;
 }
 void CGameStateRun::Level9_init() {
+	clock.SetFrameIndexOfBitmap(0);
+	clock_1.SetFrameIndexOfBitmap(0);
+	clock_2.SetFrameIndexOfBitmap(0);
 	clock.SetTopLeft(378, 425);
 	clock_1.SetTopLeft(383, 125);
 	clock_2.SetTopLeft(620, 243);
@@ -3512,7 +3604,7 @@ void CGameStateRun::show_image_unpass() {
 			exit.ShowBitmap();
 			character.ShowBitmap(0.7);
 			character.SetAnimation(300, false);
-			show_text_by_phase();
+			//show_text_by_phase();
 		}
 		else if (isStart) {
 			background_stars.ShowBitmap();
@@ -4399,15 +4491,32 @@ void CGameStateRun::show_image_pass() {
 	clock_2_get.ShowBitmap(0.57);
 	if (clock1) {
 		clock.SetTopLeft(219, 40);
-		clock.ShowBitmap(0.6);
+		if (phase == 10) {
+			clock.SetTopLeft(209, 41);
+			clock.ShowBitmap(1.6);
+		}
+		else
+			clock.ShowBitmap(0.6);
+		
 	}
 	if (clock2) {
 		clock_1.SetTopLeft(359, 17);
-		clock_1.ShowBitmap(0.6);
+		if (phase == 10) {
+			//clock_1.SetTopLeft(354, 18);
+			clock_1.ShowBitmap(1.6);
+		}
+		else
+			clock_1.ShowBitmap(0.6);
+		
 	}
 	if (clock3) {
 		clock_2.SetTopLeft(499, 40);
-		clock_2.ShowBitmap(0.6);
+		if (phase == 10) {
+			clock_2.SetTopLeft(495, 41);
+			clock_2.ShowBitmap(1.6);
+		}
+		else
+			clock_2.ShowBitmap(0.6);
 	}
 	bubble_fly.ShowBitmap();
 	flower_fly.ShowBitmap();
@@ -4437,6 +4546,8 @@ void CGameStateRun::show_level_choose() {
 	musicButton_play.SetTopLeft(675, 0);
 	musicButton_play_1.ShowBitmap(0.7);
 	musicButton_play.ShowBitmap(0.7);
+	cheatButtton_1.ShowBitmap();
+	cheatButtton.ShowBitmap();
 	start.SetTopLeft(673,238);
 	start_1.SetTopLeft(680,240);
 	start_1.ShowBitmap(0.8);
@@ -4445,7 +4556,7 @@ void CGameStateRun::show_level_choose() {
 	if (level_page == 1) {
 		for (int i = 0; i < 15; i++) {
 			Levels_bg[i].ShowBitmap(0.8);
-			if (i + 1 <= 10) {
+			if (i + 1 <= phase) {
 				Levels[i].SetFrameIndexOfBitmap(1);
 				Levels[i].ShowBitmap(0.8);
 				Levels_num[i].ShowBitmap(0.9);
@@ -4496,6 +4607,7 @@ void CGameStateRun::OnShow()
 	//phase = 3;
 	//isChoose = true;
 	//進入關卡選擇畫面
+	
 	if (!isChoose) {
 		show_level_choose();
 	}
@@ -4586,7 +4698,7 @@ void CGameStateRun::OnShow()
 			}
 		}
 	}
-	
+	show_text_by_phase();
 }
 void CGameStateRun::show_image_by_phase() {
 	if (phase <= 10) {
@@ -4622,7 +4734,17 @@ void CGameStateRun::show_image_by_phase() {
 	}
 }
 void CGameStateRun::show_text_by_phase() {
+	CDC *pDC = CDDraw::GetBackCDC();
+	CFont fp;
 
+	// Print title
+	if (!isChoose) {
+		CTextDraw::ChangeFontLog(pDC, 9, "微軟正黑體", RGB(0, 0, 0));
+		//CTextDraw::Print(pDC, 533, 505, "CHEATING");
+		CTextDraw::Print(pDC, 673, 505, "CHEATING");
+	}
+
+	CDDraw::ReleaseBackCDC();
 }
 
 bool CGameStateRun::validate_phase_1() {

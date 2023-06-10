@@ -91,6 +91,7 @@ namespace game_framework {
 		CMovingBitmap loading_1;
 		CMovingBitmap loading_2;
 		CMovingBitmap loading_3;
+		
 		bool isMoving = true;
 		bool isBGMPlay = true;
 		bool isInitialed = false; //是否顯示進度條
@@ -144,6 +145,10 @@ namespace game_framework {
 		CMovingBitmap flower, flower_fly;
 		CMovingBitmap meow, meow_fly;
 		CMovingBitmap block;
+		CMovingBitmap cheatButtton;
+		CMovingBitmap cheatButtton_1;
+		bool isCheat = false;
+		int prevPhase = 1;
 		void show_image_by_phase();
 		void show_image_unpass();
 		void show_image_pass();
