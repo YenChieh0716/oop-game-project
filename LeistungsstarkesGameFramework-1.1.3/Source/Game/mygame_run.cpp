@@ -1686,13 +1686,16 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 	
 		if (!f_pass) {
-			f_pass = bitmapOverlap(ch1_flower, exit2, 25, 0);
+			//f_pass = bitmapOverlap(ch1_flower, exit2, 25, 0);
+			if (ch1_flower.GetLeft() >= 680 && ch1_flower.GetTop() >= 150)
+				f_pass = true;
 			if (f_pass && !f_add) {
 				pass_num += 1;
 				f_add = true;
 			}
-				
 		}if (!b_pass) {
+			//if (ch2_bubble.GetLeft() >= 682 && ch2_bubble.GetTop() >= 388)
+				//b_pass = true;
 			b_pass = bitmapOverlap(ch2_bubble, exit1, 32, 50);
 			if (b_pass && !b_add) {
 				pass_num += 1;
@@ -1700,6 +1703,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			}
 		}if (!m_pass) {
 			m_pass = bitmapOverlap(ch3_meow, exit3, 25, 0);
+			//if (ch3_meow.GetLeft() >= 676 && ch3_meow.GetTop() >= 268)
+				//m_pass = true;
 			if (m_pass && !m_add) {
 				pass_num += 1;
 				m_add = true;
@@ -3528,10 +3533,16 @@ void CGameStateRun::Level10_init() {
 
 	dir5 = false;
 	dir5_b = false;
+	dir6_b = false;
+	dir7_b = false;
 	dir5_m = false;
+	dir6_m = false;
 	dir5_f = false;
 	dir5_b_f = false;
+	dir6_b_f = false;
+	dir7_b_f = false;
 	dir5_m_f = false;
+	dir6_m_f = false;
 
 	clock1 = false;
 	clock2 = false;
