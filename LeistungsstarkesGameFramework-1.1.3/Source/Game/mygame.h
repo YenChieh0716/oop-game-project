@@ -127,7 +127,8 @@ namespace game_framework {
 		int phase = 1; //Demo改回1
 		int sub_phase = 1;
 		int times = 0;
-		int getClock_arr[30];
+		int getClock_arr[10] = { 0,0,0,0,0,0,0,0,0,0 };
+		int getClock = 0;
 		int level_page = 1;
 		CMovingBitmap Levels[30], Levels_bg[30], Levels_num[30], Levels_clock1[30], Levels_clock2[30], Levels_clock3[30];
 		CMovingBitmap background, background_filter, background_stars, bg4;

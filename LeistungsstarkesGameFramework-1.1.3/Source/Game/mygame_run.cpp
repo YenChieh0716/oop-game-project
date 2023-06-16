@@ -7,6 +7,9 @@
 #include "../Library/gamecore.h"
 #include "mygame.h"
 #include <string>
+#include <iostream>
+
+using namespace std;
 
 using namespace game_framework;
 
@@ -24,8 +27,9 @@ void CGameStateRun::OnBeginState()
 	//CAudio::Instance()->Play(AUDIO_START_BGM);
 	//CAudio::Instance()->Play(AUDIO_RUNSTATE_BGM); //切換到關卡開始畫面撥放另一音樂
 	//isBGMPlay = BGMPlay;
-	fill(getClock_arr,getClock_arr + 30, 0);
+	//fill(getClock_arr,getClock_arr + 30, 0);
 	//phase = 10;
+	
 }
 
 void CGameStateRun::onCharacterMove() {
@@ -1027,7 +1031,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 {
 	//第一關碰撞物體判斷
 	if (phase == 1 && !pass) {
-		int getClock = 0;
+		
 		if (!dir1) {
 			dir1 = bitmapOverlap(character, direction_1, -50, 80);
 			//dir1 = character.IsOverlap(character, direction_1);
@@ -1039,7 +1043,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			pass = bitmapOverlap(character, exit, 30, 0); // 抵達出口
 			if (pass) {
 				isCharacterMove = false;
-				getClock_arr[0] = getClock;
+				getClock_arr[phase-1] = getClock;
 				CAudio::Instance()->Pause();
 				if (isBGMPlay) {
 					CAudio::Instance()->Play(AUDIO_PASS);
@@ -1083,18 +1087,28 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			pass = bitmapOverlap(character2, exit, 0, 0); // 抵達出口
 			if (pass) {
 				isCharacterMove = false;
+				getClock_arr[phase - 1] = getClock;
 				CAudio::Instance()->Pause();
 				if (isBGMPlay) {
 					CAudio::Instance()->Play(AUDIO_PASS); //切換到關卡開始畫面撥放另一音樂
 				}
 			}
 		}
-		if (!clock1)
+		if (!clock1) {
 			clock1 = bitmapOverlap(character2, clock, -110, 80);
-		if (!clock2)
+			if (clock1)
+				getClock++;
+		}
+		if (!clock2){
 			clock2 = bitmapOverlap(character2, clock_1, -110, 80);
-		if (!clock3)
+			if (clock2)
+				getClock++;
+		}
+		if (!clock3) {
 			clock3 = bitmapOverlap(character2, clock_2, -110, 80);
+			if (clock3)
+				getClock++;
+		}
 		if (isCharacterMove)
 			onCharacterMove();
 	}
@@ -1111,25 +1125,37 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			pass = bitmapOverlap(character3, exit, 0, 0); // 抵達出口
 			if (pass) {
 				isCharacterMove = false;
+				getClock_arr[phase - 1] = getClock;
 				CAudio::Instance()->Pause();
 				if (isBGMPlay) {
 					CAudio::Instance()->Play(AUDIO_PASS); // 切換到關卡開始畫面撥放另一音樂
 				}
 			}
 		}
-		if (!clock1)
-			//clock1 = false;
+		if (!clock1) {
 			clock1 = bitmapOverlap(character3, clock, 0, 0);
-		if (!clock2)
+			if (clock1)
+				getClock++;
+		}
+		if (!clock2){
 			clock2 = bitmapOverlap(character3, clock_1, 0, 0);
-		if (!clock3)
+			if (clock2)
+				getClock++;
+		}
+		if (!clock3){
 			clock3 = bitmapOverlap(character3, clock_2, 0, 0);
+			if (clock3)
+				getClock++;
+		}
 		if (isCharacterMove)
 			onCharacterMove();
 	}
 	//第四關
 	if (phase == 4 && !pass) {
 		if (!dir1) {
+			if (c1_flower.GetLeft() <= 82 && c1_flower.GetTop() >= 160)
+				dir1 = true;
+			/*
 			int X1 = c1_flower.GetLeft() + 50;
 			int X2 = X1 + c1_flower.GetWidth() ;
 			int X1_b = dir_f1.GetLeft();
@@ -1139,6 +1165,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					dir1 = true;
 			}
 			dir1 = (bitmapOverlap(c1_flower, dir_f1, -75, -50) && c1_flower.IsOverlap(c1_flower, dir_f1));
+			*/
 		}
 		if (!dir2) {
 			if (bitmapOverlap(c1_flower, dir_f2, 50, -50) && c1_flower.IsOverlap(c1_flower, dir_f2))
@@ -1195,7 +1222,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					//passNum += 1;
 			}
 			if (!b_pass&& isStart) {
-				b_pass = bitmapOverlap(exit1, c2_bubble, 60, -10); //泡泡
+				if (c2_bubble.GetLeft() <= 430 && c2_bubble.GetTop() <= 110)
+					b_pass = true;
+				//b_pass = bitmapOverlap(exit1, c2_bubble, 60, -10); //泡泡
 				if(b_pass)
 					isCharacterMove_b = false;
 				//if (b_pass)
@@ -1203,6 +1232,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			}
 			if (f_pass && b_pass && isStart) {
 				pass = true;
+				getClock_arr[phase - 1] = getClock;
 				//isCharacterMove = false;
 				CAudio::Instance()->Pause();
 				if (isBGMPlay) {
@@ -1215,6 +1245,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			clock1 = bitmapOverlap(c1_flower, clock, 0, 0);
 			if(!clock1)
 				clock1 = bitmapOverlap(c2_bubble, clock, 0, 0);
+			if (clock1)
+				getClock++;
 		}
 			//clock1 = false;
 			
@@ -1222,11 +1254,15 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			clock2 = bitmapOverlap(c1_flower, clock_1, 0, 0);
 			if (!clock2)
 				clock2 = bitmapOverlap(c2_bubble, clock_1, 50, 20);
+			if (clock2)
+				getClock++;
 		}
 		if (!clock3) {
 			clock3 = bitmapOverlap(c1_flower, clock_2, 0, 0);
 			if (!clock3)
 				clock3 = bitmapOverlap(c2_bubble, clock_2, -100, 0);
+			if (clock3)
+				getClock++;
 		}
 			
 			onCharacterMove();
@@ -1274,19 +1310,31 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			pass = bitmapOverlap(character3, exit, 0, 0); // 抵達出口
 			if (pass) {
 				isCharacterMove = false;
+				getClock_arr[phase - 1] = getClock;
 				CAudio::Instance()->Pause();
 				if (isBGMPlay) {
 					CAudio::Instance()->Play(AUDIO_PASS); // 切換到關卡開始畫面撥放另一音樂
 				}
 			}
 		}
-		if (!clock1)
+		if (!clock1) {
 			//clock1 = false;
 			clock1 = bitmapOverlap(character3, clock, -80, 0);
-		if (!clock2)
+			if (clock1)
+				getClock++;
+		}
+		if (!clock2){
 			clock2 = bitmapOverlap(character3, clock_1, 0, 0);
-		if (!clock3)
+			if (clock2)
+				getClock++;
+		}
+		if (!clock3){
 			clock3 = bitmapOverlap(character3, clock_2, 0, 80);
+			if (clock3)
+				getClock++;
+		}
+		
+		
 		if (isCharacterMove)
 			onCharacterMove();
 	}
@@ -1335,6 +1383,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			}
 			if (f_pass && b_pass && m_pass && isStart) {
 				pass = true;
+				getClock_arr[phase - 1] = getClock;
 				CAudio::Instance()->Pause();
 				if (isBGMPlay) {
 					CAudio::Instance()->Play(AUDIO_PASS); // 切換到關卡開始畫面撥放另一音樂
@@ -1348,6 +1397,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				clock1 = bitmapOverlap(ch2_bubble, clock, 50, 50);
 				if (!clock1)
 					clock1 = bitmapOverlap(ch3_meow, clock, 0, 0);
+			if (clock1)
+				getClock++;
 		}
 
 		if (!clock2) {
@@ -1356,6 +1407,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				clock2 = bitmapOverlap(ch2_bubble, clock_1, 50, 20);
 				if (!clock2)
 					clock2 = bitmapOverlap(ch3_meow, clock_1, 0, 150);
+			if (clock2)
+				getClock++;
 		}
 		if (!clock3) {
 			clock3 = bitmapOverlap(ch1_flower, clock_2, 0, 0);
@@ -1363,6 +1416,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				clock3 = bitmapOverlap(ch2_bubble, clock_2, 50, 0);
 				if (!clock3)
 					clock3 = bitmapOverlap(ch3_meow, clock_2, 0, 0);
+			if (clock3)
+				getClock++;
 		}
 
 		onCharacterMove();
@@ -1492,6 +1547,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			}
 			if (f_pass && b_pass && m_pass && isStart) {
 				pass = true;
+				getClock_arr[phase - 1] = getClock;
 				CAudio::Instance()->Pause();
 				if (isBGMPlay) {
 					CAudio::Instance()->Play(AUDIO_PASS); // 切換到關卡開始畫面撥放另一音樂
@@ -1505,7 +1561,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				clock1 = bitmapOverlap(cha2_bubble, clock, 50, 50);
 			if (!clock1)
 				clock1 = bitmapOverlap(cha3_meow, clock, 0, 150);
-			
+			if (clock1)
+				getClock++;
 		}
 
 		if (!clock2) {
@@ -1516,7 +1573,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				clock2 = bitmapOverlap(cha2_bubble, clock_1, 50, 20);
 			if (!clock2)
 				clock2 = bitmapOverlap(cha3_meow, clock_1, -100, 150);
-			
+			if (clock2)
+				getClock++;
 		}
 		if (!clock3) {
 			clock3 = bitmapOverlap(cha1_flower, clock_2, 0, 0);
@@ -1526,7 +1584,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				//isCharacterMove_b = false;
 			if (!clock3)
 				clock3 = bitmapOverlap(cha3_meow, clock_2, -100, 150);
-			
+			if (clock3)
+				getClock++;
 		}
 
 		onCharacterMove();
@@ -1551,6 +1610,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			}
 			if (pass && isStart) {
 				pass = true;
+				getClock_arr[phase - 1] = getClock;
 				CAudio::Instance()->Pause();
 				if (isBGMPlay) {
 					CAudio::Instance()->Play(AUDIO_PASS); // 切換到關卡開始畫面撥放另一音樂
@@ -1560,12 +1620,18 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		if (!clock1) {
 			clock1 = bitmapOverlap(ch2_bubble, clock, -80, -40);
+			if (clock1)
+				getClock++;
 		}
 		if (!clock2) {
 			clock2 = bitmapOverlap(ch2_bubble, clock_1, 0, -80);
+			if (clock2)
+				getClock++;
 		}
 		if (!clock3) {
 			clock3 = bitmapOverlap(ch2_bubble, clock_2, 20, 50);
+			if (clock3)
+				getClock++;
 		}
 		onCharacterMove();
 	}
@@ -1595,6 +1661,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			}
 			if (pass && isStart) {
 				pass = true;
+				getClock_arr[phase - 1] = getClock;
 				CAudio::Instance()->Pause();
 				if (isBGMPlay) {
 					CAudio::Instance()->Play(AUDIO_PASS); // 切換到關卡開始畫面撥放另一音樂
@@ -1604,13 +1671,19 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		
 		if (!clock1) {
 			clock1 = bitmapOverlap(character, clock,  30,  60);
+			if (clock1)
+				getClock++;
 		}
 		
 		if (!clock2) {
 			clock2 = bitmapOverlap(character, clock_1,-90,80);
+			if (clock2)
+				getClock++;
 		}
 		if (!clock3) {
 			clock3 = bitmapOverlap(character, clock_2, 20, 50);
+			if (clock3)
+				getClock++;
 		}
 		/**/
 		onCharacterMove();
@@ -1715,6 +1788,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (!pass) {
 			if (pass_num == 3) {
 						pass = true;
+						getClock_arr[phase - 1] = getClock;
 						CAudio::Instance()->Pause();
 						if (isBGMPlay) {
 							CAudio::Instance()->Play(AUDIO_PASS); // 切換到關卡開始畫面撥放另一音樂
@@ -1723,12 +1797,18 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		if (!clock1) {
 			clock1 = bitmapOverlap(ch1_flower, clock, 50, 0);
+			if (clock1)
+				getClock++;
 		}
 		if (!clock2) {
 			clock2 = bitmapOverlap(ch2_bubble, clock_1, -90, 80);
+			if (clock2)
+				getClock++;
 		}
 		if (!clock3) {
 			clock3 = bitmapOverlap(ch3_meow, clock_2, 20, 50);
+			if (clock3)
+				getClock++;
 		}
 		//onCharacterMove();
 	}
@@ -2756,6 +2836,7 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動
 }
 
 void CGameStateRun::Level1_init() {
+		getClock = 0;
 		clock.SetFrameIndexOfBitmap(0);
 		clock_1.SetFrameIndexOfBitmap(0);
 		clock_2.SetFrameIndexOfBitmap(0);
@@ -2799,6 +2880,7 @@ void CGameStateRun::Level1_init() {
 		pass = false;
 }
 void CGameStateRun::Level2_init() {
+	getClock = 0;
 	clock.SetFrameIndexOfBitmap(0);
 	clock_1.SetFrameIndexOfBitmap(0);
 	clock_2.SetFrameIndexOfBitmap(0);
@@ -2857,6 +2939,7 @@ void CGameStateRun::Level2_init() {
 	pass = false;
 }
 void CGameStateRun::Level3_init() {
+	getClock = 0;
 	clock.SetFrameIndexOfBitmap(0);
 	clock_1.SetFrameIndexOfBitmap(0);
 	clock_2.SetFrameIndexOfBitmap(0);
@@ -2914,6 +2997,7 @@ void CGameStateRun::Level3_init() {
 	pass = false;
 }
 void CGameStateRun::Level4_init() {
+	getClock = 0;
 	clock.SetFrameIndexOfBitmap(0);
 	clock_1.SetFrameIndexOfBitmap(0);
 	clock_2.SetFrameIndexOfBitmap(0);
@@ -3010,6 +3094,7 @@ void CGameStateRun::Level4_init() {
 	pass = false;
 }
 void CGameStateRun::Level5_init() {
+	getClock = 0;
 	clock.SetFrameIndexOfBitmap(0);
 	clock_1.SetFrameIndexOfBitmap(0);
 	clock_2.SetFrameIndexOfBitmap(0);
@@ -3072,6 +3157,7 @@ void CGameStateRun::Level5_init() {
 	pass = false;
 }
 void CGameStateRun::Level6_init() {
+	getClock = 0;
 	clock.SetFrameIndexOfBitmap(0);
 	clock_1.SetFrameIndexOfBitmap(0);
 	clock_2.SetFrameIndexOfBitmap(0);
@@ -3164,6 +3250,7 @@ void CGameStateRun::Level6_init() {
 	b_pass = false;
 }
 void CGameStateRun::Level7_init() {
+	getClock = 0;
 	clock.SetFrameIndexOfBitmap(0);
 	clock_1.SetFrameIndexOfBitmap(0);
 	clock_2.SetFrameIndexOfBitmap(0);
@@ -3284,6 +3371,7 @@ void CGameStateRun::Level7_init() {
 	b_pass = false;
 }
 void CGameStateRun::Level8_init() {
+	getClock = 0;
 	clock.SetFrameIndexOfBitmap(0);
 	clock_1.SetFrameIndexOfBitmap(0);
 	clock_2.SetFrameIndexOfBitmap(0);
@@ -3357,6 +3445,7 @@ void CGameStateRun::Level8_init() {
 	pass = false;
 }
 void CGameStateRun::Level9_init() {
+	getClock = 0;
 	clock.SetFrameIndexOfBitmap(0);
 	clock_1.SetFrameIndexOfBitmap(0);
 	clock_2.SetFrameIndexOfBitmap(0);
@@ -3432,6 +3521,7 @@ void CGameStateRun::Level9_init() {
 	pass = false;
 }
 void CGameStateRun::Level10_init() {
+	getClock = 0;
 	isCharacterMove = false;
 	isCharacterMove_b = false;
 	isCharacterMove_meow = false;
@@ -4571,7 +4661,8 @@ void CGameStateRun::show_level_choose() {
 				Levels[i].SetFrameIndexOfBitmap(1);
 				Levels[i].ShowBitmap(0.8);
 				Levels_num[i].ShowBitmap(0.9);
-				int getClock = getClock_arr[phase - 1];
+				int getClock = getClock_arr[i];
+				//cout << "clockNum:" << getClock << endl;
 				//應用陣列紀錄各個clock是否被拿(未做)
 				if (getClock == 3)
 				{
